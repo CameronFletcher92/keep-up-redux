@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 
 class Counter extends Component {
   render() {
-    console.log('rendering', this.props)
     const { dispatch, count, label } = this.props
     return (
       <Grid fluid={true}>
@@ -31,12 +30,10 @@ Counter.propTypes = {
 }
 
 function select(state) {
-  console.log('selecting', state)
   return {
     count: state.counter.count,
     label: state.counter.label
   }
 }
 
-// Wrap the component to inject dispatch and state into it
 export default connect(select)(Counter)
