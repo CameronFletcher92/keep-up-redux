@@ -6,8 +6,11 @@ import { connect } from 'react-redux'
 
 class ClientsList extends Component {
   componentWillMount() {
-    const { dispatch } = this.props
-    dispatch(fetchAsync())
+    // fetch clients if necessary
+    const { dispatch, allClients } = this.props
+    if (allClients.length == 0) {
+      dispatch(fetchAsync())
+    }
   }
 
   renderClients() {

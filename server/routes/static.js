@@ -5,8 +5,8 @@ module.exports = function(app) {
     res.sendFile('bundle.js', {root: './client/build/'})
   })
 
-  app.get('*', function(req, res) {
-    console.log('GET *')
+  app.get('/*', function(req, res) {
+    console.log('GET /*')
     res.sendFile('index.html', {root: './client/build/'})
   })
 }
