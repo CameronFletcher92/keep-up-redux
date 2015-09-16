@@ -2,8 +2,8 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { compose, createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
-import reducer from './reducers'
-import App from './containers/App'
+import rootReducer from './ducks'
+import Counter from './smart/Counter'
 import { Grid, Col } from 'react-bootstrap'
 
 // if in development mode, render with dev tools
@@ -16,13 +16,13 @@ if (__DEV__) {
     devTools()
   )(createStore)
 
-  const store = finalCreateStore(reducer)
+  const store = finalCreateStore(rootReducer)
 
   React.render(
     <Grid fluid={true}>
       <Col sm={8}>
         <Provider store={store}>
-          {() => <App />}
+          {() => <Counter />}
         </Provider>
       </Col>
       <Col sm={4}>
@@ -41,7 +41,7 @@ else {
     applyMiddleware(thunk),
   )(createStore)
 
-  const store = finalCreateStore(reducer)
+  const store = finalCreateStore(rootReducer)
 
   React.render(
     <Provider store={store}>
