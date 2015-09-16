@@ -4,6 +4,7 @@ import { compose, createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import reducer from './reducers'
 import App from './containers/App'
+import { Grid, Col } from 'react-bootstrap'
 
 // if in development mode, render with dev tools
 if (__DEV__) {
@@ -18,14 +19,18 @@ if (__DEV__) {
   const store = finalCreateStore(reducer)
 
   React.render(
-    <div>
-      <Provider store={store}>
-        {() => <App />}
-      </Provider>
-      <DebugPanel top right bottom>
-        <DevTools store={store} monitor={LogMonitor} />
-      </DebugPanel>
-    </div>,
+    <Grid fluid={true}>
+      <Col sm={8}>
+        <Provider store={store}>
+          {() => <App />}
+        </Provider>
+      </Col>
+      <Col sm={4}>
+        <DebugPanel top right bottom>
+          <DevTools store={store} monitor={LogMonitor} />
+        </DebugPanel>
+      </Col>
+    </Grid>,
     document.getElementById('root')
   )
 }
