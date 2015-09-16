@@ -1,30 +1,30 @@
 import React, { Component, PropTypes } from 'react'
-import { Navbar, Nav, NavItem, Grid, Row } from 'react-bootstrap'
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Grid, Row } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { pushState } from 'redux-react-router'
+import { navToCreate, navToView } from '../ducks/clients'
+
 import ClientsList from './ClientsList'
-import Counter from './Counter'
 
 class App extends Component {
   render() {
     const { dispatch, url } = this.props
-    console.log('url', url)
-
+    
     return (
-      <div>
+      <Grid fluid={true}>
         <Navbar brand='Keep Up' fluid={true} fixedTop={true} inverse={true}>
           <Nav>
-            <NavItem active={url == '/clients' ? true : false}
-                     onSelect={() => dispatch(pushState(null, '/clients'))}>Clients</NavItem>
-            <NavItem active={url == '/counter' ? true : false}
-                     onSelect={() => dispatch(pushState(null, '/counter'))}>Counter</NavItem>
+            <NavDropdown title='Clients' active={url == '/clients' ? true : false}>
+              <MenuItem eventKey='1' onSelect={() => dispatch(navToView())}>View Clients</MenuItem>
+              <MenuItem divider />
+              <MenuItem eventKey='2' onSelect={() => dispatch(navToCreate())}>New Client</MenuItem>
+            </NavDropdown>
           </Nav>
         </Navbar>
         <div style={{marginTop: '4em'}}>
           {this.props.children}
         </div>
-      </div>
+      </Grid>
     )
   }
 }

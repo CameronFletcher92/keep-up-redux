@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { ListGroup } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import { add, fetchAsync } from '../ducks/clients'
+import { fetchAsync, navToEdit, navToCreate } from '../ducks/clients'
 import Client from '../dumb/Client'
 
 class ClientsList extends Component {
@@ -13,11 +13,16 @@ class ClientsList extends Component {
     }
   }
 
+  editClient(client, dispatch) {
+    dispatch(navToEdit(client))
+  }
+
   renderClients() {
-    const { allClients } = this.props
+    const { allClients, dispatch } = this.props
     return allClients.map((client, i) => {
       return (
-        <Client key={i} client={client} />
+        <Client key={i} client={client}
+                editClicked={() => this.editClient(client, dispatch)} />
       )
     })
   }
@@ -25,7 +30,7 @@ class ClientsList extends Component {
   render() {
     const { dispatch, allClients } = this.props
     return (
-      <ListGroup >
+      <ListGroup style={{marginBottom: '4em'}}>
         { this.renderClients() }
       </ListGroup>
     )
@@ -37,7 +42,7 @@ ClientsList.propTypes = {
 }
 
 function select(state) {
-  return { ...state.clients }
+  return { allClients: state.clients.allClients }
 }
 
 export default connect(select)(ClientsList)
