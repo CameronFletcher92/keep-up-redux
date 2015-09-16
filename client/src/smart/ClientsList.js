@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react'
-import { Grid, ListGroup, ListGroupItem } from 'react-bootstrap'
+import { ListGroup } from 'react-bootstrap'
+import { connect } from 'react-redux'
 import { add, fetchAsync } from '../ducks/clients'
 import Client from '../dumb/Client'
-import { connect } from 'react-redux'
 
 class ClientsList extends Component {
   componentWillMount() {
@@ -25,11 +25,9 @@ class ClientsList extends Component {
   render() {
     const { dispatch, allClients } = this.props
     return (
-      <Grid fluid={true}>
-        <ListGroup >
-          { this.renderClients() }
-        </ListGroup>
-      </Grid>
+      <ListGroup >
+        { this.renderClients() }
+      </ListGroup>
     )
   }
 }
