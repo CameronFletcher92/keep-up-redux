@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Grid, Row, ButtonGroup, Button } from 'react-bootstrap'
+import { Grid, Row, Col, ButtonGroup, Button } from 'react-bootstrap'
 import { increment, decrement, incrementIfOdd, incrementAsync } from '../ducks/counter'
 import { connect } from 'react-redux'
 
@@ -8,16 +8,18 @@ class Counter extends Component {
     const { dispatch, count, label } = this.props
     return (
       <Grid fluid={true}>
-        <Row style={{marginBottom: '1em'}}>
-          { count }
-        </Row>
         <Row>
-          <ButtonGroup>
-            <Button onClick={() => dispatch(increment(1))}>+</Button>
-            <Button onClick={() => dispatch(decrement(1))}>-</Button>
-            <Button onClick={() => dispatch(incrementIfOdd())}>Increment if odd</Button>
-            <Button onClick={() => dispatch(incrementAsync())}>Increment async</Button>
-          </ButtonGroup>
+          <Col sm={1}>
+            { count }
+          </Col>
+          <Col sm={11}>
+            <ButtonGroup>
+              <Button onClick={() => dispatch(increment())}>+</Button>
+              <Button onClick={() => dispatch(decrement())}>-</Button>
+              <Button onClick={() => dispatch(incrementIfOdd())}>Increment if odd</Button>
+              <Button onClick={() => dispatch(incrementAsync())}>Increment async</Button>
+            </ButtonGroup>
+          </Col>
         </Row>
       </Grid>
     )
@@ -30,10 +32,7 @@ Counter.propTypes = {
 }
 
 function select(state) {
-  return {
-    count: state.counter.count,
-    label: state.counter.label
-  }
+  return { ...state.counter }
 }
 
 export default connect(select)(Counter)

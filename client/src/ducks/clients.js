@@ -1,35 +1,49 @@
-const ADD   = 'clients/ADD'
-const FETCH = 'clients/FETCH'
-const UPDATE = 'clients/UPDATE'
-const REMOVE = 'clients/REMOVE'
+import request from 'superagent'
 
+// CONSTANTS
+const ADD   = 'clients/ADD'
+const FETCHED = 'clients/FETCHED'
+
+// INITIAL STATE
 const initialState = {
-  clients: [{firstName: 'John', lastName: 'Doe'}]
+  allClients: []
 }
 
-export function reducer(state = initialState, action = {}) {
-  switch (action.type) {
-
-
-    // default initial case
-    default: return state
+// ACTIONS
+export function add(client) {
+  return {
+    type: ADD,
+    client
   }
 }
 
-export function addClient(client) {
-  return { type: LOAD, client }
+export function fetched(clients) {
+  return {
+    type: FETCHED,
+    clients
+  }
 }
 
-/*
-export function createWidget(widget) = {
-  return { type: CREATE, widget }
+// ASYNC ACTIONS
+export function fetchAsync() {
+  return (dispatch) => {
+    request.get('/api/clients').end((err, res) => {
+      dispatch(fetched(res.body))
+    })
+  }
 }
 
-export function updateWidget(widget) = {
-  return { type: UPDATE, widget }
-}
+// REDUCER
+export function reducer(state = initialState, action) {
+  switch (action.type) {
 
-export function removeWidget(widget) = {
-  return { type: REMOVE, widget }
+    case ADD:
+      return {...state, allClients: [...(state.clients), action.client] }
+
+    case FETCHED:
+      return {...state, allClients: action.clients }
+
+    default:
+      return state
+  }
 }
-*/

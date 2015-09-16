@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 import { compose, createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import rootReducer from './ducks'
-import Counter from './smart/Counter'
+import App from './smart/App'
 import { Grid, Col } from 'react-bootstrap'
 
 // if in development mode, render with dev tools
@@ -22,7 +22,7 @@ if (__DEV__) {
     <Grid fluid={true}>
       <Col sm={8}>
         <Provider store={store}>
-          {() => <Counter />}
+          {() => <App />}
         </Provider>
       </Col>
       <Col sm={4}>
