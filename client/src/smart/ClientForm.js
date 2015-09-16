@@ -1,37 +1,44 @@
 import React, { Component, PropTypes } from 'react'
-import { Grid, Row, Input } from 'react-bootstrap'
+import { Grid, Row, Input, Button } from 'react-bootstrap'
+import { saveAsync } from '../ducks/clients'
 import { connect } from 'react-redux'
-import { activeChanged } from '../ducks/clients'
 
 class ClientForm extends Component {
-  changed() {
+  constructor() {
+    super()
+    this.saveClient = this.saveClient.bind(this)
+  }
+
+  saveClient() {
     const { dispatch } = this.props
+
     var client = {
-      firstName: this.refs.fname.getValue(),
-      lastName: this.refs.lname.getValue()
+      firstName: this.refs.fName.getValue(),
+      lastName: this.refs.lName.getValue()
     }
-    dispatch(activeChanged(client))
+
+    console.log('dispatching save async', client)
+    dispatch(saveAsync(client))
   }
 
   render() {
     const { dispatch, client } = this.props
     return (
       <form>
-        <Input type='text' ref='fname' label='First Name' placeholder='Enter first name'
-               value={client.firstName} onChange={() => this.changed()} />
-        <Input type='text' ref='lname' label='Last Name' placeholder='Enter last name'
-               value={client.lastName} onChange={() => this.changed()} />
+        <Input type='text' ref='fName' label='First Name' placeholder='Enter first name'/>
+        <Input type='text' ref='lName' label='Last Name' placeholder='Enter last name'/>
+        <Button onClick={this.saveClient}>Save</Button>
       </form>
     )
   }
 }
 
 ClientForm.propTypes = {
-  client: PropTypes.object.isRequired
+  isSaving: PropTypes.bool.isRequired
 }
 
 function select(state) {
-  return { client: state.clients.activeClient }
+  return { isSaving: state.clients.isSaving }
 }
 
 export default connect(select)(ClientForm)

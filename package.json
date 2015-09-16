@@ -46,6 +46,7 @@
     "webpack-hot-middleware": "^2.0.0"
   },
   "dependencies": {
+    "body-parser": "^1.13.3",
     "faker": "^3.0.1",
     "history": "^1.9.1",
     "lodash": "^3.10.1",

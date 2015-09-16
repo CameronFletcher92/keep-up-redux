@@ -49,7 +49,7 @@ module.exports = function(app) {
     client._id = clients.length + 1
     clients.push(client)
     setTimeout(function() {
-      res.json(req.body)
+      res.json(client)
     }, timeout)
   })
 

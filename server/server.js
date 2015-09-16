@@ -2,7 +2,10 @@ var path = require('path')
 var express = require('express')
 var webpack = require('webpack')
 var config = require('../config/webpack.dev.config')
+var bodyParser = require('body-parser')
+
 var app = express()
+app.use(bodyParser.json())
 var compiler = webpack(config)
 
 // enable hotloading for dev server in development environment

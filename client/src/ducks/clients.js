@@ -6,20 +6,19 @@ const FETCHED = 'clients/FETCHED'
 const CREATED   = 'clients/CREATED'
 const UPDATED  = 'clients/UPDATED'
 const DELETED = 'clients/DELETED'
-const ACTIVE_CHANGED = 'clients/ACTIVE_CHANGED'
-const RESET_ACTIVE = 'clients/RESET_ACTIVE'
 
 // INITIAL STATE
 const initialState = {
-  allClients: [],
-  activeClient: {
-    firstName: '',
-    lastName: '',
-    birthDate: ''
-  }
+  allClients: []
 }
 
 // ACTIONS
+export function fetched(clients) {
+  return {
+    type: FETCHED,
+    clients
+  }
+}
 export function created(client) {
   return {
     type: CREATED,
@@ -41,47 +40,25 @@ export function removed(client) {
   }
 }
 
-export function fetched(clients) {
-  return {
-    type: FETCHED,
-    clients
-  }
-}
-
-export function activeChanged(client) {
-  return {
-    type: ACTIVE_CHANGED,
-    client
-  }
-}
-
-export function resetActive() {
-  return {
-    type: RESET_ACTIVE
-  }
-}
-
 // NAVIGATION ACTIONS
-export function navToView(client) {
+export function navToView() {
   return (dispatch) => {
-    dispatch(fetchAsync())
     dispatch(pushState(null, '/clients'))
-  }
-}
-
-export function navToEdit(client) {
-  return (dispatch) => {
-    dispatch(activeChanged(client))
-    dispatch(pushState(null, '/clients/edit'))
   }
 }
 
 export function navToCreate() {
   return (dispatch) => {
-    dispatch(resetActive())
     dispatch(pushState(null, '/clients/new'))
   }
 }
+
+export function navToEdit(client) {
+  return (dispatch) => {
+    dispatch(pushState(null, '/clients/edit'))
+  }
+}
+
 
 // ASYNC ACTIONS
 export function fetchAsync() {
@@ -92,19 +69,27 @@ export function fetchAsync() {
   }
 }
 
-export function createAsync(client) {
+export function saveAsync(client) {
   return (dispatch) => {
-    request.post('/api/clients').send(client).end((err, res) => {
-      dispatch(created(res.body))
-    })
-  }
-}
+    if (client._id) {
+      // update
+      request.put('/api/clients').send(client).end((err, res) => {
+        if (!err && res.ok) {
+          dispatch(updated(res.body))
+          dispatch(navToView())
+        }
+      })
 
-export function updateAsync(client) {
-  return (dispatch) => {
-    request.put('/api/clients').send(client).end((err, res) => {
-      dispatch(updated(res.body))
-    })
+    } else {
+      // create
+      request.post('/api/clients').send(client).end((err, res) => {
+        if (!err && res.ok) {
+          dispatch(created(res.body))
+          dispatch(navToView())
+        }
+      })
+
+    }
   }
 }
 
@@ -113,21 +98,18 @@ export function reducer(state = initialState, action) {
   switch (action.type) {
 
     case CREATED:
-      return {...state, allClients: [...(state.clients), action.client] }
+      return {...state, allClients: [...state.allClients, action.client]}
 
     case FETCHED:
       return {...state, allClients: action.clients }
 
     case UPDATED:
-      let newState = {...state}
       console.log('updated client', action.client)
+      let newState = {...state}
+      let matches = newState.allClients.filter(c => c._id === action.client._id)
+      console.log('matches', matches)
+      matches[0] = action.client
       return newState
-
-    case ACTIVE_CHANGED:
-      return {...state, activeClient: action.client}
-
-    case RESET_ACTIVE:
-      return {...state, activeClient: initialState.activeClient}
 
     default:
       return state

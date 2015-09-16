@@ -19,6 +19,7 @@ class ClientsList extends Component {
 
   renderClients() {
     const { allClients, dispatch } = this.props
+    console.log('rendering clients', allClients)
     return allClients.map((client, i) => {
       return (
         <Client key={i} client={client}
