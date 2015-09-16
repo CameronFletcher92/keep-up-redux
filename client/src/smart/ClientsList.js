@@ -23,7 +23,7 @@ class ClientsList extends Component {
     const { dispatch, allClients } = this.props
     return (
       <Grid fluid={true}>
-        <ListGroup>
+        <ListGroup >
           { this.renderClients() }
         </ListGroup>
       </Grid>
