@@ -33,6 +33,7 @@ App.PropTypes = {
   url: PropTypes.string.isRequired
 }
 
+// map the current url to the props
 function select(state) {
   return { url: state.router.location.pathname }
 }
