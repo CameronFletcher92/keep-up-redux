@@ -6,8 +6,9 @@ import Client from '../dumb/Client'
 
 class ClientsList extends Component {
   componentWillMount() {
-    // fetch clients if necessary
     const { dispatch, allClients } = this.props
+    
+    // fetch clients if necessary
     if (allClients.length == 0) {
       dispatch(fetchAsync())
     }
@@ -19,7 +20,7 @@ class ClientsList extends Component {
 
   renderClients() {
     const { allClients, dispatch } = this.props
-    console.log('rendering clients', allClients)
+
     return allClients.map((client, i) => {
       return (
         <Client key={i} client={client}

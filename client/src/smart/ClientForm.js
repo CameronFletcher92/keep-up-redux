@@ -11,13 +11,10 @@ class ClientForm extends Component {
 
   saveClient() {
     const { dispatch } = this.props
-
     var client = {
       firstName: this.refs.fName.getValue(),
       lastName: this.refs.lName.getValue()
     }
-
-    console.log('dispatching save async', client)
     dispatch(saveAsync(client))
   }
 
