@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import ImmPropTypes from 'react-immutable-proptypes'
 import { ListGroup } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { fetchAsync, navToEdit, navToCreate } from '../ducks/clients'
@@ -9,7 +10,7 @@ class ClientsList extends Component {
     const { dispatch, allClients } = this.props
 
     // fetch clients if necessary
-    if (allClients.length == 0) {
+    if (allClients.size == 0) {
       dispatch(fetchAsync())
     }
   }
@@ -22,9 +23,10 @@ class ClientsList extends Component {
     const { allClients, dispatch } = this.props
 
     return allClients.map((client, i) => {
+      var simpleClient = client.toJS()
       return (
-        <Client key={i} client={client}
-                editClicked={() => dispatch(navToEdit(client))} />
+        <Client key={i} client={simpleClient}
+                editClicked={() => dispatch(navToEdit(simpleClient))} />
       )
     })
   }
@@ -40,11 +42,18 @@ class ClientsList extends Component {
 }
 
 ClientsList.propTypes = {
-  allClients: PropTypes.array.isRequired
+  allClients: ImmPropTypes.listOf(
+                ImmPropTypes.contains({
+                  _id: PropTypes.string.isRequired,
+                  firstName: PropTypes.string.isRequired,
+                  lastName: PropTypes.string.isRequired,
+                })
+              )
 }
 
 function select(state) {
-  return { allClients: state.clients.allClients }
+  console.log('state', state)
+  return { allClients: state.clients.get('allClients') }
 }
 
 export default connect(select)(ClientsList)

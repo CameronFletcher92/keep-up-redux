@@ -1,5 +1,6 @@
 import request from 'superagent'
 import { pushState } from 'redux-react-router'
+import Immutable from 'immutable'
 
 // CONSTANTS
 const FETCHED = 'clients/FETCHED'
@@ -8,9 +9,9 @@ const UPDATED  = 'clients/UPDATED'
 const DELETED = 'clients/DELETED'
 
 // INITIAL STATE
-const initialState = {
+const initialState = Immutable.fromJS({
   allClients: []
-}
+})
 
 // ACTIONS
 export function fetched(clients) {
@@ -55,7 +56,6 @@ export function navToCreate() {
 
 export function navToEdit(client) {
   return (dispatch) => {
-    console.log('navigating to ' + '/clients/' + client._id)
     dispatch(pushState(null, '/clients/' + client._id))
   }
 }
@@ -99,20 +99,18 @@ export function reducer(state = initialState, action) {
   switch (action.type) {
 
     case CREATED:
-      return {...state, allClients: [...state.allClients, action.client]}
+      var newClient = Immutable.fromJS(action.client)
+      return state.updateIn(['allClients'], list => list.push(newClient))
 
     case FETCHED:
-      return {...state, allClients: action.clients }
+      var fetchedClients = Immutable.fromJS(action.clients)
+      return state.set('allClients', fetchedClients)
 
     case UPDATED:
-      let newState = {...state}
-      for (var i = 0; i < newState.allClients.length; i++) {
-        if (newState.allClients[i]._id === action.client._id) {
-          newState.allClients[i] = action.client
-          break
-        }
-      }
-      return newState
+      var updatedClient = Immutable.fromJS(action.client)
+      var index = state.get('allClients').findIndex((c) => c.get('_id') === updatedClient.get('_id'))
+      console.log('index', index)
+      return state.setIn(['allClients', index], updatedClient)
 
     default:
       return state

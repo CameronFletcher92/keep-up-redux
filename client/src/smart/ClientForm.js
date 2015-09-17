@@ -31,22 +31,21 @@ class ClientForm extends Component {
 }
 
 ClientForm.propTypes = {
-  isSaving: PropTypes.bool.isRequired
+  client: PropTypes.object.isRequired
 }
 
 function select(state) {
   const paramId = state.router.params.id
-  var client = {}
+  var client
 
   // inject the data of the selected client if editing
   if (paramId) {
-    client = state.clients.allClients.filter(c => c._id == state.router.params.id)[0]
+    client = state.clients.get('allClients').filter(c => c.get('_id') === paramId).get(0)
     console.log('editing client', client)
   }
 
   return {
-    client: client ? client : {},
-    isSaving: state.clients.isSaving
+    client: client ? client.toJS() : {}
   }
 }
 
