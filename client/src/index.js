@@ -1,24 +1,13 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { compose, createStore, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
-import rootReducer from './ducks'
-import App from './smart/App'
 import { Grid, Col } from 'react-bootstrap'
-import routes from './routes'
 import { ReduxRouter } from 'redux-react-router'
+import App from './smart/App'
+import store from './store'
 
 // if in development mode, render with dev tools
 if (__DEV__) {
   const { DevTools, DebugPanel, LogMonitor } = require('redux-devtools/lib/react')
-  const { devTools } = require('redux-devtools')
-
-  const store = compose(
-    applyMiddleware(thunk),
-    routes,
-    devTools()
-  )(createStore)(rootReducer)
-
   React.render(
     <Grid fluid={true}>
       <Col sm={8}>
@@ -38,11 +27,6 @@ if (__DEV__) {
 
 // otherwise just render the redux app
 else {
-  const store = compose(
-    applyMiddleware(thunk),
-    routes
-  )(createStore)(rootReducer)
-
   React.render(
     <Provider store={store}>
       {() => <ReduxRouter />}
