@@ -55,7 +55,8 @@ export function navToCreate() {
 
 export function navToEdit(client) {
   return (dispatch) => {
-    dispatch(pushState(null, '/clients/edit'))
+    console.log('navigating to ' + '/clients/' + client._id)
+    dispatch(pushState(null, '/clients/' + client._id))
   }
 }
 
@@ -104,11 +105,13 @@ export function reducer(state = initialState, action) {
       return {...state, allClients: action.clients }
 
     case UPDATED:
-      console.log('updated client', action.client)
       let newState = {...state}
-      let matches = newState.allClients.filter(c => c._id === action.client._id)
-      console.log('matches', matches)
-      matches[0] = action.client
+      for (var i = 0; i < newState.allClients.length; i++) {
+        if (newState.allClients[i]._id === action.client._id) {
+          newState.allClients[i] = action.client
+          break
+        }
+      }
       return newState
 
     default:

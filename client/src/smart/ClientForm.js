@@ -4,26 +4,26 @@ import { saveAsync } from '../ducks/clients'
 import { connect } from 'react-redux'
 
 class ClientForm extends Component {
-  constructor() {
+  constructor(props) {
     super()
+    this.state = props.client
     this.saveClient = this.saveClient.bind(this)
   }
 
   saveClient() {
     const { dispatch } = this.props
-    var client = {
-      firstName: this.refs.fName.getValue(),
-      lastName: this.refs.lName.getValue()
-    }
-    dispatch(saveAsync(client))
+    console.log('saving client', this.state)
+    dispatch(saveAsync(this.state))
   }
 
   render() {
-    const { dispatch, client } = this.props
+    const { dispatch } = this.props
     return (
       <form>
-        <Input type='text' ref='fName' label='First Name' placeholder='Enter first name'/>
-        <Input type='text' ref='lName' label='Last Name' placeholder='Enter last name'/>
+        <Input type='text' label='First Name' placeholder='Enter first name'
+               value={this.state.firstName} onChange={(e) => this.setState({firstName: e.target.value})} />
+        <Input type='text' label='Last Name' placeholder='Enter last name'
+               value={this.state.lastName} onChange={(e) => this.setState({lastName: e.target.value})} />
         <Button onClick={this.saveClient}>Save</Button>
       </form>
     )
@@ -35,7 +35,19 @@ ClientForm.propTypes = {
 }
 
 function select(state) {
-  return { isSaving: state.clients.isSaving }
+  const paramId = state.router.params.id
+  var client = {}
+
+  // inject the data of the selected client if editing
+  if (paramId) {
+    client = state.clients.allClients.filter(c => c._id == state.router.params.id)[0]
+    console.log('editing client', client)
+  }
+
+  return {
+    client: client ? client : {},
+    isSaving: state.clients.isSaving
+  }
 }
 
 export default connect(select)(ClientForm)

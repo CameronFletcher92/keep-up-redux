@@ -7,7 +7,7 @@ import Client from '../dumb/Client'
 class ClientsList extends Component {
   componentWillMount() {
     const { dispatch, allClients } = this.props
-    
+
     // fetch clients if necessary
     if (allClients.length == 0) {
       dispatch(fetchAsync())
@@ -24,7 +24,7 @@ class ClientsList extends Component {
     return allClients.map((client, i) => {
       return (
         <Client key={i} client={client}
-                editClicked={() => this.editClient(client, dispatch)} />
+                editClicked={() => dispatch(navToEdit(client))} />
       )
     })
   }

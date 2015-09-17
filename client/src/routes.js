@@ -11,7 +11,7 @@ const routes = (
     <IndexRoute component={ClientsList} />
     <Route path='clients' component={ClientsList} />
     <Route path='clients/new' component={ClientForm} />
-    <Route path='clients/edit' component={ClientForm} />
+    <Route path='clients/:id' component={ClientForm} />
   </Route>
 )
 
