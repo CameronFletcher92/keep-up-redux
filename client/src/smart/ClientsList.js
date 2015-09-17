@@ -15,18 +15,14 @@ class ClientsList extends Component {
     }
   }
 
-  editClient(client, dispatch) {
-    dispatch(navToEdit(client))
-  }
-
+  // render the list of clients, and wire up their functionality to actions
   renderClients() {
     const { allClients, dispatch } = this.props
 
     return allClients.map((client, i) => {
-      var simpleClient = client.toJS()
       return (
-        <Client key={i} client={simpleClient}
-                editClicked={() => dispatch(navToEdit(simpleClient))} />
+        <Client key={i} name={client.get('firstName') + ' ' + client.get('lastName')}
+                editClicked={() => dispatch(navToEdit(client.get('_id')))} />
       )
     })
   }
@@ -41,6 +37,7 @@ class ClientsList extends Component {
   }
 }
 
+// allClients is an immutable list of immutable clients
 ClientsList.propTypes = {
   allClients: ImmPropTypes.listOf(
                 ImmPropTypes.contains({
@@ -52,7 +49,6 @@ ClientsList.propTypes = {
 }
 
 function select(state) {
-  console.log('state', state)
   return { allClients: state.clients.get('allClients') }
 }
 

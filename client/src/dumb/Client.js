@@ -3,10 +3,10 @@ import { ListGroupItem, Button, Glyphicon } from 'react-bootstrap'
 
 class Client extends Component {
   render() {
-    const { client, editClicked, deleteClicked } = this.props
+    const { name, editClicked, deleteClicked } = this.props
     return (
       <ListGroupItem className='clearfix'>
-        {client.firstName + ' ' + client.lastName}
+        {name}
         <span className='pull-right'>
           <Button bsStyle='primary' onClick={editClicked}><Glyphicon glyph='edit' /></Button>
           <Button bsStyle='danger' onClick={deleteClicked} style={{marginLeft: '0.5em'}}><Glyphicon glyph='trash' /></Button>
@@ -17,7 +17,7 @@ class Client extends Component {
 }
 
 Client.propTypes = {
-  client: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
   editClicked: PropTypes.func.isRequired,
   deleteClicked: PropTypes.func.isRequired
 }

@@ -4,6 +4,7 @@ import { saveAsync } from '../ducks/clients'
 import { connect } from 'react-redux'
 
 class ClientForm extends Component {
+  // use local state in the form for performance
   constructor(props) {
     super()
     this.state = props.client
@@ -12,7 +13,6 @@ class ClientForm extends Component {
 
   saveClient() {
     const { dispatch } = this.props
-    console.log('saving client', this.state)
     dispatch(saveAsync(this.state))
   }
 
@@ -34,18 +34,13 @@ ClientForm.propTypes = {
   client: PropTypes.object.isRequired
 }
 
+// select the client out of the state matching the router id
 function select(state) {
   const paramId = state.router.params.id
-  var client
-
-  // inject the data of the selected client if editing
-  if (paramId) {
-    client = state.clients.get('allClients').filter(c => c.get('_id') === paramId).get(0)
-    console.log('editing client', client)
-  }
-
+  const client = paramId ? (state.clients.get('allClients').filter(c => c.get('_id') === paramId)).get(0).toJS()
+                         : {}
   return {
-    client: client ? client.toJS() : {}
+    client
   }
 }
 

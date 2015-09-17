@@ -54,9 +54,9 @@ export function navToCreate() {
   }
 }
 
-export function navToEdit(client) {
+export function navToEdit(id) {
   return (dispatch) => {
-    dispatch(pushState(null, '/clients/' + client._id))
+    dispatch(pushState(null, '/clients/' + id))
   }
 }
 
