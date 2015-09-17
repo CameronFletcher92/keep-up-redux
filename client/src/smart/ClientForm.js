@@ -7,7 +7,7 @@ class ClientForm extends Component {
   // use local state in the form for performance
   constructor(props) {
     super()
-    this.state = props.client
+    this.state = {...props.client}
     this.saveClient = this.saveClient.bind(this)
   }
 
@@ -36,6 +36,7 @@ ClientForm.propTypes = {
 
 // select the client out of the state matching the router id
 function select(state) {
+  console.log('selecting')
   const paramId = state.router.params.id
   const client = paramId ? (state.clients.get('allClients').filter(c => c.get('_id') === paramId)).get(0).toJS()
                          : {}
