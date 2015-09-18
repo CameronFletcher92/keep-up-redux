@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Grid } from 'react-bootstrap'
 import { navToCreate, navToView } from '../ducks/clients'
 
-class App extends Component {
+class TopBar extends Component {
   render() {
     const { url, navToView, navToCreate } = this.props
 
@@ -27,7 +27,7 @@ class App extends Component {
   }
 }
 
-App.PropTypes = {
+TopBar.PropTypes = {
   url: PropTypes.string.isRequired,
   navToCreate: PropTypes.func.isRequired,
   navToView: PropTypes.func.isRequired
@@ -42,4 +42,4 @@ export default connect(
   dispatch => {
     return bindActionCreators({ navToCreate, navToView }, dispatch)
   }
-)(App)
+)(TopBar)
