@@ -22,7 +22,7 @@ class Client extends Component {
 
 Client.propTypes = {
   name: PropTypes.string.isRequired,
-  isBusy: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool.isRequired,
   editClicked: PropTypes.func.isRequired,
   deleteClicked: PropTypes.func.isRequired
 }
