@@ -10,13 +10,11 @@ class ClientsList extends Component {
   componentWillMount() {
     const { allClients, fetchAsync } = this.props
 
-    // fetch clients if necessary
     if (allClients.size == 0) {
       fetchAsync()
     }
   }
 
-  // render the list of clients, and wire up their functionality to actions
   renderClients() {
     const { allClients, fetchAsync, navToEdit} = this.props
 

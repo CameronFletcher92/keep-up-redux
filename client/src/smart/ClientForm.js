@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Grid, Row, Input, Button } from 'react-bootstrap'
+import { Input, Button } from 'react-bootstrap'
 import { saveAsync } from '../ducks/clients'
 
 class ClientForm extends Component {
