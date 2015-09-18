@@ -1,8 +1,8 @@
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux'
 import { routerStateReducer } from 'redux-react-router'
 import thunk from 'redux-thunk'
-import { reducer as clientsReducer } from './ducks/clients'
 import router from './router'
+import { reducer as clientsReducer } from './ducks/clients'
 
 // Combine router reducer with all the ducks' reducers
 // This will become the top level of the global state
