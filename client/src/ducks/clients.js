@@ -109,7 +109,6 @@ export function reducer(state = initialState, action) {
     case UPDATED:
       var updatedClient = Immutable.fromJS(action.client)
       var index = state.get('allClients').findIndex((c) => c.get('_id') === updatedClient.get('_id'))
-      console.log('index', index)
       return state.setIn(['allClients', index], updatedClient)
 
     default:

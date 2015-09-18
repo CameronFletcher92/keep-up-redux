@@ -46,7 +46,7 @@ module.exports = function(app) {
   app.post('/api/clients', function(req, res) {
     console.log('POST FAKED /api/clients')
     var client = req.body
-    client._id = clients.length + 1
+    client._id = '' + clients.length + 1
     clients.push(client)
     setTimeout(function() {
       res.json(client)

@@ -1,23 +1,21 @@
 import React, { Component, PropTypes } from 'react'
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Grid, Row } from 'react-bootstrap'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Grid } from 'react-bootstrap'
 import { navToCreate, navToView } from '../ducks/clients'
-
-import ClientsList from './ClientsList'
 
 class App extends Component {
   render() {
-    const { dispatch, url } = this.props
-    
+    const { url, navToView, navToCreate } = this.props
+
     return (
       <Grid fluid={true}>
         <Navbar brand='Keep Up' fluid={true} fixedTop={true} inverse={true}>
           <Nav>
-            <NavDropdown title='Clients' active={url == '/clients' ? true : false}>
-              <MenuItem eventKey='1' onSelect={() => dispatch(navToView())}>View Clients</MenuItem>
+            <NavDropdown id='1' title='Clients' active={url == '/clients' ? true : false}>
+              <MenuItem onSelect={() => navToView()}>View Clients</MenuItem>
               <MenuItem divider />
-              <MenuItem eventKey='2' onSelect={() => dispatch(navToCreate())}>New Client</MenuItem>
+              <MenuItem onSelect={() => navToCreate()}>New Client</MenuItem>
             </NavDropdown>
           </Nav>
         </Navbar>
@@ -30,12 +28,18 @@ class App extends Component {
 }
 
 App.PropTypes = {
-  url: PropTypes.string.isRequired
+  url: PropTypes.string.isRequired,
+  navToCreate: PropTypes.func.isRequired,
+  navToView: PropTypes.func.isRequired
 }
 
-// map the current url to the props
-function select(state) {
-  return { url: state.router.location.pathname }
-}
-
-export default connect(select)(App)
+export default connect(
+  state => {
+    return {
+      url: state.router.location.pathname
+    }
+  },
+  dispatch => {
+    return bindActionCreators({ navToCreate, navToView }, dispatch)
+  }
+)(App)
