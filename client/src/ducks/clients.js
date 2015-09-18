@@ -3,23 +3,39 @@ import { pushState } from 'redux-react-router'
 import Immutable from 'immutable'
 
 // CONSTANTS
+const FETCHING = 'clients/FETCHING'
 const FETCHED = 'clients/FETCHED'
+const SAVING = 'clients/SAVING'
 const CREATED   = 'clients/CREATED'
 const UPDATED  = 'clients/UPDATED'
 const DELETED = 'clients/DELETED'
 
 // INITIAL STATE
 const initialState = Immutable.fromJS({
-  allClients: []
+  allClients: [],
+  isBusy: false
 })
 
 // ACTIONS
+export function fetching() {
+  return {
+    type: FETCHING
+  }
+}
+
 export function fetched(clients) {
   return {
     type: FETCHED,
     clients
   }
 }
+
+export function saving() {
+  return {
+    type: SAVING
+  }
+}
+
 export function created(client) {
   return {
     type: CREATED,
@@ -34,9 +50,9 @@ export function updated(client) {
   }
 }
 
-export function removed(client) {
+export function deleted(client) {
   return {
-    type: REMOVED,
+    type: DELETED,
     client
   }
 }
@@ -64,6 +80,8 @@ export function navToEdit(id) {
 // ASYNC ACTIONS
 export function fetchAsync() {
   return (dispatch) => {
+    dispatch(fetching())
+
     request.get('/api/clients').end((err, res) => {
       dispatch(fetched(res.body))
     })
@@ -72,6 +90,8 @@ export function fetchAsync() {
 
 export function saveAsync(client) {
   return (dispatch) => {
+    dispatch(saving())
+
     if (client._id) {
       // update
       request.put('/api/clients').send(client).end((err, res) => {
@@ -89,7 +109,6 @@ export function saveAsync(client) {
           dispatch(navToView())
         }
       })
-
     }
   }
 }
@@ -100,16 +119,30 @@ export function reducer(state = initialState, action) {
 
     case CREATED:
       var newClient = Immutable.fromJS(action.client)
-      return state.updateIn(['allClients'], list => list.push(newClient))
+      state = state.update('allClients', list => list.push(newClient))
+      state = state.set('isBusy', false)
+      return state
 
     case FETCHED:
       var fetchedClients = Immutable.fromJS(action.clients)
-      return state.set('allClients', fetchedClients)
+      state = state.set('allClients', fetchedClients)
+      state = state.set('isBusy', false)
+      return state
 
     case UPDATED:
       var updatedClient = Immutable.fromJS(action.client)
       var index = state.get('allClients').findIndex((c) => c.get('_id') === updatedClient.get('_id'))
-      return state.setIn(['allClients', index], updatedClient)
+      state = state.setIn(['allClients', index], updatedClient)
+      state = state.set('isBusy', false)
+      return state
+
+    case FETCHING:
+      state = state.set('isBusy', true)
+      return state
+
+    case SAVING:
+      state = state.set('isBusy', true)
+      return state
 
     default:
       return state
