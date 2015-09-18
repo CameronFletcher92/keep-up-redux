@@ -16,11 +16,11 @@ class ClientsList extends Component {
   }
 
   renderClients() {
-    const { allClients, fetchAsync, navToEdit} = this.props
+    const { allClients, fetchAsync, navToEdit, isBusy} = this.props
 
     return allClients.map((client, i) => {
       return (
-        <Client key={i} name={client.get('firstName') + ' ' + client.get('lastName')}
+        <Client key={i} name={client.get('firstName') + ' ' + client.get('lastName')} disabled={isBusy}
                 editClicked={() => navToEdit(client.get('_id'))} deleteClicked={() => console.log('not implemented')} />
       )
     })
@@ -51,7 +51,8 @@ ClientsList.propTypes = {
 export default connect(
   state => {
     return {
-      allClients: state.clients.get('allClients')
+      allClients: state.clients.get('allClients'),
+      isBusy: state.clients.get('isBusy')
     }
   },
   dispatch => {
