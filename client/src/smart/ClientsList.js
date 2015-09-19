@@ -18,9 +18,9 @@ class ClientsList extends Component {
   renderClients() {
     const { allClients, fetchAsync, navToEdit, isBusy} = this.props
 
-    return allClients.map((client, i) => {
+    return allClients.toIndexedSeq().map(client => {
       return (
-        <Client key={i} name={client.get('firstName') + ' ' + client.get('lastName')} disabled={isBusy}
+        <Client key={client.get('_id')} name={client.get('firstName') + ' ' + client.get('lastName')} disabled={isBusy}
                 editClicked={() => navToEdit(client.get('_id'))} deleteClicked={() => console.log('not implemented')} />
       )
     })
@@ -37,7 +37,7 @@ class ClientsList extends Component {
 
 ClientsList.propTypes = {
   // allClients is an immutable list of immutable clients
-  allClients: ImmPropTypes.listOf(
+  allClients: ImmPropTypes.mapOf(
                 ImmPropTypes.contains({
                   _id: PropTypes.string.isRequired,
                   firstName: PropTypes.string.isRequired,

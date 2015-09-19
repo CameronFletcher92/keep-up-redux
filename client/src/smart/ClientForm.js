@@ -33,8 +33,9 @@ ClientForm.propTypes = {
 
 export default connect(
   state => {
+    const id = state.router.params.id
     return {
-      client: state.router.params.id ? state.clients.get('allClients').filter(c => c.get('_id')).get(0).toJS() : {},
+      client: id ? state.clients.getIn(['allClients', id]).toJS() : {},
       isBusy : state.clients.get('isBusy')
     }
   },

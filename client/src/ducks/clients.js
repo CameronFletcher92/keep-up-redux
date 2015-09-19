@@ -12,7 +12,7 @@ const DELETED = 'clients/DELETED'
 
 // INITIAL STATE
 const initialState = Immutable.fromJS({
-  allClients: [],
+  allClients: {},
   isBusy: false
 })
 
@@ -72,7 +72,6 @@ export function navToCreate() {
 
 export function navToEdit(id) {
   return (dispatch) => {
-    console.log('nav to edit')
     dispatch(pushState(null, '/clients/' + id))
   }
 }
@@ -120,20 +119,23 @@ export function reducer(state = initialState, action) {
 
     case CREATED:
       var newClient = Immutable.fromJS(action.client)
-      state = state.update('allClients', list => list.push(newClient))
+      state = state.setIn(['allClients', newClient.get('_id')], newClient)
       state = state.set('isBusy', false)
       return state
 
     case FETCHED:
-      var fetchedClients = Immutable.fromJS(action.clients)
-      state = state.set('allClients', fetchedClients)
+      // convert fetched clients to a map by ids
+      var indexed = {}
+      action.clients.forEach(c => indexed[c._id] = c)
+      indexed = Immutable.fromJS(indexed)
+
+      state = state.set('allClients', indexed)
       state = state.set('isBusy', false)
       return state
 
     case UPDATED:
       var updatedClient = Immutable.fromJS(action.client)
-      var index = state.get('allClients').findIndex((c) => c.get('_id') === updatedClient.get('_id'))
-      state = state.setIn(['allClients', index], updatedClient)
+      state = state.setIn(['allClients', updatedClient.get('_id')], updatedClient)
       state = state.set('isBusy', false)
       return state
 
