@@ -50,10 +50,10 @@ export function updated(client) {
   }
 }
 
-export function deleted(client) {
+export function deleted(id) {
   return {
     type: DELETED,
-    client
+    id
   }
 }
 
@@ -116,13 +116,6 @@ export function saveAsync(client) {
 // REDUCER
 export function reducer(state = initialState, action) {
   switch (action.type) {
-
-    case CREATED:
-      var newClient = Immutable.fromJS(action.client)
-      state = state.setIn(['allClients', newClient.get('_id')], newClient)
-      state = state.set('isBusy', false)
-      return state
-
     case FETCHED:
       // convert fetched clients to a map by ids
       var indexed = {}
@@ -133,10 +126,20 @@ export function reducer(state = initialState, action) {
       state = state.set('isBusy', false)
       return state
 
+    case CREATED:
+      var newClient = Immutable.fromJS(action.client)
+      state = state.setIn(['allClients', newClient.get('_id')], newClient)
+      state = state.set('isBusy', false)
+      return state
+
     case UPDATED:
       var updatedClient = Immutable.fromJS(action.client)
       state = state.setIn(['allClients', updatedClient.get('_id')], updatedClient)
       state = state.set('isBusy', false)
+      return state
+
+    case DELETED:
+      state = state.deleteIn(['allClients', action.id])
       return state
 
     case FETCHING:

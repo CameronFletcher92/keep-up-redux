@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import { ListGroup } from 'react-bootstrap'
-import { fetchAsync, navToEdit } from '../ducks/clients'
+import { fetchAsync, navToEdit, deleted } from '../ducks/clients'
 import Client from '../dumb/Client'
 
 class ClientsList extends Component {
@@ -16,12 +16,12 @@ class ClientsList extends Component {
   }
 
   renderClients() {
-    const { allClients, fetchAsync, navToEdit, isBusy} = this.props
+    const { allClients, fetchAsync, navToEdit, deleted, isBusy} = this.props
 
     return allClients.toIndexedSeq().map(client => {
       return (
         <Client key={client.get('_id')} name={client.get('firstName') + ' ' + client.get('lastName')} disabled={isBusy}
-                editClicked={() => navToEdit(client.get('_id'))} deleteClicked={() => console.log('not implemented')} />
+                editClicked={() => navToEdit(client.get('_id'))} deleteClicked={() => deleted(client.get('_id'))} />
       )
     })
   }
@@ -56,6 +56,6 @@ export default connect(
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchAsync, navToEdit }, dispatch)
+    return bindActionCreators({ fetchAsync, navToEdit, deleted}, dispatch)
   }
 )(ClientsList)
