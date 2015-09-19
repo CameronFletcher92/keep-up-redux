@@ -29,4 +29,16 @@ if (__DEV__) {
   )(createStore)(rootReducer)
 }
 
+// hot load support
+if (__DEV__ && module.hot) {
+    module.hot.accept(['./ducks/clients'], () => {
+      var reducers = {
+                      router : routerStateReducer,
+                      clients : require('./ducks/clients').reducer
+                     }
+      const nextReducer = combineReducers(reducers)
+      store.replaceReducer(nextReducer)
+    })
+}
+
 export default store

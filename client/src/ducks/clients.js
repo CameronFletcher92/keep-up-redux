@@ -72,6 +72,7 @@ export function navToCreate() {
 
 export function navToEdit(id) {
   return (dispatch) => {
+    console.log('nav to edit')
     dispatch(pushState(null, '/clients/' + id))
   }
 }
