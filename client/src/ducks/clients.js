@@ -5,15 +5,19 @@ import Immutable from 'immutable'
 // CONSTANTS
 const FETCHING = 'clients/FETCHING'
 const FETCHED = 'clients/FETCHED'
-const SAVING = 'clients/SAVING'
+
+const CREATING   = 'clients/CREATING'
 const CREATED   = 'clients/CREATED'
+
+const SAVING = 'clients/SAVING'
 const UPDATED  = 'clients/UPDATED'
 const DELETED  = 'clients/DELETED'
 
 // INITIAL STATE
 const initialState = Immutable.fromJS({
   allClients: {},
-  isBusy: false
+  syncing: {},
+  isFetching: false
 })
 
 // ACTIONS
@@ -30,9 +34,9 @@ export function fetched(clients) {
   }
 }
 
-export function saving() {
+export function creating() {
   return {
-    type: SAVING
+    type: CREATING
   }
 }
 
@@ -42,6 +46,14 @@ export function created(client) {
     client
   }
 }
+
+export function saving(id) {
+  return {
+    type: SAVING,
+    id: id
+  }
+}
+
 
 export function updated(client) {
   return {
@@ -90,32 +102,36 @@ export function fetchAsync() {
 
 export function saveAsync(client) {
   return (dispatch) => {
-    dispatch(saving())
 
     if (client._id) {
+      dispatch(saving(client._id))
+
       // update
       request.put('/api/clients').send(client).end((err, res) => {
         if (!err && res.ok) {
           dispatch(updated(res.body))
-          dispatch(navToView())
         }
       })
 
     } else {
+      dispatch(creating())
+
       // create
       request.post('/api/clients').send(client).end((err, res) => {
         if (!err && res.ok) {
           dispatch(created(res.body))
-          dispatch(navToView())
         }
       })
     }
+
+    // navigate back to view (new/updated model will be marked)
+    dispatch(navToView())
   }
 }
 
 export function deleteAsync(id) {
   return (dispatch) => {
-    dispatch(saving())
+    dispatch(saving(id))
 
     request.del('/api/clients/' + id).end((err, res) => {
       if (!err && res.ok) {
@@ -128,39 +144,42 @@ export function deleteAsync(id) {
 // REDUCER
 export function reducer(state = initialState, action) {
   switch (action.type) {
+    case FETCHING:
+      state = state.set('isFetching', true)
+      return state
+
     case FETCHED:
       // convert fetched clients to a map by ids
       var indexed = {}
       action.clients.forEach(c => indexed[c._id] = c)
       indexed = Immutable.fromJS(indexed)
-
       state = state.set('allClients', indexed)
-      state = state.set('isBusy', false)
+      state = state.set('isFetching', false)
+      return state
+
+    case CREATING:
+      state = state.set('isFetching', true)
       return state
 
     case CREATED:
       var newClient = Immutable.fromJS(action.client)
       state = state.setIn(['allClients', newClient.get('_id')], newClient)
-      state = state.set('isBusy', false)
+      state = state.set('isFetching', false)
+      return state
+
+    case SAVING:
+      state = state.setIn(['syncing', action.id], true)
       return state
 
     case UPDATED:
       var updatedClient = Immutable.fromJS(action.client)
       state = state.setIn(['allClients', updatedClient.get('_id')], updatedClient)
-      state = state.set('isBusy', false)
+      state = state.deleteIn(['syncing', updatedClient.get('_id')])
       return state
 
     case DELETED:
       state = state.deleteIn(['allClients', action.id])
-      state = state.set('isBusy', false)
-      return state
-
-    case FETCHING:
-      state = state.set('isBusy', true)
-      return state
-
-    case SAVING:
-      state = state.set('isBusy', true)
+      state = state.deleteIn(['syncing', action.id])
       return state
 
     default:

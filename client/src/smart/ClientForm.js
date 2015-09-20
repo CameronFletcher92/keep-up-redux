@@ -12,14 +12,14 @@ class ClientForm extends Component {
   }
 
   render() {
-    const { saveAsync, isBusy } = this.props
+    const { saveAsync } = this.props
     return (
       <form>
-        <Input type='text' label='First Name' placeholder='Enter first name' disabled={isBusy}
+        <Input type='text' label='First Name' placeholder='Enter first name'
                value={this.state.firstName} onChange={(e) => this.setState({firstName: e.target.value})} />
-        <Input type='text' label='Last Name' placeholder='Enter last name' disabled={isBusy}
+        <Input type='text' label='Last Name' placeholder='Enter last name'
                value={this.state.lastName} onChange={(e) => this.setState({lastName: e.target.value})} />
-        <Button onClick={() => saveAsync(this.state)} disabled={isBusy}>Save</Button>
+        <Button onClick={() => saveAsync(this.state)}>Save</Button>
       </form>
     )
   }
@@ -27,7 +27,6 @@ class ClientForm extends Component {
 
 ClientForm.propTypes = {
   client: PropTypes.object.isRequired,
-  isBusy: PropTypes.bool.isRequired,
   saveAsync: PropTypes.func.isRequired
 }
 
@@ -35,8 +34,7 @@ export default connect(
   state => {
     const id = state.router.params.id
     return {
-      client: id ? state.clients.getIn(['allClients', id]).toJS() : {},
-      isBusy : state.clients.get('isBusy')
+      client: id ? state.clients.getIn(['allClients', id]).toJS() : {}
     }
   },
   dispatch => {

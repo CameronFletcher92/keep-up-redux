@@ -16,12 +16,14 @@ class ClientsList extends Component {
   }
 
   renderClients() {
-    const { allClients, fetchAsync, navToEdit, deleteAsync, isBusy} = this.props
+    const { allClients, syncing, fetchAsync, navToEdit, deleteAsync, isFetching } = this.props
 
     return allClients.toIndexedSeq().map(client => {
+      var id = client.get('_id')
+      var disabled = isFetching || syncing.get(id) ? true : false
       return (
-        <Client key={client.get('_id')} name={client.get('firstName') + ' ' + client.get('lastName')} disabled={isBusy}
-                editClicked={() => navToEdit(client.get('_id'))} deleteClicked={() => deleteAsync(client.get('_id'))} />
+        <Client key={id} name={client.get('firstName') + ' ' + client.get('lastName')} disabled={disabled}
+                editClicked={() => navToEdit(id)} deleteClicked={() => deleteAsync(id)} />
       )
     })
   }
@@ -44,6 +46,7 @@ ClientsList.propTypes = {
                   lastName: PropTypes.string.isRequired,
                 })
               ),
+  syncing: ImmPropTypes.map.isRequired,
   fetchAsync: PropTypes.func.isRequired,
   deleteAsync: PropTypes.func.isRequired,
   navToEdit: PropTypes.func.isRequired,
@@ -53,7 +56,8 @@ export default connect(
   state => {
     return {
       allClients: state.clients.get('allClients'),
-      isBusy: state.clients.get('isBusy')
+      isFetching: state.clients.get('isFetching'),
+      syncing: state.clients.get('syncing')
     }
   },
   dispatch => {
