@@ -8,7 +8,7 @@ const FETCHED = 'clients/FETCHED'
 const SAVING = 'clients/SAVING'
 const CREATED   = 'clients/CREATED'
 const UPDATED  = 'clients/UPDATED'
-const DELETED = 'clients/DELETED'
+const DELETED  = 'clients/DELETED'
 
 // INITIAL STATE
 const initialState = Immutable.fromJS({
@@ -113,6 +113,18 @@ export function saveAsync(client) {
   }
 }
 
+export function deleteAsync(id) {
+  return (dispatch) => {
+    dispatch(saving())
+
+    request.del('/api/clients/' + id).end((err, res) => {
+      if (!err && res.ok) {
+        dispatch(deleted(id))
+      }
+    })
+  }
+}
+
 // REDUCER
 export function reducer(state = initialState, action) {
   switch (action.type) {
@@ -140,6 +152,7 @@ export function reducer(state = initialState, action) {
 
     case DELETED:
       state = state.deleteIn(['allClients', action.id])
+      state = state.set('isBusy', false)
       return state
 
     case FETCHING:

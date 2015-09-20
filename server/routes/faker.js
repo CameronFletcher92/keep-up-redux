@@ -58,7 +58,7 @@ module.exports = function(app) {
     console.log('PUT FAKED /api/clients')
     var client = req.body
     for (var j = 0; j < clients.length; j++) {
-      if (clients[j]._id === client._id) {
+      if (clients[j]._id == client._id) {
         clients[j] = client
         break
       }
@@ -68,18 +68,18 @@ module.exports = function(app) {
     }, timeout)
   })
 
-  // delete a fake Client
-  app.del('/api/clients', function(req, res) {
-    console.log('DEL FAKED /api/clients')
-    var id = req.body
+  // delete a fake client
+  app.delete('/api/clients/:id', function(req, res) {
+    var id = req.params.id
+    console.log('DELETE FAKED /api/clients/' + id)
     for (var j = 0; j < clients.length; j++) {
-      if (clients[j]._id === id) {
+      if (clients[j]._id == id) {
         clients.splice(j, 1)
         break
       }
     }
     setTimeout(function() {
-      res.json(client)
+      res.json(id)
     }, timeout)
   })
 
@@ -125,10 +125,9 @@ module.exports = function(app) {
     }, timeout)
   })
 
-  // delete a fake Client
-  app.del('/api/exercises', function(req, res) {
-    console.log('DEL FAKED /api/exercises')
-    var id = req.body
+  // delete a fake exercise
+  app.delete('/api/exercises', function(req, res) {
+    var id = req.params.id
     for (var j = 0; j < exercises.length; j++) {
       if (exercises[j]._id === id) {
         exercises.splice(j, 1)
@@ -136,13 +135,14 @@ module.exports = function(app) {
       }
     }
     setTimeout(function() {
-      res.json(client)
+      res.json(id)
     }, timeout)
   })
 
   // fetch the fake exercises
   app.get('/api/exercises', function(req, res) {
-    console.log('GET FAKED /api/exercises')
+    var id = req.params.id
+    console.log('DELETE FAKED /api/exercises/' + id)
     var sortedExercises = _.sortBy(exercises, function(c) {
       return c.name
     })
