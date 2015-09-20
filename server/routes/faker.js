@@ -68,6 +68,22 @@ module.exports = function(app) {
     }, timeout)
   })
 
+  // delete a fake Client
+  app.del('/api/clients', function(req, res) {
+    console.log('DEL FAKED /api/clients')
+    var id = req.body
+    for (var j = 0; j < clients.length; j++) {
+      if (clients[j]._id === id) {
+        clients.splice(j, 1)
+        break
+      }
+    }
+    setTimeout(function() {
+      res.json(client)
+    }, timeout)
+  })
+
+
   // fetch the fake clients
   app.get('/api/clients', function(req, res) {
     console.log('GET FAKED /api/clients')
