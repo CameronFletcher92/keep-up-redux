@@ -19,7 +19,7 @@ class ClientForm extends Component {
                value={this.state.firstName} onChange={(e) => this.setState({firstName: e.target.value})} />
         <Input type='text' label='Last Name' placeholder='Enter last name'
                value={this.state.lastName} onChange={(e) => this.setState({lastName: e.target.value})} />
-        <Button onClick={() => saveAsync(this.state)}>Save</Button>
+        <Button className='pull-right' bsStyle='primary' onClick={() => saveAsync(this.state)}>Save</Button>
       </form>
     )
   }

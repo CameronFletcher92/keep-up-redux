@@ -10,8 +10,8 @@ class TopBar extends Component {
 
     return (
       <Grid fluid={true}>
-        <Navbar brand='Keep Up' fluid={true} fixedTop={true} inverse={true}>
-          <Nav>
+        <Navbar brand='Keep Up' fixedTop={true} fluid={true} toggleNavKey={0}>
+          <Nav eventKey={0}>
             <NavDropdown id='1' title='Clients' active={url == '/clients' ? true : false}>
               <MenuItem onSelect={() => navToView()}>View Clients</MenuItem>
               <MenuItem divider />
@@ -19,7 +19,7 @@ class TopBar extends Component {
             </NavDropdown>
           </Nav>
         </Navbar>
-        <div style={{marginTop: '4em'}}>
+        <div style={{marginTop: '4.5em'}}>
           {this.props.children}
         </div>
       </Grid>
