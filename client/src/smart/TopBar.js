@@ -13,7 +13,7 @@ class TopBar extends Component {
         <Navbar fixedTop={true} fluid={true} toggleNavKey={0}>
           <NavBrand><a onClick={() => navToViewClients()}>Keep Up</a></NavBrand>
           <Nav eventKey={0}>
-            <NavDropdown id='1' title='Clients' active={true}>
+            <NavDropdown id='1' title='Clients'>
               <MenuItem onSelect={() => navToViewClients()}>View Clients</MenuItem>
               <MenuItem divider />
               <MenuItem onSelect={() => navToCreateClient()}>New Client</MenuItem>
@@ -36,9 +36,7 @@ TopBar.PropTypes = {
 
 export default connect(
   state => {
-    return {
-      url: state.router.location.pathname
-    }
+    return {}
   },
   dispatch => {
     return bindActionCreators({ navToCreateClient, navToViewClients }, dispatch)
