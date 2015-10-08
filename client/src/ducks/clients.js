@@ -70,19 +70,19 @@ export function deleted(id) {
 }
 
 // NAVIGATION ACTIONS
-export function navToView() {
+export function navToViewClients() {
   return (dispatch) => {
     dispatch(pushState(null, '/clients'))
   }
 }
 
-export function navToCreate() {
+export function navToCreateClient() {
   return (dispatch) => {
     dispatch(pushState(null, '/clients/new'))
   }
 }
 
-export function navToEdit(id) {
+export function navToEditClient(id) {
   return (dispatch) => {
     dispatch(pushState(null, '/clients/' + id))
   }
@@ -125,7 +125,7 @@ export function saveAsync(client) {
     }
 
     // navigate back to view (new/updated model will be marked)
-    dispatch(navToView())
+    dispatch(navToViewClients())
   }
 }
 

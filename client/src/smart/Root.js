@@ -8,18 +8,14 @@ class Root extends Component {
   renderDev() {
     const { DevTools, DebugPanel, LogMonitor } = require('redux-devtools/lib/react')
     return (
-      <Grid fluid={true}>
-        <Col sm={8}>
-          <Provider store={store}>
-            <ReduxRouter />
-          </Provider>
-        </Col>
-        <Col sm={4}>
-          <DebugPanel top right bottom>
-            <DevTools store={store} monitor={LogMonitor} />
-          </DebugPanel>
-        </Col>
-      </Grid>
+      <div>
+        <Provider store={store}>
+          <ReduxRouter />
+        </Provider>
+        <DebugPanel top right bottom>
+          <DevTools store={store} monitor={LogMonitor} />
+        </DebugPanel>
+      </div>
     )
   }
 
@@ -32,11 +28,20 @@ class Root extends Component {
   }
 
   render() {
+    let content
     if (__DEV__) {
-      return this.renderDev()
+      content = this.renderDev()
     } else {
-      return this.renderProd()
+      content = this.renderProd()
     }
+
+    return (
+      <Grid fluid style={{'paddingLeft': '0.5em', 'paddingRight': '0.5em'}}>
+        <Col xs={12} sm={10} md={8} lg={6} smOffset={1} style={{'padding': 0}}>
+          {content}
+        </Col>
+      </Grid>
+    )
   }
 }
 

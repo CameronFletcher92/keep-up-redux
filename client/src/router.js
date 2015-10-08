@@ -6,6 +6,7 @@ import TopBar from './smart/TopBar'
 import ClientForm from './smart/ClientForm'
 import ClientsList from './smart/ClientsList'
 
+// route definitions
 const routes = (
   <Route path='/' component={TopBar}>
     <IndexRoute component={ClientsList} />

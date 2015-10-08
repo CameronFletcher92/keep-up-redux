@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import { ListGroup } from 'react-bootstrap'
-import { fetchAsync, navToEdit, deleteAsync } from '../ducks/clients'
+import { fetchAsync, navToEditClient, deleteAsync } from '../ducks/clients'
 import Client from '../dumb/Client'
 
 class ClientsList extends Component {
@@ -16,14 +16,14 @@ class ClientsList extends Component {
   }
 
   renderClients() {
-    const { allClients, syncing, fetchAsync, navToEdit, deleteAsync, isFetching } = this.props
+    const { allClients, syncing, fetchAsync, navToEditClient, deleteAsync, isFetching } = this.props
 
     return allClients.toIndexedSeq().map(client => {
       var id = client.get('_id')
       var disabled = isFetching || syncing.get(id) ? true : false
       return (
         <Client key={id} name={client.get('firstName') + ' ' + client.get('lastName')} disabled={disabled}
-                editClicked={() => navToEdit(id)} deleteClicked={() => deleteAsync(id)} />
+                editClicked={() => navToEditClient(id)} deleteClicked={() => deleteAsync(id)} />
       )
     })
   }
@@ -49,7 +49,7 @@ ClientsList.propTypes = {
   syncing: ImmPropTypes.map.isRequired,
   fetchAsync: PropTypes.func.isRequired,
   deleteAsync: PropTypes.func.isRequired,
-  navToEdit: PropTypes.func.isRequired,
+  navToEditClient: PropTypes.func.isRequired,
 }
 
 export default connect(
@@ -61,6 +61,6 @@ export default connect(
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchAsync, navToEdit, deleteAsync}, dispatch)
+    return bindActionCreators({ fetchAsync, navToEditClient, deleteAsync}, dispatch)
   }
 )(ClientsList)
