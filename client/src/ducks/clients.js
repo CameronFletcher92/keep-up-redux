@@ -150,7 +150,7 @@ export function reducer(state = initialState, action) {
 
     case FETCHED:
       // convert fetched clients to a map by ids
-      var indexed = {}
+      let indexed = {}
       action.clients.forEach(c => indexed[c._id] = c)
       indexed = Immutable.fromJS(indexed)
       state = state.set('allClients', indexed)
@@ -162,7 +162,7 @@ export function reducer(state = initialState, action) {
       return state
 
     case CREATED:
-      var newClient = Immutable.fromJS(action.client)
+      let newClient = Immutable.fromJS(action.client)
       state = state.setIn(['allClients', newClient.get('_id')], newClient)
       state = state.set('isFetching', false)
       return state
@@ -172,7 +172,7 @@ export function reducer(state = initialState, action) {
       return state
 
     case UPDATED:
-      var updatedClient = Immutable.fromJS(action.client)
+      let updatedClient = Immutable.fromJS(action.client)
       state = state.setIn(['allClients', updatedClient.get('_id')], updatedClient)
       state = state.deleteIn(['syncing', updatedClient.get('_id')])
       return state

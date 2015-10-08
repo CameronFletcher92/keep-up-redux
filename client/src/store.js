@@ -2,18 +2,23 @@ import { compose, createStore, applyMiddleware, combineReducers } from 'redux'
 import { routerStateReducer } from 'redux-react-router'
 import thunk from 'redux-thunk'
 import router from './router'
-import { reducer as clientsReducer } from './ducks/clients'
 
 // Combine router reducer with all the ducks' reducers
 // This will become the top level of the global state
-var reducers = {
-                router : routerStateReducer,
-                clients : clientsReducer
-               }
-const rootReducer = combineReducers(reducers)
+// Require it within the function so we can call this on module hotloading
+function getRootReducer() {
+  let reducers = {
+    router : routerStateReducer,
+    clients : require('./ducks/clients').reducer
+  }
+
+  return combineReducers(reducers)
+}
+
+const rootReducer = getRootReducer()
 
 // initialize the store, with or without devtools
-var store
+let store
 if (__DEV__) {
   const { devTools } = require('redux-devtools')
   store = compose(
@@ -32,12 +37,7 @@ if (__DEV__) {
 // hot load support
 if (__DEV__ && module.hot) {
     module.hot.accept(['./ducks/clients'], () => {
-      var reducers = {
-                      router : routerStateReducer,
-                      clients : require('./ducks/clients').reducer
-                     }
-      const nextReducer = combineReducers(reducers)
-      store.replaceReducer(nextReducer)
+      store.replaceReducer(getRootReducer())
     })
 }
 
