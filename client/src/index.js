@@ -1,6 +1,7 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import Root from './smart/Root'
 
 // render the root
-React.render(<Root />, document.getElementById('root'))
+ReactDOM.render(<Root />, document.getElementById('root'))

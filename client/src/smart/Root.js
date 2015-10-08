@@ -11,7 +11,7 @@ class Root extends Component {
       <Grid fluid={true}>
         <Col sm={8}>
           <Provider store={store}>
-            {() => <ReduxRouter />}
+            <ReduxRouter />
           </Provider>
         </Col>
         <Col sm={4}>
@@ -26,7 +26,7 @@ class Root extends Component {
   renderProd() {
     return (
       <Provider store={store}>
-        {() => <ReduxRouter />}
+        <ReduxRouter />
       </Provider>
     )
   }
