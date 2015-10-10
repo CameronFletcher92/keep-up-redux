@@ -6,7 +6,7 @@ import { navToCreateClient, navToViewClients } from '../ducks/clients'
 
 class TopBar extends Component {
   render() {
-    const { url, navToView, navToCreate } = this.props
+    const { url, navToViewClients, navToCreateClient } = this.props
 
     return (
       <div>
@@ -30,8 +30,8 @@ class TopBar extends Component {
 
 TopBar.PropTypes = {
   url: PropTypes.string.isRequired,
-  navToCreate: PropTypes.func.isRequired,
-  navToView: PropTypes.func.isRequired
+  navToCreateClient: PropTypes.func.isRequired,
+  navToViewClients: PropTypes.func.isRequired
 }
 
 export default connect(

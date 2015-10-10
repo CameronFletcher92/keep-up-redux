@@ -19,6 +19,8 @@ class ClientForm extends Component {
                value={this.state.firstName} onChange={(e) => this.setState({firstName: e.target.value})} />
         <Input type='text' label='Last Name' placeholder='Enter last name'
                value={this.state.lastName} onChange={(e) => this.setState({lastName: e.target.value})} />
+        <Input type='text' label='Birth Date' placeholder='dd/mm/yyyy'
+               value={this.state.birthDate} onChange={(e) => this.setState({birthDate: e.target.value})} />
         <Button className='pull-right' bsStyle='primary' onClick={() => saveAsync(this.state)}>Save</Button>
       </form>
     )

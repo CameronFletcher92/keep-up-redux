@@ -13,7 +13,7 @@ module.exports = function(app) {
       trainer: '1',
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
-      birthDate: new Date(faker.date.past()),
+      birthDate: faker.date.past().toLocaleDateString(),
       avatar: faker.image.avatar()
     })
     exercises.push( {
