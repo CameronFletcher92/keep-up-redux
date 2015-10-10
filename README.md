@@ -31,3 +31,26 @@ npm run dev   - run the server in development mode with hotloading and injected 
 ## Demo of React Transform
 
 ![](http://i.imgur.com/AhGY28T.gif)
+
+
+
+## Client Information
+Clients:
+- Name
+- Address
+- Date of Birth
+- Description
+- Private health (boolean)
+- Code field (letters and numbers)
+
+Exercises:
+- Name
+- Intensity
+- Muscle Group
+- Description
+
+Class:
+- List of Clients
+- List of Exercises
+- Date
+- Notes
