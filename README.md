@@ -5,7 +5,7 @@ Keep Up
 - Name
 - Address
 - Date of Birth
-- Description
+- notes
 - Private health (boolean)
 - Code field (letters and numbers)
 

@@ -1,12 +1,17 @@
 var faker = require('faker')
 var _ = require('lodash')
 
-module.exports = function(app) {
-  const timeout = 2000
+// time for queries to execute on server
+const timeout = 2000
 
-  // server-side data, refreshes on restart
-  var clients = []
-  var exercises = []
+// server-side data, refreshes on restart
+var clients = []
+var exercises = []
+var classes = []
+var user = {}
+
+// generate random data
+function seedDB() {
   for (var i = 1; i <= 20; i++) {
     clients.push( {
       _id: '' + i,
@@ -14,7 +19,9 @@ module.exports = function(app) {
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       birthDate: faker.date.past().toLocaleDateString(),
-      avatar: faker.image.avatar()
+      address: faker.address.streetAddress() + ', ' + faker.address.city(),
+      privateHealth: true,
+      notes: faker.company.catchPhrase()
     })
     exercises.push( {
       _id: '' + i,
@@ -25,12 +32,54 @@ module.exports = function(app) {
     })
   }
 
-  var user = {
+  classes.push( {
+    _id: '1',
+    clients: ['1', '2', '3'],
+    exercises: ['1', '2', '3'],
+    time: faker.date.past().toLocaleString(),
+    notes: faker.company.catchPhrase()
+  })
+
+  user = {
     _id: '1',
     googleId: '123abc',
     firstName: 'Test',
     lastName: 'User'
   }
+}
+
+// generic entity methods
+function addEntity(arr, entity) {
+  entity._id = '' + arr.length + 1,
+  arr.push(entity)
+  return entity
+}
+
+function updateEntity(arr, entity) {
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i]._id == entity._id) {
+      arr[i] = entity
+      break
+    }
+  }
+
+  return entity
+}
+
+function removeEntity(arr, id) {
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i]._id == id) {
+      clients.splice(i, 1)
+      break
+    }
+  }
+
+  return id
+}
+
+module.exports = function(app) {
+  // seed the db
+  seedDB()
 
   // get the current user
   app.get('/api/user', function(req, res) {
@@ -45,54 +94,30 @@ module.exports = function(app) {
   // create a fake client
   app.post('/api/clients', function(req, res) {
     console.log('POST FAKED /api/clients')
-    var client = req.body
-    client._id = '' + clients.length + 1
-    clients.push(client)
-    setTimeout(function() {
-      res.json(client)
-    }, timeout)
+    var newClient = addEntity(clients, req.body)
+    setTimeout(() => res.json(newClient), timeout)
   })
 
   // update a fake client
   app.put('/api/clients', function(req, res) {
     console.log('PUT FAKED /api/clients')
-    var client = req.body
-    for (var j = 0; j < clients.length; j++) {
-      if (clients[j]._id == client._id) {
-        clients[j] = client
-        break
-      }
-    }
-    setTimeout(function() {
-      res.json(client)
-    }, timeout)
+    var updatedClient = updateEntity(clients, req.body)
+    setTimeout(() => res.json(updatedClient), timeout)
   })
 
   // delete a fake client
   app.delete('/api/clients/:id', function(req, res) {
-    var id = req.params.id
     console.log('DELETE FAKED /api/clients/' + id)
-    for (var j = 0; j < clients.length; j++) {
-      if (clients[j]._id == id) {
-        clients.splice(j, 1)
-        break
-      }
-    }
-    setTimeout(function() {
-      res.json(id)
-    }, timeout)
+    var id = req.params.id
+    removeEntity(clients, id)
+    setTimeout(() => res.json(id), timeout)
   })
-
 
   // fetch the fake clients
   app.get('/api/clients', function(req, res) {
     console.log('GET FAKED /api/clients')
-    var sortedClients = _.sortBy(clients, function(c) {
-        return c.lastName
-    })
-    setTimeout(function() {
-      res.json(sortedClients)
-    }, timeout)
+    var sortedClients = _.sortBy(clients, (c) => c.lastName)
+    setTimeout(() => res.json(sortedClients), timeout)
   })
 
   /*
@@ -102,52 +127,61 @@ module.exports = function(app) {
   // create a fake exercise
   app.post('/api/exercises', function(req, res) {
     console.log('POST FAKED /api/exercises')
-    var exercise = req.body
-    exercise._id = exercises.length + 1
-    exercises.push(exercise)
-    setTimeout(function() {
-      res.json(req.body)
-    }, timeout)
+    var newExercise = addEntity(exercises, req.body)
+    setTimeout(() => res.json(newExercise), timeout)
   })
 
   // update a fake exercise
   app.put('/api/exercises', function(req, res) {
     console.log('PUT FAKED /api/exercises')
-    var exercise = req.body
-    for (var j = 0; j < exercises.length; j++) {
-      if (exercises[j]._id === exercise._id) {
-        exercises[j] = exercise
-        break
-      }
-    }
-    setTimeout(function() {
-      res.json(exercise)
-    }, timeout)
+    var updatedExercise = updateEntity(exercises, req.body)
+    setTimeout(() => res.json(updatedExercise), timeout)
   })
 
   // delete a fake exercise
-  app.delete('/api/exercises', function(req, res) {
+  app.delete('/api/exercises/:id', function(req, res) {
+    console.log('DELETE FAKED /api/exercises/' + id)
     var id = req.params.id
-    for (var j = 0; j < exercises.length; j++) {
-      if (exercises[j]._id === id) {
-        exercises.splice(j, 1)
-        break
-      }
-    }
-    setTimeout(function() {
-      res.json(id)
-    }, timeout)
+    removeEntity(exercises, id)
+    setTimeout(() => res.json(id), timeout)
   })
 
   // fetch the fake exercises
   app.get('/api/exercises', function(req, res) {
+    console.log('GET FAKED /api/exercises')
+    var sortedExercises = _.sortBy(exercises, (e) => e.name)
+    setTimeout(() => res.json(sortedExercises), timeout)
+  })
+
+  /*
+   * CLASSES
+   */
+  // create a fake class
+  app.post('/api/classes', function(req, res) {
+    console.log('POST FAKED /api/classes')
+    var newClass = addEntity(classes, req.body)
+    setTimeout(() => res.json(newClass), timeout)
+  })
+
+  // update a fake class
+  app.put('/api/classes', function(req, res) {
+    console.log('PUT FAKED /api/classes')
+    var updatedClass = updateEntity(classes, req.body)
+    setTimeout(() => res.json(updatedClass), timeout)
+  })
+
+  // delete a fake class
+  app.delete('/api/classes/:id', function(req, res) {
+    console.log('DELETE FAKED /api/classes/' + id)
     var id = req.params.id
-    console.log('DELETE FAKED /api/exercises/' + id)
-    var sortedExercises = _.sortBy(exercises, function(c) {
-      return c.name
-    })
-    setTimeout(function() {
-      res.json(sortedExercises)
-    }, timeout)
+    removeEntity(classes, id)
+    setTimeout(() => res.json(id), timeout)
+  })
+
+  // fetch the fake classes
+  app.get('/api/classes', function(req, res) {
+    console.log('GET FAKED /api/classes')
+    var sortedClasses = _.sortBy(classes, (c) => c.time)
+    setTimeout(() => res.json(sortedClasses), timeout)
   })
 }

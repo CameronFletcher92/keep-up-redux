@@ -21,6 +21,12 @@ class ClientForm extends Component {
                value={this.state.lastName} onChange={(e) => this.setState({lastName: e.target.value})} />
         <Input type='text' label='Birth Date' placeholder='dd/mm/yyyy'
                value={this.state.birthDate} onChange={(e) => this.setState({birthDate: e.target.value})} />
+        <Input type='text' label='Address' placeholder='Enter street address'
+               value={this.state.address} onChange={(e) => this.setState({address: e.target.value})} />
+        <Input type='textarea' label='Notes' placeholder='Enter any additional notes' style={{minHeight: '7em'}}
+               value={this.state.notes} onChange={(e) => this.setState({notes: e.target.value})} />
+        <Input type='checkbox' label='Private Health' placeholder='Private health?'
+               checked={this.state.privateHealth} onChange={(e) => this.setState({privateHealth: e.target.checked})}/>
         <Button className='pull-right' bsStyle='primary' onClick={() => saveAsync(this.state)}>Save</Button>
       </form>
     )
