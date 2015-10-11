@@ -9,7 +9,8 @@ import router from './router'
 function getRootReducer() {
   let reducers = {
     router : routerStateReducer,
-    clients : require('./ducks/clients').reducer
+    clients : require('./ducks/clients').reducer,
+    exercises : require('./ducks/exercises').reducer
   }
 
   return combineReducers(reducers)
@@ -36,9 +37,9 @@ if (__DEV__) {
 
 // hot load support
 if (__DEV__ && module.hot) {
-    module.hot.accept(['./ducks/clients'], () => {
-      store.replaceReducer(getRootReducer())
-    })
+  module.hot.accept(['./ducks/clients', './ducks/exercises'], () => {
+    store.replaceReducer(getRootReducer())
+  })
 }
 
 export default store
