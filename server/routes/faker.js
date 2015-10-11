@@ -108,8 +108,8 @@ module.exports = function(app) {
 
   // delete a fake client
   app.delete('/api/clients/:id', function(req, res) {
-    console.log('DELETE FAKED /api/clients/' + id)
     var id = req.params.id
+    console.log('DELETE FAKED /api/clients/' + id)
     removeEntity(clients, id)
     setTimeout(() => res.json(id), timeout)
   })
@@ -143,8 +143,8 @@ module.exports = function(app) {
 
   // delete a fake exercise
   app.delete('/api/exercises/:id', function(req, res) {
-    console.log('DELETE FAKED /api/exercises/' + id)
     var id = req.params.id
+    console.log('DELETE FAKED /api/exercises/' + id)
     removeEntity(exercises, id)
     setTimeout(() => res.json(id), timeout)
   })
