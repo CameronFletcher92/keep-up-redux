@@ -19,7 +19,7 @@ class Exercise extends Component {
             </Button>
           </span>
         </div>
-        { disabled ? <ProgressBar active={disabled} now={100} style={{margin: '1em'}} /> : null }
+        { disabled ? <ProgressBar active bsStyle='success' now={100} style={{marginTop: '1em', marginBottom: '0em'}} /> : null }
       </ListGroupItem>
     )
   }
