@@ -16,12 +16,10 @@ class TopBar extends Component {
           <Nav eventKey={0}>
             <NavDropdown id='1' title='Clients'>
               <MenuItem onSelect={() => navToViewClients()}>View Clients</MenuItem>
-              <MenuItem divider />
               <MenuItem onSelect={() => navToCreateClient()}>New Client</MenuItem>
             </NavDropdown>
             <NavDropdown id='2' title='Exercises'>
               <MenuItem onSelect={() => navToViewExercises()}>View Exercises</MenuItem>
-              <MenuItem divider />
               <MenuItem onSelect={() => navToCreateExercise()}>New Exercise</MenuItem>
             </NavDropdown>
           </Nav>
