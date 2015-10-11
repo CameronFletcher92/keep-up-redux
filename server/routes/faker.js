@@ -12,6 +12,13 @@ var user = {}
 
 // generate random data
 function seedDB() {
+  user = {
+    _id: '1',
+    googleId: '123abc',
+    firstName: 'Test',
+    lastName: 'User'
+  }
+
   for (var i = 1; i <= 20; i++) {
     clients.push( {
       _id: '' + i,
@@ -40,12 +47,6 @@ function seedDB() {
     notes: faker.company.catchPhrase()
   })
 
-  user = {
-    _id: '1',
-    googleId: '123abc',
-    firstName: 'Test',
-    lastName: 'User'
-  }
 }
 
 // generic entity methods
@@ -69,7 +70,7 @@ function updateEntity(arr, entity) {
 function removeEntity(arr, id) {
   for (var i = 0; i < arr.length; i++) {
     if (arr[i]._id == id) {
-      clients.splice(i, 1)
+      arr.splice(i, 1)
       break
     }
   }
@@ -134,7 +135,9 @@ module.exports = function(app) {
   // update a fake exercise
   app.put('/api/exercises', function(req, res) {
     console.log('PUT FAKED /api/exercises')
+    console.log(req.body)
     var updatedExercise = updateEntity(exercises, req.body)
+    console.log(updatedExercise)
     setTimeout(() => res.json(updatedExercise), timeout)
   })
 

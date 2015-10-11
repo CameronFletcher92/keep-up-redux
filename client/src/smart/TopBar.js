@@ -3,10 +3,11 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Navbar, NavBrand, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
 import { navToCreateClient, navToViewClients } from '../ducks/clients'
+import { navToCreateExercise, navToViewExercises } from '../ducks/exercises'
 
 class TopBar extends Component {
   render() {
-    const { url, navToViewClients, navToCreateClient } = this.props
+    const { url, navToViewClients, navToCreateClient, navToCreateExercise, navToViewExercises } = this.props
 
     return (
       <div>
@@ -17,6 +18,11 @@ class TopBar extends Component {
               <MenuItem onSelect={() => navToViewClients()}>View Clients</MenuItem>
               <MenuItem divider />
               <MenuItem onSelect={() => navToCreateClient()}>New Client</MenuItem>
+            </NavDropdown>
+            <NavDropdown id='2' title='Exercises'>
+              <MenuItem onSelect={() => navToViewExercises()}>View Exercises</MenuItem>
+              <MenuItem divider />
+              <MenuItem onSelect={() => navToCreateExercise()}>New Exercise</MenuItem>
             </NavDropdown>
           </Nav>
         </Navbar>
@@ -31,7 +37,9 @@ class TopBar extends Component {
 TopBar.PropTypes = {
   url: PropTypes.string.isRequired,
   navToCreateClient: PropTypes.func.isRequired,
-  navToViewClients: PropTypes.func.isRequired
+  navToViewClients: PropTypes.func.isRequired,
+  navToCreateExercise: PropTypes.func.isRequired,
+  navToViewExercises: PropTypes.func.isRequired,
 }
 
 export default connect(
@@ -39,6 +47,6 @@ export default connect(
     return {}
   },
   dispatch => {
-    return bindActionCreators({ navToCreateClient, navToViewClients }, dispatch)
+    return bindActionCreators({ navToCreateClient, navToViewClients, navToCreateExercise, navToViewExercises }, dispatch)
   }
 )(TopBar)
