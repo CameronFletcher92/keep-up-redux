@@ -25,7 +25,7 @@ class ClientForm extends Component {
                value={ form.get('notes') } onChange={(e) => updateForm('notes', e.target.value)} />
         <Input type='checkbox' label='Private Health' placeholder='Private health?'
                checked={ form.get('privateHealth') } onChange={(e) => updateForm('privateHealth', e.target.checked)}/>
-               
+
         <Button className='pull-right' bsStyle='primary' onClick={() => saveAsync(form.toJS())}>Save</Button>
       </form>
     )
