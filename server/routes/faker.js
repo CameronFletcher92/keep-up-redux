@@ -7,7 +7,7 @@ const timeout = 2000
 // server-side data, refreshes on restart
 var clients = []
 var exercises = []
-var classes = []
+var sessions = []
 var user = {}
 
 // generate random data
@@ -37,7 +37,7 @@ function seedDB() {
     })
   }
 
-  classes.push( {
+  sessions.push( {
     _id: '1',
     clients: ['1', '2', '3'],
     exercises: ['1', '2', '3'],
@@ -49,7 +49,7 @@ function seedDB() {
 
 // generic entity methods
 function addEntity(arr, entity) {
-  entity._id = '' + arr.length + 1,
+  entity._id = '' + (arr.length + 1),
   arr.push(entity)
   return entity
 }
@@ -153,34 +153,34 @@ module.exports = function(app) {
   })
 
   /*
-   * CLASSES
+   * SESSIONS
    */
-  // create a fake class
-  app.post('/api/classes', function(req, res) {
-    console.log('POST FAKED /api/classes')
-    var newClass = addEntity(classes, req.body)
-    setTimeout(() => res.json(newClass), timeout)
+  // create a fake session
+  app.post('/api/sessions', function(req, res) {
+    console.log('POST FAKED /api/sessions')
+    var newSession = addEntity(sessions, req.body)
+    setTimeout(() => res.json(newSession), timeout)
   })
 
-  // update a fake class
-  app.put('/api/classes', function(req, res) {
-    console.log('PUT FAKED /api/classes')
-    var updatedClass = updateEntity(classes, req.body)
-    setTimeout(() => res.json(updatedClass), timeout)
+  // update a fake session
+  app.put('/api/sessions', function(req, res) {
+    console.log('PUT FAKED /api/sessions')
+    var updatedSession = updateEntity(sessions, req.body)
+    setTimeout(() => res.json(updatedSession), timeout)
   })
 
-  // delete a fake class
-  app.delete('/api/classes/:id', function(req, res) {
-    console.log('DELETE FAKED /api/classes/' + id)
+  // delete a fake session
+  app.delete('/api/sessions/:id', function(req, res) {
+    console.log('DELETE FAKED /api/sessions/' + id)
     var id = req.params.id
-    removeEntity(classes, id)
+    removeEntity(sessions, id)
     setTimeout(() => res.json(id), timeout)
   })
 
-  // fetch the fake classes
-  app.get('/api/classes', function(req, res) {
-    console.log('GET FAKED /api/classes')
-    var sortedClasses = _.sortBy(classes, (c) => c.time)
-    setTimeout(() => res.json(sortedClasses), timeout)
+  // fetch the fake sessions
+  app.get('/api/sessions', function(req, res) {
+    console.log('GET FAKED /api/sessions')
+    var sortedSessions = _.sortBy(sessions, (c) => c.time)
+    setTimeout(() => res.json(sortedSessions), timeout)
   })
 }
