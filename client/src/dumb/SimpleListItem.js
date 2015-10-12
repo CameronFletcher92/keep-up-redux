@@ -3,7 +3,7 @@ import { ListGroupItem, Button, Glyphicon, ProgressBar } from 'react-bootstrap'
 
 class SimpleListItem extends Component {
   render() {
-    const { name, editClicked, deleteClicked, disabled } = this.props
+    const { name, editClicked, deleteClicked, busy } = this.props
     return (
       <ListGroupItem>
         <div className='clearfix'>
@@ -11,15 +11,15 @@ class SimpleListItem extends Component {
             {name}
           </span>
           <span className='pull-right'>
-            <Button bsStyle='primary' onClick={editClicked} disabled={disabled}>
+            <Button bsStyle='primary' onClick={editClicked} disabled={busy}>
               <Glyphicon glyph='edit' />
             </Button>
-            <Button bsStyle='danger' onClick={deleteClicked} disabled={disabled} style={{marginLeft: '0.5em'}}>
+            <Button bsStyle='danger' onClick={deleteClicked} disabled={busy} style={{marginLeft: '0.5em'}}>
               <Glyphicon glyph='trash' />
             </Button>
           </span>
         </div>
-        { disabled ? <ProgressBar active bsStyle='success' now={100} style={{marginTop: '1em', marginBottom: '0em'}} /> : null }
+        { busy ? <ProgressBar active bsStyle='success' now={100} style={{marginTop: '1em', marginBottom: '0em'}} /> : null }
       </ListGroupItem>
     )
   }
@@ -27,7 +27,7 @@ class SimpleListItem extends Component {
 
 SimpleListItem.propTypes = {
   name: PropTypes.string.isRequired,
-  disabled: PropTypes.bool.isRequired,
+  busy: PropTypes.bool.isRequired,
   editClicked: PropTypes.func.isRequired,
   deleteClicked: PropTypes.func.isRequired
 }

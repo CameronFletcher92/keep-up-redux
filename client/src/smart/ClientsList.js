@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
-import { ListGroup } from 'react-bootstrap'
+import { ListGroup, ProgressBar } from 'react-bootstrap'
 import { fetchAsync, navToEditClient, deleteAsync } from '../ducks/clients'
 import SimpleListItem from '../dumb/SimpleListItem'
 
@@ -19,23 +19,28 @@ class ClientsList extends Component {
   }
 
   renderClients() {
-    const { entities, syncing, fetchAsync, navToEditClient, deleteAsync, isFetching } = this.props
+    const { entities, syncing, navToEditClient, deleteAsync } = this.props
 
     return entities.toIndexedSeq().map(client => {
-      var id = client.get('_id')
-      var disabled = isFetching || syncing.get(id) ? true : false
+      const id = client.get('_id')
+      const busy = syncing.get(id) ? true : false
       return (
-        <SimpleListItem key={id} name={client.get('firstName') + ' ' + client.get('lastName')} disabled={disabled}
+        <SimpleListItem key={id} name={client.get('firstName') + ' ' + client.get('lastName')} busy={busy}
                 editClicked={() => navToEditClient(id)} deleteClicked={() => deleteAsync(id)} />
       )
     })
   }
 
   render() {
+    const { isFetching } = this.props
+
     return (
-      <ListGroup style={{marginBottom: '4em'}}>
-        { this.renderClients() }
-      </ListGroup>
+      <div>
+        { isFetching ? <ProgressBar active bsStyle='success' now={100} style={{marginBottom: '0.7em'}} /> : null }
+        <ListGroup>
+          { this.renderClients() }
+        </ListGroup>
+      </div>
     )
   }
 }
@@ -53,6 +58,7 @@ ClientsList.propTypes = {
   fetchAsync: PropTypes.func.isRequired,
   deleteAsync: PropTypes.func.isRequired,
   navToEditClient: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool.isRequired
 }
 
 export default connect(

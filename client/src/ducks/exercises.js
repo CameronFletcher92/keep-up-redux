@@ -25,7 +25,7 @@ const initialState = Immutable.fromJS({
     _id: '',
     name: '',
     description: '',
-    intensity: ''
+    intensity: 3
   }
 })
 

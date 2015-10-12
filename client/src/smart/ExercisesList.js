@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
-import { ListGroup } from 'react-bootstrap'
+import { ListGroup, ProgressBar } from 'react-bootstrap'
 import { fetchAsync, navToEditExercise, deleteAsync } from '../ducks/exercises'
 import SimpleListItem from '../dumb/SimpleListItem'
 
@@ -19,23 +19,28 @@ class ExercisesList extends Component {
   }
 
   renderExercises() {
-    const { entities, syncing, fetchAsync, navToEditExercise, deleteAsync, isFetching } = this.props
+    const { entities, syncing, navToEditExercise, deleteAsync } = this.props
 
     return entities.toIndexedSeq().map(exercise => {
       var id = exercise.get('_id')
-      var disabled = isFetching || syncing.get(id) ? true : false
+      var disabled = syncing.get(id) ? true : false
       return (
-        <SimpleListItem key={id} name={exercise.get('name')} disabled={disabled}
+        <SimpleListItem key={id} name={exercise.get('name')} busy={disabled}
                 editClicked={() => navToEditExercise(id)} deleteClicked={() => deleteAsync(id)} />
       )
     })
   }
 
   render() {
+    const { isFetching } = this.props
+
     return (
-      <ListGroup style={{marginBottom: '4em'}}>
-        { this.renderExercises() }
-      </ListGroup>
+      <div>
+        { isFetching ? <ProgressBar active bsStyle='success' now={100} style={{marginBottom: '0.7em'}} /> : null }
+        <ListGroup>
+          { this.renderExercises() }
+        </ListGroup>
+      </div>
     )
   }
 }
@@ -52,6 +57,7 @@ ExercisesList.propTypes = {
   fetchAsync: PropTypes.func.isRequired,
   deleteAsync: PropTypes.func.isRequired,
   navToEditExercise: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool.isRequired
 }
 
 export default connect(
