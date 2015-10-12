@@ -27,6 +27,7 @@ const initialState = Immutable.fromJS({
   form: {
     _id: '',
     time: '',
+    notes: '',
     clients: {},
     exercises: {}
   }
