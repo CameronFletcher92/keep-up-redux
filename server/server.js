@@ -24,7 +24,7 @@ require('./routes/faker')(app)
 require('./routes/static')(app)
 
 // listen on port 3000
-app.listen(3000, 'localhost', function (err) {
+app.listen(process.env.PORT || 3000, function (err) {
   if (err) {
     console.log(err)
     return
