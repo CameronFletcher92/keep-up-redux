@@ -6,7 +6,7 @@ var buildPath = path.join(__dirname, '../client/build')
 var htmlPath = path.join(__dirname, '../client/src/index.html')
 
 module.exports = {
-  devtool: 'eval',
+  devtool: 'source-map',
   entry: [
     path.join(mainPath, 'index.js')
   ],
@@ -20,6 +20,19 @@ module.exports = {
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       __DEV__: false,
+    }),
+
+    // optimization
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        warnings: false
+      }
     })
   ],
   module: {
