@@ -1,11 +1,14 @@
 import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import shouldUpdatePure from 'react-pure-render/function'
 import ImmPropTypes from 'react-immutable-proptypes'
 import { Input, Button } from 'react-bootstrap'
 import { saveAsync, updateForm } from '../ducks/clients'
 
 class ClientForm extends Component {
+  shouldComponentUpdate = shouldUpdatePure
+
   render() {
     const { form, saveAsync, updateForm } = this.props
     return (

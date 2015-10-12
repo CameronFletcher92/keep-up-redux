@@ -2,9 +2,12 @@ import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import { Grid, Col } from 'react-bootstrap'
 import { ReduxRouter } from 'redux-react-router'
+import shouldUpdatePure from 'react-pure-render/function'
 import store from '../store'
 
 class Root extends Component {
+  shouldComponentUpdate = shouldUpdatePure
+
   renderDev() {
     const { DevTools, DebugPanel, LogMonitor } = require('redux-devtools/lib/react')
     return (

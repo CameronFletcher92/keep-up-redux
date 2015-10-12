@@ -1,10 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import shouldUpdatePure from 'react-pure-render/function'
 import { Navbar, NavBrand, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
 import { navToCreateClient, navToViewClients } from '../ducks/clients'
 
 class TopBar extends Component {
+  shouldComponentUpdate = shouldUpdatePure
+
   render() {
     const { url, navToViewClients, navToCreateClient } = this.props
 

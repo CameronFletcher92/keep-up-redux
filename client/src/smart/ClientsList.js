@@ -2,11 +2,14 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import ImmPropTypes from 'react-immutable-proptypes'
+import shouldUpdatePure from 'react-pure-render/function'
 import { ListGroup } from 'react-bootstrap'
 import { fetchAsync, navToEditClient, deleteAsync } from '../ducks/clients'
 import Client from '../dumb/Client'
 
 class ClientsList extends Component {
+  shouldComponentUpdate = shouldUpdatePure
+
   componentWillMount() {
     const { entities, fetchAsync } = this.props
 
