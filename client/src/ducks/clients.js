@@ -13,11 +13,23 @@ const SAVING = 'clients/SAVING'
 const UPDATED  = 'clients/UPDATED'
 const DELETED  = 'clients/DELETED'
 
+const UPDATE_FORM = 'clients/UPDATE_FORM'
+const RESET_FORM = 'clients/RESET_FORM'
+
 // INITIAL STATE
 const initialState = Immutable.fromJS({
-  allClients: {},
+  entities: {},
   syncing: {},
-  isFetching: false
+  isFetching: false,
+  form: {
+    _id: '',
+    firstName: '',
+    lastName: '',
+    birthDate: '',
+    address: '',
+    notes: '',
+    privateHealth: false
+  }
 })
 
 // ACTIONS
@@ -69,6 +81,21 @@ export function deleted(id) {
   }
 }
 
+export function updateForm(field, value) {
+  return {
+    type: UPDATE_FORM,
+    field,
+    value
+  }
+}
+
+export function resetForm(id) {
+  return {
+    type: RESET_FORM,
+    id
+  }
+}
+
 // NAVIGATION ACTIONS
 export function navToViewClients() {
   return (dispatch) => {
@@ -78,12 +105,14 @@ export function navToViewClients() {
 
 export function navToCreateClient() {
   return (dispatch) => {
+    dispatch(resetForm())
     dispatch(pushState(null, '/clients/new'))
   }
 }
 
 export function navToEditClient(id) {
   return (dispatch) => {
+    dispatch(resetForm(id))
     dispatch(pushState(null, '/clients/' + id))
   }
 }
@@ -124,6 +153,9 @@ export function saveAsync(client) {
       })
     }
 
+    // clear the form
+    dispatch(resetForm())
+
     // navigate back to view (new/updated model will be marked)
     dispatch(navToViewClients())
   }
@@ -153,7 +185,7 @@ export function reducer(state = initialState, action) {
       let indexed = {}
       action.clients.forEach(c => indexed[c._id] = c)
       indexed = Immutable.fromJS(indexed)
-      state = state.set('allClients', indexed)
+      state = state.set('entities', indexed)
       state = state.set('isFetching', false)
       return state
 
@@ -163,7 +195,7 @@ export function reducer(state = initialState, action) {
 
     case CREATED:
       let newClient = Immutable.fromJS(action.client)
-      state = state.setIn(['allClients', newClient.get('_id')], newClient)
+      state = state.setIn(['entities', newClient.get('_id')], newClient)
       state = state.set('isFetching', false)
       return state
 
@@ -173,13 +205,27 @@ export function reducer(state = initialState, action) {
 
     case UPDATED:
       let updatedClient = Immutable.fromJS(action.client)
-      state = state.setIn(['allClients', updatedClient.get('_id')], updatedClient)
+      state = state.setIn(['entities', updatedClient.get('_id')], updatedClient)
       state = state.deleteIn(['syncing', updatedClient.get('_id')])
       return state
 
     case DELETED:
-      state = state.deleteIn(['allClients', action.id])
+      state = state.deleteIn(['entities', action.id])
       state = state.deleteIn(['syncing', action.id])
+      return state
+
+    case UPDATE_FORM:
+      state = state.setIn(['form', action.field], action.value)
+      return state
+
+    case RESET_FORM:
+      if (action.id) {
+        // set form state to be the target id
+        state = state.mergeIn(['form'], state.getIn(['entities', action.id]))
+      } else {
+        // set form state as it's initial state
+        state = state.set('form', initialState.get('form'))
+      }
       return state
 
     default:

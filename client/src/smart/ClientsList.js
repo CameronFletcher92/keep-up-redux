@@ -8,17 +8,17 @@ import Client from '../dumb/Client'
 
 class ClientsList extends Component {
   componentWillMount() {
-    const { allClients, fetchAsync } = this.props
+    const { entities, fetchAsync } = this.props
 
-    if (allClients.size == 0) {
+    if (entities.size == 0) {
       fetchAsync()
     }
   }
 
   renderClients() {
-    const { allClients, syncing, fetchAsync, navToEditClient, deleteAsync, isFetching } = this.props
+    const { entities, syncing, fetchAsync, navToEditClient, deleteAsync, isFetching } = this.props
 
-    return allClients.toIndexedSeq().map(client => {
+    return entities.toIndexedSeq().map(client => {
       var id = client.get('_id')
       var disabled = isFetching || syncing.get(id) ? true : false
       return (
@@ -38,8 +38,8 @@ class ClientsList extends Component {
 }
 
 ClientsList.propTypes = {
-  // allClients is an immutable list of immutable clients
-  allClients: ImmPropTypes.mapOf(
+  // entities is an immutable list of immutable clients
+  entities: ImmPropTypes.mapOf(
                 ImmPropTypes.contains({
                   _id: PropTypes.string.isRequired,
                   firstName: PropTypes.string.isRequired,
@@ -55,7 +55,7 @@ ClientsList.propTypes = {
 export default connect(
   state => {
     return {
-      allClients: state.clients.get('allClients'),
+      entities: state.clients.get('entities'),
       isFetching: state.clients.get('isFetching'),
       syncing: state.clients.get('syncing')
     }

@@ -1,51 +1,54 @@
 import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import ImmPropTypes from 'react-immutable-proptypes'
 import { Input, Button } from 'react-bootstrap'
-import { saveAsync } from '../ducks/clients'
+import { saveAsync, updateForm } from '../ducks/clients'
 
 class ClientForm extends Component {
-  // use local state in the form for performance
-  constructor(props) {
-    super()
-    this.state = {...props.client}
-  }
-
   render() {
-    const { saveAsync } = this.props
+    const { form, saveAsync, updateForm } = this.props
     return (
       <form>
         <Input type='text' label='First Name' placeholder='Enter first name'
-               value={this.state.firstName} onChange={(e) => this.setState({firstName: e.target.value})} />
+               value={ form.get('firstName') } onChange={(e) => updateForm('firstName', e.target.value)} />
         <Input type='text' label='Last Name' placeholder='Enter last name'
-               value={this.state.lastName} onChange={(e) => this.setState({lastName: e.target.value})} />
+               value={ form.get('lastName') } onChange={(e) => updateForm('lastName', e.target.value)} />
         <Input type='text' label='Birth Date' placeholder='dd/mm/yyyy'
-               value={this.state.birthDate} onChange={(e) => this.setState({birthDate: e.target.value})} />
+               value={ form.get('birthDate') } onChange={(e) => updateForm('birthDate', e.target.value)} />
         <Input type='text' label='Address' placeholder='Enter street address'
-               value={this.state.address} onChange={(e) => this.setState({address: e.target.value})} />
+               value={ form.get('address') } onChange={(e) => updateForm('address', e.target.value)} />
         <Input type='textarea' label='Notes' placeholder='Enter any additional notes' style={{minHeight: '7em'}}
-               value={this.state.notes} onChange={(e) => this.setState({notes: e.target.value})} />
+               value={ form.get('notes') } onChange={(e) => updateForm('notes', e.target.value)} />
         <Input type='checkbox' label='Private Health' placeholder='Private health?'
-               checked={this.state.privateHealth} onChange={(e) => this.setState({privateHealth: e.target.checked})}/>
-        <Button className='pull-right' bsStyle='primary' onClick={() => saveAsync(this.state)}>Save</Button>
+               checked={ form.get('privateHealth') } onChange={(e) => updateForm('privateHealth', e.target.checked)}/>
+        <Button className='pull-right' bsStyle='primary' onClick={() => saveAsync(form.toJS())}>Save</Button>
       </form>
     )
   }
 }
 
 ClientForm.propTypes = {
-  client: PropTypes.object.isRequired,
-  saveAsync: PropTypes.func.isRequired
+  form: ImmPropTypes.contains({
+          _id: PropTypes.string.isRequired,
+          firstName: PropTypes.string.isRequired,
+          lastName: PropTypes.string.isRequired,
+          birthDate: PropTypes.string.isRequired,
+          address: PropTypes.string.isRequired,
+          notes: PropTypes.string.isRequired,
+          privateHealth: PropTypes.bool.isRequired,
+        }),
+  saveAsync: PropTypes.func.isRequired,
+  updateForm: PropTypes.func.isRequired
 }
 
 export default connect(
   state => {
-    const id = state.router.params.id
     return {
-      client: id ? state.clients.getIn(['allClients', id]).toJS() : {}
+      form: state.clients.get('form')
     }
   },
   dispatch => {
-    return bindActionCreators({ saveAsync }, dispatch)
+    return bindActionCreators({ saveAsync, updateForm }, dispatch)
   }
 )(ClientForm)
