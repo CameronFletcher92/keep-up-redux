@@ -133,9 +133,7 @@ module.exports = function(app) {
   // update a fake exercise
   app.put('/api/exercises', function(req, res) {
     console.log('PUT FAKED /api/exercises')
-    console.log(req.body)
     var updatedExercise = updateEntity(exercises, req.body)
-    console.log(updatedExercise)
     setTimeout(() => res.json(updatedExercise), timeout)
   })
 
