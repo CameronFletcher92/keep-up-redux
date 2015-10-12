@@ -5,7 +5,7 @@ import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
 import { ListGroup } from 'react-bootstrap'
 import { fetchAsync, navToEditExercise, deleteAsync } from '../ducks/exercises'
-import Exercise from '../dumb/Exercise'
+import SimpleListItem from '../dumb/SimpleListItem'
 
 class ExercisesList extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -25,7 +25,7 @@ class ExercisesList extends Component {
       var id = exercise.get('_id')
       var disabled = isFetching || syncing.get(id) ? true : false
       return (
-        <Exercise key={id} name={exercise.get('name')} disabled={disabled}
+        <SimpleListItem key={id} name={exercise.get('name')} disabled={disabled}
                 editClicked={() => navToEditExercise(id)} deleteClicked={() => deleteAsync(id)} />
       )
     })

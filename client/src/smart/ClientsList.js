@@ -5,7 +5,7 @@ import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
 import { ListGroup } from 'react-bootstrap'
 import { fetchAsync, navToEditClient, deleteAsync } from '../ducks/clients'
-import Client from '../dumb/Client'
+import SimpleListItem from '../dumb/SimpleListItem'
 
 class ClientsList extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -25,7 +25,7 @@ class ClientsList extends Component {
       var id = client.get('_id')
       var disabled = isFetching || syncing.get(id) ? true : false
       return (
-        <Client key={id} name={client.get('firstName') + ' ' + client.get('lastName')} disabled={disabled}
+        <SimpleListItem key={id} name={client.get('firstName') + ' ' + client.get('lastName')} disabled={disabled}
                 editClicked={() => navToEditClient(id)} deleteClicked={() => deleteAsync(id)} />
       )
     })
