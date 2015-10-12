@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "description": "Personal training client tracking application",
   "scripts": {
+    "dev": "NODE_ENV=development node --harmony server/server.js",
     "clean": "rm -rf client/build",
     "build": "NODE_ENV=production webpack -p --progress --colors --config config/webpack.prod.config.js",
-    "dev": "NODE_ENV=development node --harmony server/server.js",
     "start": "NODE_ENV=production node --harmony server/server.js",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build",
+    "deploy": "npm run clean && git push heroku master"
   },
   "repository": {
     "type": "git",
