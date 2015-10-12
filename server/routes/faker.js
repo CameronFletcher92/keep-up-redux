@@ -179,8 +179,8 @@ module.exports = function(app) {
 
   // delete a fake session
   app.delete('/api/sessions/:id', function(req, res) {
-    console.log('DELETE FAKED /api/sessions/' + id)
     var id = req.params.id
+    console.log('DELETE FAKED /api/sessions/' + id)
     removeEntity(sessions, id)
     setTimeout(() => res.json(id), timeout)
   })
