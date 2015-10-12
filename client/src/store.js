@@ -10,7 +10,8 @@ function getRootReducer() {
   let reducers = {
     router : routerStateReducer,
     clients : require('./ducks/clients').reducer,
-    exercises : require('./ducks/exercises').reducer
+    exercises : require('./ducks/exercises').reducer,
+    sessions : require('./ducks/sessions').reducer
   }
 
   return combineReducers(reducers)
@@ -37,7 +38,7 @@ if (__DEV__) {
 
 // hot load support
 if (__DEV__ && module.hot) {
-  module.hot.accept(['./ducks/clients', './ducks/exercises'], () => {
+  module.hot.accept(['./ducks/clients', './ducks/exercises', './ducks/sessions'], () => {
     store.replaceReducer(getRootReducer())
   })
 }

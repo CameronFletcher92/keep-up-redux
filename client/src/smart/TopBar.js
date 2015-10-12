@@ -5,12 +5,17 @@ import shouldUpdatePure from 'react-pure-render/function'
 import { Navbar, NavBrand, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
 import { navToCreateClient, navToViewClients } from '../ducks/clients'
 import { navToCreateExercise, navToViewExercises } from '../ducks/exercises'
+import { navToCreateSession, navToViewSessions } from '../ducks/sessions'
 
 class TopBar extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   render() {
-    const { url, navToViewClients, navToCreateClient, navToViewExercises, navToCreateExercise } = this.props
+    const {
+      url, navToViewClients, navToCreateClient,
+      navToViewExercises, navToCreateExercise,
+      navToViewSessions, navToCreateSession
+    } = this.props
 
     return (
       <div>
@@ -24,6 +29,10 @@ class TopBar extends Component {
             <NavDropdown id='2' title='Exercises'>
               <MenuItem onSelect={() => navToViewExercises()}>View Exercises</MenuItem>
               <MenuItem onSelect={() => navToCreateExercise()}>New Exercise</MenuItem>
+            </NavDropdown>
+            <NavDropdown id='2' title='Sessions'>
+              <MenuItem onSelect={() => navToViewSessions()}>View Sessions</MenuItem>
+              <MenuItem onSelect={() => navToCreateSession()}>New Session</MenuItem>
             </NavDropdown>
           </Nav>
         </Navbar>
@@ -40,7 +49,9 @@ TopBar.PropTypes = {
   navToCreateClient: PropTypes.func.isRequired,
   navToViewClients: PropTypes.func.isRequired,
   navToCreateExercise: PropTypes.func.isRequired,
-  navToViewExercises: PropTypes.func.isRequired
+  navToViewExercises: PropTypes.func.isRequired,
+  navToCreateSession: PropTypes.func.isRequired,
+  navToViewSessions: PropTypes.func.isRequired
 }
 
 export default connect(
@@ -48,6 +59,10 @@ export default connect(
     return {}
   },
   dispatch => {
-    return bindActionCreators({ navToCreateClient, navToViewClients, navToCreateExercise, navToViewExercises }, dispatch)
+    return bindActionCreators({
+      navToCreateClient, navToViewClients,
+      navToCreateExercise, navToViewExercises,
+      navToCreateSession, navToViewSessions,
+    }, dispatch)
   }
 )(TopBar)
