@@ -2,8 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shouldUpdatePure from 'react-pure-render/function'
-import { AppBar, LeftNav } from 'material-ui'
-
+import { Navbar, NavBrand, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
 import { navToCreateClient, navToViewClients } from '../ducks/clients'
 import { navToCreateExercise, navToViewExercises } from '../ducks/exercises'
 import { navToCreateSession, navToViewSessions } from '../ducks/sessions'
@@ -11,35 +10,33 @@ import { navToCreateSession, navToViewSessions } from '../ducks/sessions'
 class TopBar extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
-  onMenuChange(menuItem) {
-    menuItem.action()
-  }
-
   render() {
     const {
-      navToViewClients, navToCreateClient,
+      url, navToViewClients, navToCreateClient,
       navToViewExercises, navToCreateExercise,
       navToViewSessions, navToCreateSession
     } = this.props
 
-    const menuItems = [
-      { text: 'View Clients', action: () => navToViewClients() },
-      { text: 'New Client', action: () => navToCreateClient() },
-
-      { text: 'View Exercises', action: () => navToViewExercises() },
-      { text: 'New Exercise', action: () => navToCreateExercise() },
-
-      { text: 'View Sessions', action: () => navToViewSessions() },
-      { text: 'New Session', action: () => navToCreateSession() },
-    ]
-
     return (
       <div>
-        <AppBar title='Keep Up' style={{position: 'fixed'}} showMenuIconButton
-                onLeftIconButtonTouchTap={() => this.refs.menu.toggle()} />
-        <LeftNav menuItems={menuItems} docked={false} ref='menu'
-                 onChange={(e, s, item) => this.onMenuChange(item)}/>
-        <div style={{paddingTop: '5em'}}>
+        <Navbar fixedTop={true} fluid={true} toggleNavKey={0}>
+          <NavBrand><a onClick={() => navToViewClients()}>Keep Up</a></NavBrand>
+          <Nav eventKey={0}>
+            <NavDropdown id='1' title='Clients'>
+              <MenuItem onSelect={() => navToViewClients()}>View Clients</MenuItem>
+              <MenuItem onSelect={() => navToCreateClient()}>New Client</MenuItem>
+            </NavDropdown>
+            <NavDropdown id='2' title='Exercises'>
+              <MenuItem onSelect={() => navToViewExercises()}>View Exercises</MenuItem>
+              <MenuItem onSelect={() => navToCreateExercise()}>New Exercise</MenuItem>
+            </NavDropdown>
+            <NavDropdown id='2' title='Sessions'>
+              <MenuItem onSelect={() => navToViewSessions()}>View Sessions</MenuItem>
+              <MenuItem onSelect={() => navToCreateSession()}>New Session</MenuItem>
+            </NavDropdown>
+          </Nav>
+        </Navbar>
+        <div style={{marginTop: '4.5em'}}>
           {this.props.children}
         </div>
       </div>
@@ -48,6 +45,7 @@ class TopBar extends Component {
 }
 
 TopBar.PropTypes = {
+  url: PropTypes.string.isRequired,
   navToCreateClient: PropTypes.func.isRequired,
   navToViewClients: PropTypes.func.isRequired,
   navToCreateExercise: PropTypes.func.isRequired,
