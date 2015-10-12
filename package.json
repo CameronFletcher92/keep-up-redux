@@ -36,8 +36,6 @@
     "eslint-plugin-react": "^3.3.2",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.1",
-    "redbox-react": "^1.0.1",
-    "redux-devtools": "^2.1.0",
     "webpack-dev-middleware": "^1.2.0",
     "webpack-hot-middleware": "^2.0.0"
   },
@@ -61,6 +59,8 @@
     "redux": "^3.0.2",
     "redux-react-router": "^1.0.0-beta2",
     "redux-thunk": "^1.0.0",
+    "redbox-react": "^1.0.1",
+    "redux-devtools": "^2.1.0",
     "superagent": "^1.4.0",
     "webpack": "^1.9.6",
     "html-webpack-plugin": "^1.6.1"
