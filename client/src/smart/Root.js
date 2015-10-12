@@ -39,7 +39,7 @@ class Root extends Component {
     }
 
     return (
-      <Grid fluid style={{'paddingLeft': '0.5em', 'paddingRight': '0.5em'}}>
+      <Grid fluid style={{'padding': '0.5em'}}>
         <Col xs={12} sm={10} md={8} lg={6} smOffset={1} style={{'padding': 0}}>
           {content}
         </Col>

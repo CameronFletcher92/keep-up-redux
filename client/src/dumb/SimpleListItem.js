@@ -1,7 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import { ListGroupItem, Button, Glyphicon, ProgressBar } from 'react-bootstrap'
+import shouldUpdatePure from 'react-pure-render/function'
 
 class SimpleListItem extends Component {
+  shouldComponentUpdate = shouldUpdatePure
+
   render() {
     const { name, editClicked, deleteClicked, busy } = this.props
     return (

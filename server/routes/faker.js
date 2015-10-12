@@ -13,7 +13,7 @@ var user = {}
 // generate random data
 function seedDB() {
   user = {
-    _id: '1',
+    _id: 'user1',
     googleId: '123abc',
     firstName: 'Test',
     lastName: 'User'
@@ -21,7 +21,7 @@ function seedDB() {
 
   for (var i = 1; i <= 20; i++) {
     clients.push( {
-      _id: '' + i,
+      _id: 'CL' + i,
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       birthDate: faker.date.past().toLocaleDateString(),
@@ -30,7 +30,7 @@ function seedDB() {
       notes: faker.company.catchPhrase()
     })
     exercises.push( {
-      _id: '' + i,
+      _id: 'EX' + i,
       name: faker.address.streetSuffix(),
       description: faker.lorem.sentence(),
       intensity: Math.ceil(Math.random() * 5)
@@ -38,9 +38,17 @@ function seedDB() {
   }
 
   sessions.push( {
-    _id: '1',
-    clients: ['1', '2', '3'],
-    exercises: ['1', '2', '3'],
+    _id: 'SES1',
+    clients: ['CL1', 'CL3', 'CL5'],
+    exercises: ['EX1', 'EX3', 'EX5'],
+    time: faker.date.past().toLocaleString(),
+    notes: faker.company.catchPhrase()
+  })
+
+  sessions.push( {
+    _id: 'SES2',
+    clients: ['CL2', 'CL4', 'CL6'],
+    exercises: ['EX2', 'EX4', 'EX6'],
     time: faker.date.past().toLocaleString(),
     notes: faker.company.catchPhrase()
   })
@@ -180,7 +188,6 @@ module.exports = function(app) {
   // fetch the fake sessions
   app.get('/api/sessions', function(req, res) {
     console.log('GET FAKED /api/sessions')
-    var sortedSessions = _.sortBy(sessions, (c) => c.time)
-    setTimeout(() => res.json(sortedSessions), timeout)
+    setTimeout(() => res.json(sessions), timeout)
   })
 }

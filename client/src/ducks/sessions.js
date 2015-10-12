@@ -27,8 +27,8 @@ const initialState = Immutable.fromJS({
   form: {
     _id: '',
     time: '',
-    clients: [],
-    exercises: []
+    clients: {},
+    exercises: {}
   }
 })
 
@@ -131,7 +131,6 @@ export function navToEditSession(id) {
   }
 }
 
-
 // ASYNC ACTIONS
 export function fetchAsync() {
   return (dispatch) => {
@@ -145,6 +144,8 @@ export function fetchAsync() {
 
 export function saveAsync(session) {
   return (dispatch) => {
+    // convert clients / exercises map back into simple arrays
+    session = denormalize(session)
 
     if (session._id) {
       dispatch(saving(session._id))
@@ -187,6 +188,27 @@ export function deleteAsync(id) {
   }
 }
 
+function normalize(session) {
+  let clients = {}
+  session.clients.forEach(id => {
+    clients[id] = true
+  })
+
+  let exercises = {}
+  session.exercises.forEach(id => {
+    exercises[id] = true
+  })
+
+  return {...session, clients, exercises}
+}
+
+function denormalize(session) {
+  let clients = Object.keys(session.clients)
+  let exercises = Object.keys(session.exercises)
+
+  return {...session, clients, exercises}
+}
+
 // REDUCER
 export function reducer(state = initialState, action) {
   switch (action.type) {
@@ -197,7 +219,10 @@ export function reducer(state = initialState, action) {
     case FETCHED:
       // convert fetched sessions to a map by ids
       let indexed = {}
-      action.sessions.forEach(c => indexed[c._id] = c)
+      action.sessions.forEach(s => {
+        indexed[s._id] = normalize(s)
+      })
+      console.log(indexed)
       indexed = Immutable.fromJS(indexed)
       state = state.set('entities', indexed)
       state = state.set('isFetching', false)
@@ -208,7 +233,7 @@ export function reducer(state = initialState, action) {
       return state
 
     case CREATED:
-      let newSession = Immutable.fromJS(action.session)
+      let newSession = Immutable.fromJS(normalize(action.session))
       state = state.setIn(['entities', newSession.get('_id')], newSession)
       state = state.set('isFetching', false)
       return state
@@ -218,7 +243,7 @@ export function reducer(state = initialState, action) {
       return state
 
     case UPDATED:
-      let updatedSession = Immutable.fromJS(action.session)
+      let updatedSession = Immutable.fromJS(normalize(action.session))
       state = state.setIn(['entities', updatedSession.get('_id')], updatedSession)
       state = state.deleteIn(['syncing', updatedSession.get('_id')])
       return state
@@ -239,6 +264,26 @@ export function reducer(state = initialState, action) {
       } else {
         // set form state as it's initial state
         state = state.set('form', initialState.get('form'))
+      }
+      return state
+
+    case TOGGLE_CLIENT:
+      if (state.getIn(['form', 'clients', action.id])) {
+        // if the id exists in clients, remove it
+        state = state.deleteIn(['form', 'clients', action.id])
+      } else {
+        // if it doesn't exist, add it
+        state = state.setIn(['form', 'clients', action.id], true)
+      }
+      return state
+
+    case TOGGLE_EXERCISE:
+      if (state.getIn(['form', 'exercises', action.id])) {
+        // if the id exists in clients, remove it
+        state = state.deleteIn(['form', 'exercises', action.id])
+      } else {
+        // if it doesn't exist, add it
+        state = state.setIn(['form', 'exercises', action.id], true)
       }
       return state
 
