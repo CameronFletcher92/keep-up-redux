@@ -22,7 +22,6 @@ function seedDB() {
   for (var i = 1; i <= 20; i++) {
     clients.push( {
       _id: '' + i,
-      trainer: '1',
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       birthDate: faker.date.past().toLocaleDateString(),
@@ -32,7 +31,6 @@ function seedDB() {
     })
     exercises.push( {
       _id: '' + i,
-      trainer: '1',
       name: faker.address.streetSuffix(),
       description: faker.lorem.sentence(),
       intensity: Math.ceil(Math.random() * 5)
