@@ -7,6 +7,7 @@
     "clean": "rm -rf client/build",
     "build": "NODE_ENV=production webpack -p --progress --colors --config config/webpack.prod.config.js",
     "start": "NODE_ENV=production node --harmony server/server.js",
+    "postinstall": "npm run build",
     "deploy": "npm run clean && git push heroku master"
   },
   "repository": {
@@ -51,8 +52,9 @@
     "immutable": "^3.7.5",
     "lodash": "^3.10.1",
     "qs": "^5.2.0",
-    "react": "^0.13.3",
-    "react-bootstrap": "^0.26.2",
+    "react": "0.14.0",
+    "react-bootstrap": "^0.27.0",
+    "react-dom": "^0.14.0",
     "react-immutable-proptypes": "^1.2.1",
     "react-pure-render": "^1.0.2",
     "react-redux": "^3.1.0",

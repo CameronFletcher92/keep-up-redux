@@ -13,7 +13,7 @@ class Root extends Component {
     return (
       <div>
         <Provider store={store}>
-          {() => <ReduxRouter />}
+          <ReduxRouter />
         </Provider>
         <DebugPanel top right bottom>
           <DevTools store={store} monitor={LogMonitor} />
@@ -25,7 +25,7 @@ class Root extends Component {
   renderProd() {
     return (
       <Provider store={store}>
-        {() => <ReduxRouter />}
+        <ReduxRouter />
       </Provider>
     )
   }
