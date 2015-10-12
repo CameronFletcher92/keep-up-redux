@@ -16,6 +16,9 @@ const DELETED  = 'sessions/DELETED'
 const UPDATE_FORM = 'sessions/UPDATE_FORM'
 const RESET_FORM = 'sessions/RESET_FORM'
 
+const TOGGLE_CLIENT = 'sessions/TOGGLE_CLIENT'
+const TOGGLE_EXERCISE = 'sessions/TOGGLE_EXERCISE'
+
 // INITIAL STATE
 const initialState = Immutable.fromJS({
   entities: {},
@@ -23,9 +26,9 @@ const initialState = Immutable.fromJS({
   isFetching: false,
   form: {
     _id: '',
-    name: '',
-    description: '',
-    intensity: ''
+    time: '',
+    clients: [],
+    exercises: []
   }
 })
 
@@ -89,6 +92,20 @@ export function updateForm(field, value) {
 export function resetForm(id) {
   return {
     type: RESET_FORM,
+    id
+  }
+}
+
+export function toggleClient(id) {
+  return {
+    type: TOGGLE_CLIENT,
+    id
+  }
+}
+
+export function toggleExercise(id) {
+  return {
+    type: TOGGLE_EXERCISE,
     id
   }
 }

@@ -8,6 +8,7 @@ import ClientsList from './smart/ClientsList'
 import ExerciseForm from './smart/ExerciseForm'
 import ExercisesList from './smart/ExercisesList'
 import SessionsList from './smart/SessionsList'
+import SessionForm from './smart/SessionForm'
 
 // route definitions
 const routes = (
@@ -20,6 +21,8 @@ const routes = (
     <Route path='exercises/new' component={ExerciseForm} />
     <Route path='exercises/:id' component={ExerciseForm} />
     <Route path='sessions' component={SessionsList} />
+    <Route path='sessions/new' component={SessionForm} />
+    <Route path='sessions/:id' component={SessionForm} />
   </Route>
 )
 
