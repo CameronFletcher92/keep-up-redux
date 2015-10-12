@@ -46,8 +46,8 @@ class SessionForm extends Component {
                value={form.get('notes')} onChange={(e) => updateForm('notes', e.target.value)} />
 
         <Grid fluid style={{padding: '0em'}}>
-          <Col xs={12} sm={6} style={{padding: '0em', paddingRight: '1em'}}>
-            <div style={{paddingBottom: '0.4em'}}>
+          <Col xs={6} sm={5} style={{padding: '0em'}}>
+            <div>
               Clients
             </div>
             <ListGroup>
@@ -55,8 +55,10 @@ class SessionForm extends Component {
             </ListGroup>
           </Col>
 
-          <Col xs={12} sm={6} style={{padding: '0em', paddingLeft: '1em'}}>
-            <div style={{paddingBottom: '0.4em'}}>
+          <Col xs={0} sm={2} style={{padding: '0em'}} />
+
+          <Col xs={6} sm={5} style={{padding: '0em'}}>
+            <div>
               Exercises
             </div>
             <ListGroup>
