@@ -1,7 +1,5 @@
 import React from 'react'
 import { Route, IndexRoute } from 'react-router'
-import { reduxReactRouter } from 'redux-react-router'
-import { createHistory } from 'history'
 import TopBar from './smart/TopBar'
 import ClientForm from './smart/ClientForm'
 import ClientsList from './smart/ClientsList'
@@ -26,4 +24,4 @@ const routes = (
   </Route>
 )
 
-export default reduxReactRouter({ routes, createHistory })
+export default routes

@@ -1,5 +1,5 @@
 import request from 'superagent'
-import { pushState } from 'redux-react-router'
+import { pushState } from 'redux-router'
 import Immutable from 'immutable'
 
 // CONSTANTS

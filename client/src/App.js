@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import { Grid, Col } from 'react-bootstrap'
-import { ReduxRouter } from 'redux-react-router'
+import { ReduxRouter } from 'redux-router'
 import shouldUpdatePure from 'react-pure-render/function'
-import store from '../store'
+import store from './store'
+import routes from './routes'
 
-class Root extends Component {
+class App extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   renderDev() {
@@ -13,7 +14,7 @@ class Root extends Component {
     return (
       <div>
         <Provider store={store}>
-          <ReduxRouter />
+          <ReduxRouter routes={routes} />
         </Provider>
         <DebugPanel top right bottom>
           <DevTools store={store} monitor={LogMonitor} />
@@ -25,7 +26,7 @@ class Root extends Component {
   renderProd() {
     return (
       <Provider store={store}>
-        <ReduxRouter />
+        <ReduxRouter routes={routes} />
       </Provider>
     )
   }
@@ -48,4 +49,4 @@ class Root extends Component {
   }
 }
 
-export default Root
+export default App

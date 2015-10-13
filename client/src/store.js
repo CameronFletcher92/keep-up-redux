@@ -1,7 +1,7 @@
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux'
-import { routerStateReducer } from 'redux-react-router'
+import { routerStateReducer, reduxReactRouter } from 'redux-router'
+import { createHistory } from 'history'
 import thunk from 'redux-thunk'
-import router from './router'
 
 // Combine router reducer with all the ducks' reducers
 // This will become the top level of the global state
@@ -25,14 +25,14 @@ if (__DEV__) {
   const { devTools } = require('redux-devtools')
   store = compose(
     applyMiddleware(thunk),
-    router,
+    reduxReactRouter({createHistory}),
     devTools()
   )(createStore)(rootReducer)
 
 } else {
   store = compose(
     applyMiddleware(thunk),
-    router
+    reduxReactRouter({createHistory}),
   )(createStore)(rootReducer)
 }
 
