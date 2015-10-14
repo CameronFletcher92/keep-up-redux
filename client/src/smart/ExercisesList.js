@@ -21,7 +21,7 @@ class ExercisesList extends Component {
   renderExercises() {
     const { entities, syncing, navToEditExercise, deleteAsync } = this.props
 
-    return entities.toIndexedSeq().map(exercise => {
+    return entities.toOrderedSet().sortBy(exercise => exercise.get('name')).map(exercise => {
       var id = exercise.get('_id')
       var disabled = syncing.get(id) ? true : false
       return (

@@ -223,7 +223,6 @@ export function reducer(state = initialState, action) {
       action.sessions.forEach(s => {
         indexed[s._id] = normalize(s)
       })
-      console.log(indexed)
       indexed = Immutable.fromJS(indexed)
       state = state.set('entities', indexed)
       state = state.set('isFetching', false)

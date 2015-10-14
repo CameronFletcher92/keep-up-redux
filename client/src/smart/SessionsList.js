@@ -21,7 +21,7 @@ class SessionsList extends Component {
   renderSessions() {
     const { entities, syncing, navToEditSession, deleteAsync } = this.props
 
-    return entities.toIndexedSeq().map(session => {
+    return entities.toOrderedSet().sortBy(session => session.get('time')).map(session => {
       const id = session.get('_id')
       const busy = syncing.get(id) ? true : false
       const name = session.get('time') + ' [' + session.get('clients').size + ' clients]'
