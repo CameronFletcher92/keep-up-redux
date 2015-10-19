@@ -88,10 +88,14 @@ module.exports = function(app) {
   // seed the db
   seedDB()
 
+  /*
+   * USER
+   */
+
   // get the current user
   app.get('/api/user', function(req, res) {
     console.log('GET FAKED /api/user')
-    res.json({isLoggedIn: true, user: user})
+    setTimeout(() => res.json(user), timeout)
   })
 
   /*
