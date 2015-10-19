@@ -23,7 +23,7 @@ class ClientsList extends Component {
 
     return entities.toOrderedSet().map(client => {
       const id = client.get('_id')
-      const busy = syncing.includes(id) ? true : false
+      const busy = syncing.get(id) ? true : false
       return (
         <SimpleListItem key={id} name={client.get('firstName') + ' ' + client.get('lastName')} busy={busy}
                 editClicked={() => navToEditClient(id)} deleteClicked={() => deleteAsync(id)} />
