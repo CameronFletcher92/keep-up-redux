@@ -21,9 +21,9 @@ class ClientsList extends Component {
   renderClients() {
     const { entities, syncing, navToEditClient, deleteAsync } = this.props
 
-    return entities.toOrderedSet().sortBy(client => client.get('lastName')).map(client => {
+    return entities.toOrderedSet().map(client => {
       const id = client.get('_id')
-      const busy = syncing.get(id) ? true : false
+      const busy = syncing.includes(id) ? true : false
       return (
         <SimpleListItem key={id} name={client.get('firstName') + ' ' + client.get('lastName')} busy={busy}
                 editClicked={() => navToEditClient(id)} deleteClicked={() => deleteAsync(id)} />

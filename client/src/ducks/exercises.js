@@ -179,9 +179,8 @@ export function reducer(state = initialState, action) {
 
     case FETCHED:
       // convert fetched exercises to a map by ids
-      let indexed = {}
-      action.exercises.forEach(c => indexed[c._id] = c)
-      indexed = Immutable.fromJS(indexed)
+      let indexed = Immutable.OrderedMap()
+      action.exercises.forEach(e => indexed = indexed.set(e._id, Immutable.fromJS(e)))
       state = state.set('entities', indexed)
       state = state.set('isFetching', false)
       return state

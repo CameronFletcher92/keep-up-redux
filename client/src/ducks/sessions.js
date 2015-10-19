@@ -228,6 +228,8 @@ export function reducer(state = initialState, action) {
       state = state.set('isFetching', false)
       return state
 
+
+
     case CREATING:
       state = state.set('isFetching', true)
       return state
