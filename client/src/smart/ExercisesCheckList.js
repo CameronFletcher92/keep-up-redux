@@ -47,7 +47,7 @@ class ExercisesCheckList extends Component {
       <div style={{padding: '0.5em'}}>
         <Paper zDepth={2}>
           <CenteredSpinner isVisible={isFetching}/>
-          <List subheader='Exercises'>
+          <List subheader='Exercises' subheaderStyle={{fontSize: '1em'}}>
             { this.renderExercises() }
           </List>
         </Paper>

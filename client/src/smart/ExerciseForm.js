@@ -27,7 +27,7 @@ class ExerciseForm extends Component {
     return (
       <div style={styles.container}>
         <TextField style={styles.text} floatingLabelText='Exercise' value={form.get('name')} onChange={(e) => updateForm('name', e.target.value)} />
-        <TextField style={styles.text} floatingLabelText='Description' value={form.get('description')} onChange={(e) => updateForm('description', e.target.value)} />
+        <TextField style={styles.text} floatingLabelText='Description' multiLine={true} value={form.get('description')} onChange={(e) => updateForm('description', e.target.value)} />
         <SelectField style={styles.text} floatingLabelText='Intensity' menuItems={intensities} value={form.get('intensity')} onChange={(e) => updateForm('intensity', e.target.value)} />
 
         <RaisedButton style={styles.button} primary label='Save' onClick={() => saveAsync(form.toJS())}/>

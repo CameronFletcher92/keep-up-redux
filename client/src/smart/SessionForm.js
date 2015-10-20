@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import shouldUpdatePure from 'react-pure-render/function'
 import ImmPropTypes from 'react-immutable-proptypes'
 import { saveAsync, updateForm } from '../ducks/sessions'
-import { RaisedButton, TextField } from 'material-ui'
+import { RaisedButton, TextField, DatePicker } from 'material-ui'
 import ClientsCheckList from './ClientsCheckList'
 import ExercisesCheckList from './ExercisesCheckList'
 
@@ -23,8 +23,8 @@ class SessionForm extends Component {
     const { form, saveAsync, updateForm } = this.props
     return (
       <div style={styles.container}>
-        <TextField style={styles.text} floatingLabelText='Session Time' value={form.get('time')} onChange={(e) => updateForm('time', e.target.value)} />
-        <TextField style={styles.text} floatingLabelText='Additional Notes' value={form.get('notes')} onChange={(e) => updateForm('notes', e.target.value)} />
+        <DatePicker textFieldStyle={styles.text} floatingLabelText='Session Time' value={form.get('time')} onChange={(e, d) => updateForm('time', d)} />
+        <TextField style={styles.text} multiLine={true} floatingLabelText='Additional Notes' value={form.get('notes')} onChange={(e) => updateForm('notes', e.target.value)} />
 
         <div style={styles.checkContainer}>
           <div style={styles.checklist}>
@@ -44,7 +44,7 @@ class SessionForm extends Component {
 SessionForm.propTypes = {
   form: ImmPropTypes.contains({
           _id: PropTypes.string.isRequired,
-          time: PropTypes.string.isRequired,
+          time: PropTypes.instanceOf(Date).isRequired,
           notes: PropTypes.string.isRequired,
         }),
   saveAsync: PropTypes.func.isRequired,

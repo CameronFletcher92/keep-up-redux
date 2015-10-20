@@ -37,7 +37,7 @@ class SessionsList extends Component {
     const { isFetching } = this.props
 
     return (
-      <Paper zDepth={4}>
+      <Paper zDepth={2}>
         <CenteredSpinner isVisible={isFetching}/>
         <List subheader='Sessions' subheaderStyle={{fontSize: '1em'}}>
           { this.renderSessions() }
@@ -52,7 +52,7 @@ SessionsList.propTypes = {
   entities: ImmPropTypes.mapOf(
                 ImmPropTypes.contains({
                   _id: PropTypes.string.isRequired,
-                  time: PropTypes.string.isRequired,
+                  time: PropTypes.instanceOf(Date).isRequired,
                 })
               ),
   syncing: ImmPropTypes.map.isRequired,

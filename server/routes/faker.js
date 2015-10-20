@@ -24,7 +24,7 @@ function seedDB() {
       _id: 'CL' + i,
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
-      birthDate: faker.date.past().toLocaleDateString(),
+      birthDate: faker.date.past(),
       address: faker.address.streetAddress() + ', ' + faker.address.city(),
       privateHealth: true,
       notes: faker.company.catchPhrase()
@@ -41,7 +41,7 @@ function seedDB() {
     _id: 'SES1',
     clients: ['CL1', 'CL3', 'CL5'],
     exercises: ['EX1', 'EX3', 'EX5'],
-    time: faker.date.past().toLocaleString(),
+    time: faker.date.past(),
     notes: faker.company.catchPhrase()
   })
 
@@ -49,7 +49,7 @@ function seedDB() {
     _id: 'SES2',
     clients: ['CL2', 'CL4', 'CL6'],
     exercises: ['EX2', 'EX4', 'EX6'],
-    time: faker.date.past().toLocaleString(),
+    time: faker.date.past(),
     notes: faker.company.catchPhrase()
   })
 

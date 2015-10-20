@@ -47,7 +47,7 @@ class ClientsCheckList extends Component {
       <div style={{padding: '0.5em'}}>
         <Paper zDepth={2}>
           <CenteredSpinner isVisible={isFetching}/>
-          <List subheader='Clients' style={{margin: '0em', padding: 0}}>
+          <List subheader='Clients' subheaderStyle={{fontSize: '1em'}}>
             { this.renderClients() }
           </List>
         </Paper>
