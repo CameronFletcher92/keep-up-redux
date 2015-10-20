@@ -13,7 +13,7 @@ let styles = {
   text: {width: '100%', marginBottom: '1em'},
   button: {flex: 1, alignSelf: 'flex-end'},
   checkContainer: {flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap'},
-  checklist: {flex: '1 1 auto'}
+  checklist: {flex: '1 1 auto', margin: '0.5em'}
 }
 
 class SessionForm extends Component {
