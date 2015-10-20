@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import shouldUpdatePure from 'react-pure-render/function'
-import { ListItem, Avatar, Styles } from 'material-ui'
+import { ListItem, Avatar, Styles, LinearProgress } from 'material-ui'
 
 class SimpleListItem extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -9,9 +9,12 @@ class SimpleListItem extends Component {
     const { name, editClicked, deleteClicked, busy, letter } = this.props
 
     return (
-      <ListItem primaryText={name}
-                leftAvatar={letter ? <Avatar color={Styles.Colors.pinkA200} backgroundColor={Styles.Colors.transparent}>{letter}</Avatar> : null}
-                onClick={editClicked} disabled={busy} insetChildren={true}/>
+      <div>
+        <ListItem primaryText={name}
+                  leftAvatar={letter ? <Avatar color={Styles.Colors.pinkA200} backgroundColor={Styles.Colors.transparent}>{letter}</Avatar> : null}
+                  onClick={editClicked} disabled={busy} insetChildren={true}/>
+        {busy ? <LinearProgress mode='indeterminate'/> : null}
+      </div>
     )
   }
 }
