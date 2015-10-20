@@ -23,7 +23,7 @@ class SessionsList extends Component {
       <SimpleList title='Sessions' items={entities} busyItems={syncing} onItemClick={navToEditSession}
                   isBusy={isFetching}
                   getItemLetter={(session) => null}
-                  getItemName={(session) => session.get('time')} />
+                  getItemName={(session) => session.get('time').toLocaleString()} />
     )
   }
 }
@@ -33,8 +33,7 @@ SessionsList.propTypes = {
   entities: ImmPropTypes.mapOf(
                 ImmPropTypes.contains({
                   _id: PropTypes.string.isRequired,
-                  firstName: PropTypes.string.isRequired,
-                  lastName: PropTypes.string.isRequired,
+                  time: PropTypes.instanceOf(Date).isRequired
                 })
               ),
   syncing: ImmPropTypes.map.isRequired,
