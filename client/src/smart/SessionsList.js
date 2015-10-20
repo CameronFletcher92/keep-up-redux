@@ -3,10 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
-import { List, Paper } from 'material-ui'
-import { fetchAsync, navToEditSession, deleteAsync } from '../ducks/sessions'
-import SimpleListItem from '../dumb/SimpleListItem'
-import CenteredSpinner from '../dumb/CenteredSpinner'
+import { fetchAsync, navToEditSession } from '../ducks/sessions'
+import SimpleList from '../dumb/SimpleList'
 
 class SessionsList extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -19,30 +17,13 @@ class SessionsList extends Component {
     }
   }
 
-  renderSessions() {
-    const { entities, syncing, navToEditSession, deleteAsync } = this.props
-
-    return entities.toOrderedSet().sortBy(session => session.get('time')).map(session => {
-      const id = session.get('_id')
-      const busy = syncing.get(id) ? true : false
-      const name = session.get('time') + ' [' + session.get('clients').size + ' clients]'
-      return (
-        <SimpleListItem key={id} name={name} busy={busy}
-                editClicked={() => navToEditSession(id)} deleteClicked={() => deleteAsync(id)} />
-      )
-    })
-  }
-
   render() {
-    const { isFetching } = this.props
-
-    return (
-      <Paper zDepth={2}>
-        <CenteredSpinner isVisible={isFetching}/>
-        <List subheader='Sessions' subheaderStyle={{fontSize: '1em'}}>
-          { this.renderSessions() }
-        </List>
-      </Paper>
+    const { entities, syncing, navToEditSession, isFetching } = this.props
+    return(
+      <SimpleList title='Sessions' items={entities} busyItems={syncing} onItemClick={navToEditSession}
+                  isBusy={isFetching}
+                  getItemLetter={(session) => null}
+                  getItemName={(session) => session.get('time')} />
     )
   }
 }
@@ -52,12 +33,12 @@ SessionsList.propTypes = {
   entities: ImmPropTypes.mapOf(
                 ImmPropTypes.contains({
                   _id: PropTypes.string.isRequired,
-                  time: PropTypes.instanceOf(Date).isRequired,
+                  firstName: PropTypes.string.isRequired,
+                  lastName: PropTypes.string.isRequired,
                 })
               ),
   syncing: ImmPropTypes.map.isRequired,
   fetchAsync: PropTypes.func.isRequired,
-  deleteAsync: PropTypes.func.isRequired,
   navToEditSession: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired
 }
@@ -71,6 +52,6 @@ export default connect(
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchAsync, navToEditSession, deleteAsync}, dispatch)
+    return bindActionCreators({ fetchAsync, navToEditSession}, dispatch)
   }
 )(SessionsList)

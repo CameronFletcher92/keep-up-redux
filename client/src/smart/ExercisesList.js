@@ -3,10 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
-import { fetchAsync, navToEditExercise, deleteAsync } from '../ducks/exercises'
-import { List, Paper } from 'material-ui'
-import CenteredSpinner from '../dumb/CenteredSpinner'
-import SimpleListItem from '../dumb/SimpleListItem'
+import { fetchAsync, navToEditExercise } from '../ducks/exercises'
+import SimpleList from '../dumb/SimpleList'
 
 class ExercisesList extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -19,38 +17,13 @@ class ExercisesList extends Component {
     }
   }
 
-  renderExercises() {
-    const { entities, syncing, navToEditExercise, deleteAsync } = this.props
-
-    let lastLetter = ''
-    return entities.toOrderedSet().map(exercise => {
-      const id = exercise.get('_id')
-      const busy = syncing.get(id) ? true : false
-      let letter = exercise.get('name').charAt(0).toUpperCase()
-      if (letter !== lastLetter) {
-        lastLetter = letter
-      } else {
-        letter = null
-      }
-
-      return (
-        <SimpleListItem key={id} name={exercise.get('name')} busy={busy}
-                        editClicked={() => navToEditExercise(id)} deleteClicked={() => deleteAsync(id)}
-                        letter={letter}/>
-      )
-    })
-  }
-
   render() {
-    const { isFetching } = this.props
-
-    return (
-      <Paper zDepth={2}>
-        <CenteredSpinner isVisible={isFetching}/>
-        <List subheader='Exercises' subheaderStyle={{fontSize: '1em'}}>
-          { this.renderExercises() }
-        </List>
-      </Paper>
+    const { entities, syncing, navToEditExercise, isFetching } = this.props
+    return(
+      <SimpleList title='Exercises' items={entities} busyItems={syncing} onItemClick={navToEditExercise}
+                  isBusy={isFetching}
+                  getItemLetter={(exercise) => exercise.get('name').charAt(0).toUpperCase()}
+                  getItemName={(exercise) => exercise.get('name')} />
     )
   }
 }
@@ -65,7 +38,6 @@ ExercisesList.propTypes = {
               ),
   syncing: ImmPropTypes.map.isRequired,
   fetchAsync: PropTypes.func.isRequired,
-  deleteAsync: PropTypes.func.isRequired,
   navToEditExercise: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired
 }
@@ -79,6 +51,6 @@ export default connect(
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchAsync, navToEditExercise, deleteAsync}, dispatch)
+    return bindActionCreators({ fetchAsync, navToEditExercise}, dispatch)
   }
 )(ExercisesList)

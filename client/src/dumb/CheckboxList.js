@@ -3,13 +3,13 @@ import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
 import { List, Paper } from 'material-ui'
 import CenteredSpinner from './CenteredSpinner'
-import SimpleListItem from './SimpleListItem'
+import CheckboxListItem from './CheckboxListItem'
 
 class SimpleList extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   renderItems() {
-    const { items, busyItems, onItemClick, getItemLetter, getItemName } = this.props
+    const { items, selectedItems, onItemClick, getItemLetter, getItemName } = this.props
 
     let lastLetter = ''
     return items.toOrderedSet().map(item => {
@@ -17,7 +17,7 @@ class SimpleList extends Component {
       const name = getItemName(item)
 
       // if busyItems is true at the id, that item is busy
-      const busy = busyItems.get(id) ? true : false
+      const selected = selectedItems.get(id) ? true : false
 
       // determine whether this item should have a left letter icon using the callback
       let letter = getItemLetter(item)
@@ -28,9 +28,8 @@ class SimpleList extends Component {
       }
 
       return (
-        <SimpleListItem key={id} name={name} busy={busy}
-                        editClicked={() => onItemClick(id)}
-                        letter={letter}/>
+        <CheckboxListItem key={id} name={name}
+                          checked={selected} toggle={() => onItemClick(id)} letter={letter}/>
       )
     })
   }
@@ -56,7 +55,7 @@ SimpleList.propTypes = {
                   _id: PropTypes.string.isRequired
                 })
               ),
-  busyItems: ImmPropTypes.map.isRequired,       // busy map of {id -> true} if the item is busy
+  selectedItems: ImmPropTypes.map.isRequired,
   onItemClick: PropTypes.func.isRequired,       // callback for item click
   isBusy: PropTypes.bool.isRequired,            // global isBusy for the whole list
   getItemLetter: PropTypes.func.isRequired,     // (entity) => letter function
