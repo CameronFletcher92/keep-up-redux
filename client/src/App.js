@@ -4,43 +4,26 @@ import { ReduxRouter } from 'redux-router'
 import shouldUpdatePure from 'react-pure-render/function'
 import store from './store'
 import routes from './routes'
+import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react'
 
 class App extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
-  renderDev() {
-    const { DevTools, DebugPanel, LogMonitor } = require('redux-devtools/lib/react')
+  renderDevTools() {
+    return (
+      <DebugPanel top right bottom>
+        <DevTools store={store} monitor={LogMonitor} />
+      </DebugPanel>
+    )
+  }
+
+  render() {
     return (
       <div>
         <Provider store={store}>
           <ReduxRouter routes={routes} />
         </Provider>
-        <DebugPanel top right bottom>
-          <DevTools store={store} monitor={LogMonitor} />
-        </DebugPanel>
-      </div>
-    )
-  }
-
-  renderProd() {
-    return (
-      <Provider store={store}>
-        <ReduxRouter routes={routes} />
-      </Provider>
-    )
-  }
-
-  render() {
-    let content
-    if (__DEV__) {
-      content = this.renderDev()
-    } else {
-      content = this.renderProd()
-    }
-
-    return (
-      <div>
-        {content}
+        {__DEV__ ? this.renderDevTools() : null}
       </div>
     )
   }
