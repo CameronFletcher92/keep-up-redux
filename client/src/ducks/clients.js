@@ -196,6 +196,7 @@ export function reducer(state = initialState, action) {
       return state
 
     case CREATED:
+      action.client.birthDate = new Date(action.client.birthDate)
       let newClient = Immutable.fromJS(action.client)
       state = state.setIn(['entities', newClient.get('_id')], newClient)
       state = state.set('isFetching', false)
@@ -206,6 +207,7 @@ export function reducer(state = initialState, action) {
       return state
 
     case UPDATED:
+      action.client.birthDate = new Date(action.client.birthDate)
       let updatedClient = Immutable.fromJS(action.client)
       state = state.setIn(['entities', updatedClient.get('_id')], updatedClient)
       state = state.deleteIn(['syncing', updatedClient.get('_id')])

@@ -233,6 +233,7 @@ export function reducer(state = initialState, action) {
       return state
 
     case CREATED:
+      action.session.time = new Date(action.session.time)
       let newSession = Immutable.fromJS(normalize(action.session))
       state = state.setIn(['entities', newSession.get('_id')], newSession)
       state = state.set('isFetching', false)
@@ -243,6 +244,7 @@ export function reducer(state = initialState, action) {
       return state
 
     case UPDATED:
+      action.session.time = new Date(action.session.time)
       let updatedSession = Immutable.fromJS(normalize(action.session))
       state = state.setIn(['entities', updatedSession.get('_id')], updatedSession)
       state = state.deleteIn(['syncing', updatedSession.get('_id')])
