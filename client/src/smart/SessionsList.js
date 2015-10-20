@@ -19,10 +19,11 @@ class SessionsList extends Component {
 
   render() {
     const { entities, syncing, navToEditSession, isFetching } = this.props
+    const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
     return(
       <SimpleList title='Sessions' items={entities} busyItems={syncing} onItemClick={navToEditSession}
                   isBusy={isFetching}
-                  getItemLetter={(session) => null}
+                  getItemLetter={(session) => days[session.get('time').getDay()]}
                   getItemName={(session) => session.get('time').toLocaleString()} />
     )
   }

@@ -11,7 +11,7 @@ class SimpleListItem extends Component {
     return (
       <div>
         <ListItem primaryText={name}
-                  leftAvatar={letter ? <Avatar color={Styles.Colors.pinkA200} backgroundColor={Styles.Colors.transparent}>{letter}</Avatar> : null}
+                  leftAvatar={letter ? <Avatar color={Styles.Colors.pinkA200} backgroundColor={Styles.Colors.cyanA100}>{letter}</Avatar> : null}
                   onClick={editClicked} disabled={busy} insetChildren={true}/>
         {busy ? <LinearProgress mode='indeterminate'/> : null}
       </div>
