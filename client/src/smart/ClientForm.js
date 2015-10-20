@@ -19,6 +19,8 @@ class ClientForm extends Component {
     const { id, resetForm } = this.props
     if(id) {
       resetForm(id)
+    } else {
+      resetForm()
     }
   }
 
