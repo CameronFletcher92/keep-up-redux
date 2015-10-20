@@ -23,7 +23,7 @@ class App extends Component {
         <Provider store={store}>
           <ReduxRouter routes={routes} />
         </Provider>
-        {__DEV__ ? this.renderDevTools() : null}
+        {/*__DEV__ ? this.renderDevTools() : null*/}
       </div>
     )
   }
