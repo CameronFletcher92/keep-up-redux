@@ -3,41 +3,10 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shouldUpdatePure from 'react-pure-render/function'
 import { AppBar, LeftNav } from 'material-ui'
-import { navToCreateClient, navToViewClients } from '../ducks/clients'
-import { navToCreateExercise, navToViewExercises } from '../ducks/exercises'
-import { navToCreateSession, navToViewSessions } from '../ducks/sessions'
+import { pushState } from 'redux-router'
 
 class TopBar extends Component {
   shouldComponentUpdate = shouldUpdatePure
-
-  menuNavigate(e, key, payload) {
-    const {
-      navToViewClients, navToCreateClient,
-      navToViewExercises, navToCreateExercise,
-      navToViewSessions, navToCreateSession,
-    } = this.props
-
-    switch(payload.route) {
-      case '/clients':
-        navToViewClients()
-        break
-      case '/clients/new':
-        navToCreateClient()
-        break
-      case '/exercises':
-        navToViewExercises()
-        break
-      case '/exercises/new':
-        navToCreateExercise()
-        break
-      case '/sessions':
-        navToViewSessions()
-        break
-      case '/sessions/new':
-        navToCreateSession()
-        break
-    }
-  }
 
   toggleMenu() {
     this.refs.leftNav.toggle()
@@ -53,12 +22,12 @@ class TopBar extends Component {
       {route: '/sessions/new', text: 'New Session'},
     ]
 
-    const { children } = this.props
+    const { children, pushState } = this.props
 
     return (
       <div>
         <AppBar style={{position: 'fixed'}} title='Keep Up' zDepth={1} onLeftIconButtonTouchTap={() => this.refs.leftNav.toggle()}/>
-        <LeftNav ref='leftNav' menuItems={menuItems} docked={false} onChange={this.menuNavigate.bind(this)}/>
+        <LeftNav ref='leftNav' menuItems={menuItems} docked={false} onChange={(e, k, p) => pushState(null, p.route)}/>
         <div style={{paddingTop: '4.5em', display: 'flex', justifyContent: 'center', alignItems: 'stretch'}}>
           <div style={{flex: '1', display: 'flex', minWidth: '15em', maxWidth: '50em', flexDirection: 'column', margin: '0.5em'}}>
             {children}
@@ -83,10 +52,6 @@ export default connect(
     return {}
   },
   dispatch => {
-    return bindActionCreators({
-      navToCreateClient, navToViewClients,
-      navToCreateExercise, navToViewExercises,
-      navToCreateSession, navToViewSessions,
-    }, dispatch)
+    return bindActionCreators({ pushState }, dispatch)
   }
 )(TopBar)

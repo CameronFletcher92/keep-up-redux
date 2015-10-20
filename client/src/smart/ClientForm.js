@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shouldUpdatePure from 'react-pure-render/function'
 import ImmPropTypes from 'react-immutable-proptypes'
-import { saveAsync, updateForm } from '../ducks/clients'
+import { saveAsync, updateForm, resetForm } from '../ducks/clients'
 import { RaisedButton, TextField, Checkbox, DatePicker } from 'material-ui'
 
 let styles = {
@@ -14,6 +14,13 @@ let styles = {
 
 class ClientForm extends Component {
   shouldComponentUpdate = shouldUpdatePure
+
+  componentWillMount() {
+    const { id, resetForm } = this.props
+    if(id) {
+      resetForm(id)
+    }
+  }
 
   render() {
     const { form, saveAsync, updateForm } = this.props
@@ -42,17 +49,20 @@ ClientForm.propTypes = {
           notes: PropTypes.string.isRequired,
           privateHealth: PropTypes.bool.isRequired,
         }),
+  id: PropTypes.string,
   saveAsync: PropTypes.func.isRequired,
-  updateForm: PropTypes.func.isRequired
+  updateForm: PropTypes.func.isRequired,
+  resetForm: PropTypes.func.isRequired
 }
 
 export default connect(
   state => {
     return {
-      form: state.clients.get('form')
+      form: state.clients.get('form'),
+      id: state.router.params.id
     }
   },
   dispatch => {
-    return bindActionCreators({ saveAsync, updateForm }, dispatch)
+    return bindActionCreators({ saveAsync, updateForm, resetForm }, dispatch)
   }
 )(ClientForm)

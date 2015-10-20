@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shouldUpdatePure from 'react-pure-render/function'
 import ImmPropTypes from 'react-immutable-proptypes'
-import { saveAsync, updateForm } from '../ducks/sessions'
+import { saveAsync, updateForm, resetForm } from '../ducks/sessions'
 import { RaisedButton, TextField, DatePicker, TimePicker } from 'material-ui'
 import ClientsCheckList from './ClientsCheckList'
 import ExercisesCheckList from './ExercisesCheckList'
@@ -18,6 +18,13 @@ let styles = {
 
 class SessionForm extends Component {
   shouldComponentUpdate = shouldUpdatePure
+
+  componentWillMount() {
+    const { id, resetForm } = this.props
+    if(id) {
+      resetForm(id)
+    }
+  }
 
   render() {
     const { form, saveAsync, updateForm } = this.props
@@ -47,17 +54,20 @@ SessionForm.propTypes = {
           time: PropTypes.instanceOf(Date).isRequired,
           notes: PropTypes.string.isRequired,
         }),
+  id: PropTypes.string,
   saveAsync: PropTypes.func.isRequired,
-  updateForm: PropTypes.func.isRequired
+  updateForm: PropTypes.func.isRequired,
+  resetForm: PropTypes.func.isRequired
 }
 
 export default connect(
   state => {
     return {
-      form: state.sessions.get('form')
+      form: state.sessions.get('form'),
+      id: state.router.params.id
     }
   },
   dispatch => {
-    return bindActionCreators({ saveAsync, updateForm }, dispatch)
+    return bindActionCreators({ saveAsync, updateForm, resetForm }, dispatch)
   }
 )(SessionForm)

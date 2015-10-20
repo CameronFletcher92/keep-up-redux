@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
-import { fetchAsync, navToEditSession } from '../ducks/sessions'
+import { pushState } from 'redux-router'
+import { fetchAsync } from '../ducks/sessions'
 import SimpleList from '../dumb/SimpleList'
 
 class SessionsList extends Component {
@@ -18,10 +19,10 @@ class SessionsList extends Component {
   }
 
   render() {
-    const { entities, syncing, navToEditSession, isFetching } = this.props
+    const { entities, syncing, pushState, isFetching } = this.props
     const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
     return(
-      <SimpleList title='Sessions' items={entities} busyItems={syncing} onItemClick={navToEditSession}
+      <SimpleList title='Sessions' items={entities} busyItems={syncing} onItemClick={(id) => pushState(null, '/sessions/' + id)}
                   isBusy={isFetching}
                   getItemLetter={(session) => days[session.get('time').getDay()]}
                   getItemName={(session) => session.get('time').toLocaleString()} />
@@ -39,7 +40,7 @@ SessionsList.propTypes = {
               ),
   syncing: ImmPropTypes.map.isRequired,
   fetchAsync: PropTypes.func.isRequired,
-  navToEditSession: PropTypes.func.isRequired,
+  pushState: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired
 }
 
@@ -52,6 +53,6 @@ export default connect(
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchAsync, navToEditSession}, dispatch)
+    return bindActionCreators({ fetchAsync, pushState}, dispatch)
   }
 )(SessionsList)

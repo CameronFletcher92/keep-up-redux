@@ -93,28 +93,6 @@ export function resetForm(id) {
   }
 }
 
-// NAVIGATION ACTIONS
-export function navToViewExercises() {
-  return (dispatch) => {
-    dispatch(pushState(null, '/exercises'))
-  }
-}
-
-export function navToCreateExercise() {
-  return (dispatch) => {
-    dispatch(resetForm())
-    dispatch(pushState(null, '/exercises/new'))
-  }
-}
-
-export function navToEditExercise(id) {
-  return (dispatch) => {
-    dispatch(resetForm(id))
-    dispatch(pushState(null, '/exercises/' + id))
-  }
-}
-
-
 // ASYNC ACTIONS
 export function fetchAsync() {
   return (dispatch) => {
@@ -154,7 +132,7 @@ export function saveAsync(exercise) {
     dispatch(resetForm())
 
     // navigate back to view (new/updated model will be marked)
-    dispatch(navToViewExercises())
+    dispatch(pushState(null, '/exercises'))
   }
 }
 

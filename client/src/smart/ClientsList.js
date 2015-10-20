@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
-import { fetchAsync, navToEditClient } from '../ducks/clients'
+import { pushState } from 'redux-router'
+import { fetchAsync } from '../ducks/clients'
 import SimpleList from '../dumb/SimpleList'
 
 class ClientsList extends Component {
@@ -18,9 +19,9 @@ class ClientsList extends Component {
   }
 
   render() {
-    const { entities, syncing, navToEditClient, isFetching } = this.props
+    const { entities, syncing, pushState, isFetching } = this.props
     return(
-      <SimpleList title='Clients' items={entities} busyItems={syncing} onItemClick={navToEditClient}
+      <SimpleList title='Clients' items={entities} busyItems={syncing} onItemClick={(id) => pushState(null, '/clients/' + id)}
                   isBusy={isFetching}
                   getItemLetter={(client) => client.get('lastName').charAt(0).toUpperCase()}
                   getItemName={(client) => client.get('firstName') + ' ' + client.get('lastName')} />
@@ -39,7 +40,7 @@ ClientsList.propTypes = {
               ),
   syncing: ImmPropTypes.map.isRequired,
   fetchAsync: PropTypes.func.isRequired,
-  navToEditClient: PropTypes.func.isRequired,
+  pushState: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired
 }
 
@@ -52,6 +53,6 @@ export default connect(
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchAsync, navToEditClient}, dispatch)
+    return bindActionCreators({ fetchAsync, pushState}, dispatch)
   }
 )(ClientsList)

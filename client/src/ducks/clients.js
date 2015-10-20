@@ -96,28 +96,6 @@ export function resetForm(id) {
   }
 }
 
-// NAVIGATION ACTIONS
-export function navToViewClients() {
-  return (dispatch) => {
-    dispatch(pushState(null, '/clients'))
-  }
-}
-
-export function navToCreateClient() {
-  return (dispatch) => {
-    dispatch(resetForm())
-    dispatch(pushState(null, '/clients/new'))
-  }
-}
-
-export function navToEditClient(id) {
-  return (dispatch) => {
-    dispatch(resetForm(id))
-    dispatch(pushState(null, '/clients/' + id))
-  }
-}
-
-
 // ASYNC ACTIONS
 export function fetchAsync() {
   return (dispatch) => {
@@ -157,7 +135,7 @@ export function saveAsync(client) {
     dispatch(resetForm())
 
     // navigate back to view (new/updated model will be marked)
-    dispatch(navToViewClients())
+    dispatch(pushState(null, '/clients'))
   }
 }
 

@@ -4,12 +4,11 @@ import { ReduxRouter } from 'redux-router'
 import shouldUpdatePure from 'react-pure-render/function'
 import store from './store'
 import routes from './routes'
-//import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react'
+import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react'
 
 class App extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
-/*
   renderDevTools() {
     return (
       <DebugPanel top right bottom>
@@ -17,7 +16,6 @@ class App extends Component {
       </DebugPanel>
     )
   }
-*/
 
   render() {
     return (
@@ -25,7 +23,7 @@ class App extends Component {
         <Provider store={store}>
           <ReduxRouter routes={routes} />
         </Provider>
-        {/*__DEV__ ? this.renderDevTools() : null*/}
+        {__DEV__ ? this.renderDevTools() : null}
       </div>
     )
   }

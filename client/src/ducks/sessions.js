@@ -111,27 +111,6 @@ export function toggleExercise(id) {
   }
 }
 
-// NAVIGATION ACTIONS
-export function navToViewSessions() {
-  return (dispatch) => {
-    dispatch(pushState(null, '/sessions'))
-  }
-}
-
-export function navToCreateSession() {
-  return (dispatch) => {
-    dispatch(resetForm())
-    dispatch(pushState(null, '/sessions/new'))
-  }
-}
-
-export function navToEditSession(id) {
-  return (dispatch) => {
-    dispatch(resetForm(id))
-    dispatch(pushState(null, '/sessions/' + id))
-  }
-}
-
 // ASYNC ACTIONS
 export function fetchAsync() {
   return (dispatch) => {
@@ -173,7 +152,7 @@ export function saveAsync(session) {
     dispatch(resetForm())
 
     // navigate back to view (new/updated model will be marked)
-    dispatch(navToViewSessions())
+    dispatch(pushState(null, '/sessions'))
   }
 }
 

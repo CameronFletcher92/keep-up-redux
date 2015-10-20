@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
-import { fetchAsync, navToEditExercise } from '../ducks/exercises'
+import { pushState } from 'redux-router'
+import { fetchAsync } from '../ducks/exercises'
 import SimpleList from '../dumb/SimpleList'
 
 class ExercisesList extends Component {
@@ -18,9 +19,9 @@ class ExercisesList extends Component {
   }
 
   render() {
-    const { entities, syncing, navToEditExercise, isFetching } = this.props
+    const { entities, syncing, pushState, isFetching } = this.props
     return(
-      <SimpleList title='Exercises' items={entities} busyItems={syncing} onItemClick={navToEditExercise}
+      <SimpleList title='Exercises' items={entities} busyItems={syncing} onItemClick={(id) => pushState(null, '/exercises/' + id)}
                   isBusy={isFetching}
                   getItemLetter={(exercise) => exercise.get('name').charAt(0).toUpperCase()}
                   getItemName={(exercise) => exercise.get('name')} />
@@ -38,7 +39,7 @@ ExercisesList.propTypes = {
               ),
   syncing: ImmPropTypes.map.isRequired,
   fetchAsync: PropTypes.func.isRequired,
-  navToEditExercise: PropTypes.func.isRequired,
+  pushState: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired
 }
 
@@ -51,6 +52,6 @@ export default connect(
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchAsync, navToEditExercise}, dispatch)
+    return bindActionCreators({ fetchAsync, pushState}, dispatch)
   }
 )(ExercisesList)

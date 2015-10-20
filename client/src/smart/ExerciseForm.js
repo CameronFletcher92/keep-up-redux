@@ -3,17 +3,24 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shouldUpdatePure from 'react-pure-render/function'
 import ImmPropTypes from 'react-immutable-proptypes'
-import { saveAsync, updateForm } from '../ducks/exercises'
+import { saveAsync, updateForm, resetForm } from '../ducks/exercises'
 import { RaisedButton, TextField, SelectField } from 'material-ui'
 
 let styles = {
   container: {display: 'flex', flexDirection: 'column', alignItems: 'stretch'},
-  text: {width: '100%', marginBottom: '1em'},
+  text: {width: '100%', flex: '1 1 auto', marginBottom: '1em'},
   button: {flex: 1, alignSelf: 'flex-end'}
 }
 
 class ExerciseForm extends Component {
   shouldComponentUpdate = shouldUpdatePure
+
+  componentWillMount() {
+    const { id, resetForm } = this.props
+    if(id) {
+      resetForm(id)
+    }
+  }
 
   render() {
     const { form, saveAsync, updateForm } = this.props
@@ -43,17 +50,20 @@ ExerciseForm.propTypes = {
           description: PropTypes.string.isRequired,
           intensity: PropTypes.number.isRequired
         }),
+  id: PropTypes.string,
   saveAsync: PropTypes.func.isRequired,
-  updateForm: PropTypes.func.isRequired
+  updateForm: PropTypes.func.isRequired,
+  resetForm: PropTypes.func.isRequired
 }
 
 export default connect(
   state => {
     return {
-      form: state.exercises.get('form')
+      form: state.exercises.get('form'),
+      id: state.router.params.id
     }
   },
   dispatch => {
-    return bindActionCreators({ saveAsync, updateForm }, dispatch)
+    return bindActionCreators({ saveAsync, updateForm, resetForm }, dispatch)
   }
 )(ExerciseForm)
