@@ -3,10 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
-import { List, Paper } from 'material-ui'
-import { fetchAsync, navToEditClient, deleteAsync } from '../ducks/clients'
-import SimpleListItem from '../dumb/SimpleListItem'
-import CenteredSpinner from '../dumb/CenteredSpinner'
+import { fetchAsync, navToEditClient } from '../ducks/clients'
+import SimpleList from '../dumb/SimpleList'
 
 class ClientsList extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -19,38 +17,13 @@ class ClientsList extends Component {
     }
   }
 
-  renderClients() {
-    const { entities, syncing, navToEditClient, deleteAsync } = this.props
-
-    let lastLetter = ''
-    return entities.toOrderedSet().map(client => {
-      const id = client.get('_id')
-      const busy = syncing.get(id) ? true : false
-      let letter = client.get('lastName').charAt(0).toUpperCase()
-      if (letter !== lastLetter) {
-        lastLetter = letter
-      } else {
-        letter = null
-      }
-
-      return (
-        <SimpleListItem key={id} name={client.get('firstName') + ' ' + client.get('lastName')} busy={busy}
-                        editClicked={() => navToEditClient(id)} deleteClicked={() => deleteAsync(id)}
-                        letter={letter}/>
-      )
-    })
-  }
-
   render() {
-    const { isFetching } = this.props
-
-    return (
-      <Paper zDepth={2}>
-        <CenteredSpinner isVisible={isFetching}/>
-        <List subheader='Clients' subheaderStyle={{fontSize: '1em'}}>
-          { this.renderClients() }
-        </List>
-      </Paper>
+    const { entities, syncing, navToEditClient, isFetching } = this.props
+    return(
+      <SimpleList title='Clients' items={entities} busyItems={syncing} onItemClick={navToEditClient}
+                  isBusy={isFetching}
+                  getItemLetter={(client) => client.get('lastName').charAt(0).toUpperCase()}
+                  getItemName={(client) => client.get('firstName') + ' ' + client.get('lastName')} />
     )
   }
 }
@@ -66,7 +39,6 @@ ClientsList.propTypes = {
               ),
   syncing: ImmPropTypes.map.isRequired,
   fetchAsync: PropTypes.func.isRequired,
-  deleteAsync: PropTypes.func.isRequired,
   navToEditClient: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired
 }
@@ -80,6 +52,6 @@ export default connect(
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchAsync, navToEditClient, deleteAsync}, dispatch)
+    return bindActionCreators({ fetchAsync, navToEditClient}, dispatch)
   }
 )(ClientsList)

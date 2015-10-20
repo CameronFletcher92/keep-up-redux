@@ -6,7 +6,7 @@ class SimpleListItem extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   render() {
-    const { name, editClicked, deleteClicked, busy, letter } = this.props
+    const { name, editClicked, busy, letter } = this.props
 
     return (
       <div>
@@ -23,7 +23,6 @@ SimpleListItem.propTypes = {
   name: PropTypes.string.isRequired,
   busy: PropTypes.bool.isRequired,
   editClicked: PropTypes.func.isRequired,
-  deleteClicked: PropTypes.func.isRequired,
   letter: PropTypes.string
 }
 
