@@ -6,7 +6,6 @@ class Flex extends Component {
 
   render() {
     const { direction, justifyContent, alignItems, grow, shrink, basis, alignSelf, width, children, minWidth, maxWidth, padding, margin } = this.props
-    console.log('flex direction: ', direction)
     return (
       <div style={{display: 'flex', flex: '1 1 auto', flexDirection: direction, flexGrow: {grow}, flexShrink: {shrink},
                   justifyContent, alignItems, basis, alignSelf, width, minWidth, maxWidth, padding, margin}}>
