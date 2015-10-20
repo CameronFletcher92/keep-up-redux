@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
-import { ListGroup, ProgressBar } from 'react-bootstrap'
 import { fetchAsync, navToEditClient, deleteAsync } from '../ducks/clients'
 import SimpleListItem from '../dumb/SimpleListItem'
 
@@ -36,10 +35,10 @@ class ClientsList extends Component {
 
     return (
       <div>
-        { isFetching ? <ProgressBar active bsStyle='success' now={100} style={{marginBottom: '0.7em'}} /> : null }
-        <ListGroup>
+        { isFetching ? <span>Loading</span> : null }
+        <div>
           { this.renderClients() }
-        </ListGroup>
+        </div>
       </div>
     )
   }

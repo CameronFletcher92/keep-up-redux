@@ -3,8 +3,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shouldUpdatePure from 'react-pure-render/function'
 import ImmPropTypes from 'react-immutable-proptypes'
-import { Input, Button } from 'react-bootstrap'
 import { saveAsync, updateForm } from '../ducks/clients'
+import { RaisedButton, TextField, Checkbox } from 'material-ui'
 
 class ClientForm extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -12,22 +12,33 @@ class ClientForm extends Component {
   render() {
     const { form, saveAsync, updateForm } = this.props
     return (
-      <form>
-        <Input type='text' label='First Name' placeholder='Enter first name'
-               value={ form.get('firstName') } onChange={(e) => updateForm('firstName', e.target.value)} />
-        <Input type='text' label='Last Name' placeholder='Enter last name'
-               value={ form.get('lastName') } onChange={(e) => updateForm('lastName', e.target.value)} />
-        <Input type='text' label='Birth Date' placeholder='dd/mm/yyyy'
-               value={ form.get('birthDate') } onChange={(e) => updateForm('birthDate', e.target.value)} />
-        <Input type='text' label='Address' placeholder='Enter street address'
-               value={ form.get('address') } onChange={(e) => updateForm('address', e.target.value)} />
-        <Input type='textarea' label='Notes' placeholder='Enter any additional notes' style={{minHeight: '7em'}}
-               value={ form.get('notes') } onChange={(e) => updateForm('notes', e.target.value)} />
-        <Input type='checkbox' label='Private Health' placeholder='Private health?'
-               checked={ form.get('privateHealth') } onChange={(e) => updateForm('privateHealth', e.target.checked)}/>
-               
-        <Button className='pull-right' bsStyle='primary' onClick={() => saveAsync(form.toJS())}>Save</Button>
-      </form>
+      <div style={{display: 'flex', flexDirection: 'column'}}>
+        <div>
+          <TextField floatingLabelText='First Name' value={ form.get('firstName') } onChange={(e) => updateForm('firstName', e.target.value)} />
+        </div>
+
+        <div>
+          <TextField floatingLabelText='Last Name' value={ form.get('lastName') } onChange={(e) => updateForm('lastName', e.target.value)} />
+        </div>
+
+        <div>
+          <TextField floatingLabelText='Birth Date' value={ form.get('birthDate') } onChange={(e) => updateForm('birthDate', e.target.value)} />
+        </div>
+
+        <div>
+          <TextField floatingLabelText='Address' value={ form.get('address') } onChange={(e) => updateForm('address', e.target.value)} />
+        </div>
+
+        <div>
+          <TextField floatingLabelText='Notes' value={ form.get('notes') } onChange={(e) => updateForm('notes', e.target.value)} />
+        </div>
+
+        <div>
+          <Checkbox label='Private Health' defaultChecked={form.get('privateHealth')} onCheck={(e, c) => updateForm('privateHealth', c)}/>
+        </div>
+
+        <RaisedButton label='Save' onClick={() => saveAsync(form.toJS())}/>
+      </div>
     )
   }
 }

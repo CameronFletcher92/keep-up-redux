@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shouldUpdatePure from 'react-pure-render/function'
-import { Navbar, NavBrand, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
+import { AppBar, LeftNav } from 'material-ui'
 import { navToCreateClient, navToViewClients } from '../ducks/clients'
 import { navToCreateExercise, navToViewExercises } from '../ducks/exercises'
 import { navToCreateSession, navToViewSessions } from '../ducks/sessions'
@@ -10,34 +10,57 @@ import { navToCreateSession, navToViewSessions } from '../ducks/sessions'
 class TopBar extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
-  render() {
+  menuNavigate(e, key, payload) {
     const {
-      url, navToViewClients, navToCreateClient,
+      navToViewClients, navToCreateClient,
       navToViewExercises, navToCreateExercise,
-      navToViewSessions, navToCreateSession
+      navToViewSessions, navToCreateSession,
     } = this.props
+
+    switch(payload.route) {
+      case '/clients':
+        navToViewClients()
+        break
+      case '/clients/new':
+        navToCreateClient()
+        break
+      case '/exercises':
+        navToViewExercises()
+        break
+      case '/exercises/new':
+        navToCreateExercise()
+        break
+      case '/sessions':
+        navToViewSessions()
+        break
+      case '/sessions/new':
+        navToCreateSession()
+        break
+    }
+  }
+
+  toggleMenu() {
+    this.refs.leftNav.toggle()
+  }
+
+  render() {
+    const menuItems = [
+      {route: '/clients', text: 'View Clients'},
+      {route: '/clients/new', text: 'New Client'},
+      {route: '/exercises', text: 'View Exercises'},
+      {route: '/exercises/new', text: 'New Exercise'},
+      {route: '/sessions', text: 'View Sessions'},
+      {route: '/sessions/new', text: 'New Session'},
+    ]
+
+    const { children } = this.props
 
     return (
       <div>
-        <Navbar fixedTop={true} fluid={true} toggleNavKey={0}>
-          <NavBrand><a onClick={() => navToViewClients()}>Keep Up</a></NavBrand>
-          <Nav eventKey={0}>
-            <NavDropdown id='1' title='Clients'>
-              <MenuItem onSelect={() => navToViewClients()}>View Clients</MenuItem>
-              <MenuItem onSelect={() => navToCreateClient()}>New Client</MenuItem>
-            </NavDropdown>
-            <NavDropdown id='2' title='Exercises'>
-              <MenuItem onSelect={() => navToViewExercises()}>View Exercises</MenuItem>
-              <MenuItem onSelect={() => navToCreateExercise()}>New Exercise</MenuItem>
-            </NavDropdown>
-            <NavDropdown id='2' title='Sessions'>
-              <MenuItem onSelect={() => navToViewSessions()}>View Sessions</MenuItem>
-              <MenuItem onSelect={() => navToCreateSession()}>New Session</MenuItem>
-            </NavDropdown>
-          </Nav>
-        </Navbar>
-        <div style={{marginTop: '4.5em'}}>
-          {this.props.children}
+        <AppBar style={{position: 'fixed'}} title='Keep Up' zDepth={1} onLeftIconButtonTouchTap={() => this.refs.leftNav.toggle()}/>
+        <LeftNav ref='leftNav' menuItems={menuItems} docked={false} onChange={this.menuNavigate.bind(this)}/>
+        <div style={{paddingTop: '4.5em'}}>
+          {children}
         </div>
       </div>
     )
@@ -45,7 +68,6 @@ class TopBar extends Component {
 }
 
 TopBar.PropTypes = {
-  url: PropTypes.string.isRequired,
   navToCreateClient: PropTypes.func.isRequired,
   navToViewClients: PropTypes.func.isRequired,
   navToCreateExercise: PropTypes.func.isRequired,

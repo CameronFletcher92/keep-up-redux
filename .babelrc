@@ -2,7 +2,7 @@
   "stage": 0,
   "env": {
     "development": {
-      "plugins": ["react-transform"],
+      "plugins": ["react-transform", "react-autoprefix"],
       "extra": {
         "react-transform": {
           "transforms": [{

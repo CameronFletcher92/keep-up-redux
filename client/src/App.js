@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
-import { Grid, Col } from 'react-bootstrap'
 import { ReduxRouter } from 'redux-router'
 import shouldUpdatePure from 'react-pure-render/function'
 import store from './store'
@@ -40,11 +39,9 @@ class App extends Component {
     }
 
     return (
-      <Grid fluid style={{'padding': '0.5em'}}>
-        <Col xs={12} sm={10} md={8} lg={6} smOffset={1} style={{'padding': 0}}>
-          {content}
-        </Col>
-      </Grid>
+      <div>
+        {content}
+      </div>
     )
   }
 }

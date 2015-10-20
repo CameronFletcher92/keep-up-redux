@@ -1,9 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
-import { Jumbotron, Button, ProgressBar } from 'react-bootstrap'
 import { fetchAsync } from '../ducks/user'
+import CenteredSpinner from '../dumb/CenteredSpinner'
+import { RaisedButton } from 'material-ui'
 
 class SplashPage extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -24,7 +26,7 @@ class SplashPage extends Component {
 
     if (isFetching) {
       return (
-        <ProgressBar active bsStyle='success' now={100}/>
+        <CenteredSpinner isVisible={isFetching} />
       )
     }
 
@@ -34,21 +36,28 @@ class SplashPage extends Component {
       )
     } else {
       return (
-        <Button onClick={this.loginClicked} bsStyle='primary'>Login</Button>
+        <RaisedButton onClick={this.loginClicked} label='Login'/>
       )
     }
   }
 
   render() {
     return (
-      <Jumbotron>
+      <div>
         <h2>Welcome to Keep Up!</h2>
         <p>Keep Up is an application designed to help personal trainers / health professionals with tracking their clients</p>
 
         {this.renderContent()}
-      </Jumbotron>
+      </div>
     )
   }
+}
+
+SplashPage.propTypes = {
+  fetchAsync: PropTypes.func.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  user: ImmPropTypes.map.isRequired
 }
 
 export default connect(

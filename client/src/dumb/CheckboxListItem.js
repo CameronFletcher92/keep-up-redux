@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import { ListGroupItem, Button, Glyphicon, ProgressBar } from 'react-bootstrap'
 import shouldUpdatePure from 'react-pure-render/function'
 
 class CheckboxListItem extends Component {
@@ -7,19 +6,12 @@ class CheckboxListItem extends Component {
 
   render() {
     const { name, checked, toggle } = this.props
+
     return (
-      <ListGroupItem>
-        <div className='clearfix' onClick={toggle}>
-          <span className='pull-left'>
-            {name}
-          </span>
-          <span className='pull-right'>
-            <Button bsStyle={checked ? 'success' : null}>
-              <Glyphicon glyph={checked ? 'ok' : 'remove'} />
-            </Button>
-          </span>
-        </div>
-      </ListGroupItem>
+      <div onClick={toggle} style={{padding: '10'}}>
+        <span>{name}</span>
+        {checked ? <span> CHECKED </span> : null}
+      </div>
     )
   }
 }

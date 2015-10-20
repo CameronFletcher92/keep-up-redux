@@ -3,8 +3,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shouldUpdatePure from 'react-pure-render/function'
 import ImmPropTypes from 'react-immutable-proptypes'
-import { Input, Button, Grid, Col } from 'react-bootstrap'
 import { saveAsync, updateForm } from '../ducks/sessions'
+import { RaisedButton, TextField } from 'material-ui'
 import ClientsCheckList from './ClientsCheckList'
 import ExercisesCheckList from './ExercisesCheckList'
 
@@ -14,32 +14,27 @@ class SessionForm extends Component {
   render() {
     const { form, saveAsync, updateForm } = this.props
     return (
-      <form>
-        <Input type='text' label='Session Time' placeholder='Enter session time'
-               value={form.get('time')} onChange={(e) => updateForm('time', e.target.value)} />
-        <Input type='textarea' label='Additional Notes' placeholder='Enter any additional notes'
-               value={form.get('notes')} onChange={(e) => updateForm('notes', e.target.value)} />
+      <div style={{display: 'flex', flexDirection: 'column'}}>
+        <div>
+          <TextField floatingLabelText='Session Time' value={form.get('time')} onChange={(e) => updateForm('time', e.target.value)} />
+        </div>
 
-        <Grid fluid style={{padding: '0em'}}>
-          <Col xs={12} sm={5} style={{padding: '0em'}}>
-            <div style={{paddingBottom: '0.4em'}}>
-              Clients
-            </div>
-            <ClientsCheckList />
-          </Col>
+        <div>
+          <TextField floatingLabelText='Additional Notes' value={form.get('notes')} onChange={(e) => updateForm('notes', e.target.value)} />
+        </div>
 
-          <Col xs={0} sm={2} style={{padding: '0em'}} />
+        <div>
+          Clients
+          <ClientsCheckList />
+        </div>
 
-          <Col xs={12} sm={5} style={{padding: '0em'}}>
-            <div style={{paddingBottom: '0.4em'}}>
-              Exercises
-            </div>
-            <ExercisesCheckList />
-          </Col>
-        </Grid>
+        <div>
+          Exercises
+          <ExercisesCheckList />
+        </div>
 
-        <Button className='pull-right' bsStyle='primary' onClick={() => saveAsync(form.toJS())}>Save</Button>
-      </form>
+        <RaisedButton label='Save' onClick={() => saveAsync(form.toJS())}/>
+      </div>
     )
   }
 }

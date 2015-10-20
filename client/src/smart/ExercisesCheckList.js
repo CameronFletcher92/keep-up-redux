@@ -6,7 +6,6 @@ import shouldUpdatePure from 'react-pure-render/function'
 import { toggleExercise } from '../ducks/sessions'
 import { fetchAsync } from '../ducks/exercises'
 import CheckboxListItem from '../dumb/CheckboxListItem'
-import { ListGroup, ProgressBar } from 'react-bootstrap'
 
 class ExercisesCheckList extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -21,7 +20,7 @@ class ExercisesCheckList extends Component {
   renderExercises() {
     const { toggleExercise, exercises, selectedExercises } = this.props
 
-    return exercises.toIndexedSeq().map(exercise => {
+    return exercises.toOrderedSet().map(exercise => {
       const id = exercise.get('_id')
       const checked = selectedExercises.get(id) ? true : false
       return (
@@ -35,10 +34,10 @@ class ExercisesCheckList extends Component {
     const { exercises } = this.props
     return (
       <div>
-        { exercises.size === 0 ? <ProgressBar active bsStyle='success' style={{margin: '1em'}} now={100} /> : null }
-        <ListGroup>
+        { exercises.size === 0 ? <span>Loading</span> : null }
+        <div>
           {this.renderExercises()}
-        </ListGroup>
+        </div>
       </div>
     )
   }

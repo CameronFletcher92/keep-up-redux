@@ -3,31 +3,37 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shouldUpdatePure from 'react-pure-render/function'
 import ImmPropTypes from 'react-immutable-proptypes'
-import { Input, Button } from 'react-bootstrap'
 import { saveAsync, updateForm } from '../ducks/exercises'
+import { RaisedButton, TextField, SelectField } from 'material-ui'
 
 class ExerciseForm extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   render() {
     const { form, saveAsync, updateForm } = this.props
+    const intensities = [
+      { payload: 1, text: '1' },
+      { payload: 2, text: '2' },
+      { payload: 3, text: '3' },
+      { payload: 4, text: '4' },
+      { payload: 5, text: '5' }
+    ]
     return (
-      <form>
-        <Input type='text' label='Exercise' placeholder='Enter exercise name'
-               value={form.get('name')} onChange={(e) => updateForm('name', e.target.value)} />
-        <Input type='textarea' label='Description' placeholder='Enter a description of the exercise' style={{minHeight: '7em'}}
-               value={form.get('description')} onChange={(e) => updateForm('description', e.target.value)} />
-        <Input type='select' label='Intensity' placeholder='Select an intensity'
-               value={form.get('intensity')} onChange={(e) => updateForm('intensity', parseInt(e.target.value))}>
-             <option value={1}>1</option>
-             <option value={2}>2</option>
-             <option value={3}>3</option>
-             <option value={4}>4</option>
-             <option value={5}>5</option>
-        </Input>
+      <div style={{display: 'flex', flexDirection: 'column'}}>
+        <div>
+          <TextField floatingLabelText='Exercise' value={form.get('name')} onChange={(e) => updateForm('name', e.target.value)} />
+        </div>
 
-        <Button className='pull-right' bsStyle='primary' onClick={() => saveAsync(form.toJS())}>Save</Button>
-      </form>
+        <div>
+          <TextField floatingLabelText='Description' value={form.get('description')} onChange={(e) => updateForm('description', e.target.value)} />
+        </div>
+
+        <div>
+          <SelectField floatingLabelText='Intensity' menuItems={intensities} value={form.get('intensity')} onChange={(e) => updateForm('intensity', e.target.value)} />
+        </div>
+
+        <RaisedButton label='Save' onClick={() => saveAsync(form.toJS())}/>
+      </div>
     )
   }
 }
