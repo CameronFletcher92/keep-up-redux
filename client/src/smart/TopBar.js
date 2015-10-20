@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import shouldUpdatePure from 'react-pure-render/function'
 import { AppBar, LeftNav } from 'material-ui'
 import { pushState } from 'redux-router'
+import Flex from '../dumb/Flex'
 
 class TopBar extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -25,11 +26,12 @@ class TopBar extends Component {
       <div>
         <AppBar style={{position: 'fixed'}} title='Keep Up' zDepth={1} onLeftIconButtonTouchTap={() => this.refs.leftNav.toggle()}/>
         <LeftNav ref='leftNav' menuItems={menuItems} docked={false} onChange={(e, k, p) => pushState(null, p.route)}/>
-        <div style={{paddingTop: '4.5em', display: 'flex', justifyContent: 'center', alignItems: 'stretch'}}>
-          <div style={{flex: '1', display: 'flex', minWidth: '15em', maxWidth: '50em', flexDirection: 'column', margin: '0.5em'}}>
+        <div style={{paddingTop: '4.0em'}}/>
+        <Flex direction='row' justifyContent='center' padding='0.5em'>
+          <Flex minWidth='15em' maxWidth='50em' direction='column'>
             {children}
-          </div>
-        </div>
+          </Flex>
+        </Flex>
       </div>
     )
   }
