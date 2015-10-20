@@ -1,5 +1,6 @@
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux'
 import { routerStateReducer, reduxReactRouter } from 'redux-router'
+import { devTools } from 'redux-devtools'
 import { createHistory } from 'history'
 import thunk from 'redux-thunk'
 
@@ -23,7 +24,6 @@ const rootReducer = getRootReducer()
 // initialize the store, with or without devtools
 let store
 if (__DEV__) {
-  const { devTools } = require('redux-devtools')
   store = compose(
     applyMiddleware(thunk),
     reduxReactRouter({createHistory}),
