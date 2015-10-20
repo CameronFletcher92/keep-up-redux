@@ -1,20 +1,17 @@
 import React, { Component, PropTypes } from 'react'
 import shouldUpdatePure from 'react-pure-render/function'
-import { RaisedButton } from 'material-ui'
+import { RaisedButton, ListItem, Avatar, Styles} from 'material-ui'
 
 class SimpleListItem extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   render() {
-    const { name, editClicked, deleteClicked, busy } = this.props
+    const { name, editClicked, deleteClicked, busy, letter } = this.props
 
     return (
-      <div>
-        <span>{name}</span>
-        <RaisedButton label='Edit' onClick={editClicked} disabled={busy}/>
-        <RaisedButton label='Delete' onClick={deleteClicked} disabled={busy}/>
-        {busy ? <span>Loading</span> : null }
-      </div>
+      <ListItem primaryText={name}
+                leftAvatar={letter ? <Avatar color={Styles.Colors.pinkA200} backgroundColor={Styles.Colors.transparent}>{letter}</Avatar> : null}
+                onClick={editClicked} disabled={busy} insetChildren={true}/>
     )
   }
 }
@@ -23,7 +20,8 @@ SimpleListItem.propTypes = {
   name: PropTypes.string.isRequired,
   busy: PropTypes.bool.isRequired,
   editClicked: PropTypes.func.isRequired,
-  deleteClicked: PropTypes.func.isRequired
+  deleteClicked: PropTypes.func.isRequired,
+  letter: PropTypes.string
 }
 
 export default SimpleListItem

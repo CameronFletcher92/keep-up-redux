@@ -3,8 +3,10 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
+import { List } from 'material-ui'
 import { fetchAsync, navToEditClient, deleteAsync } from '../ducks/clients'
 import SimpleListItem from '../dumb/SimpleListItem'
+import CenteredSpinner from '../dumb/CenteredSpinner'
 
 class ClientsList extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -20,12 +22,21 @@ class ClientsList extends Component {
   renderClients() {
     const { entities, syncing, navToEditClient, deleteAsync } = this.props
 
+    let lastLetter = ''
     return entities.toOrderedSet().map(client => {
       const id = client.get('_id')
       const busy = syncing.get(id) ? true : false
+      let letter = client.get('lastName').charAt(0).toUpperCase()
+      if (letter !== lastLetter) {
+        lastLetter = letter
+      } else {
+        letter = null
+      }
+
       return (
         <SimpleListItem key={id} name={client.get('firstName') + ' ' + client.get('lastName')} busy={busy}
-                editClicked={() => navToEditClient(id)} deleteClicked={() => deleteAsync(id)} />
+                        editClicked={() => navToEditClient(id)} deleteClicked={() => deleteAsync(id)}
+                        letter={letter}/>
       )
     })
   }
@@ -35,10 +46,10 @@ class ClientsList extends Component {
 
     return (
       <div>
-        { isFetching ? <span>Loading</span> : null }
-        <div>
+        <CenteredSpinner isVisible={isFetching}/>
+        <List subheader='Clients'>
           { this.renderClients() }
-        </div>
+        </List>
       </div>
     )
   }
