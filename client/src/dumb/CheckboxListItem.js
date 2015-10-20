@@ -10,7 +10,7 @@ class CheckboxListItem extends Component {
 
     return (
       <ListItem primaryText={name}
-                leftAvatar={letter ? <Avatar color={Styles.Colors.pinkA200} backgroundColor={Styles.Colors.cyanA100}>{letter + 'h'}</Avatar> : null}
+                leftAvatar={letter ? <Avatar color={Styles.Colors.pinkA200} backgroundColor={Styles.Colors.cyanA100}>{letter}</Avatar> : null}
                 onClick={toggle} insetChildren={true}
                 rightToggle={
                   <Checkbox defaultChecked={checked} onCheck={toggle}/>
