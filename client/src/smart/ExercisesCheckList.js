@@ -5,7 +5,7 @@ import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
 import { toggleExercise } from '../ducks/sessions'
 import { fetchAsync } from '../ducks/exercises'
-import { List } from 'material-ui'
+import { List, Paper } from 'material-ui'
 import CheckboxListItem from '../dumb/CheckboxListItem'
 import CenteredSpinner from '../dumb/CenteredSpinner'
 
@@ -44,11 +44,13 @@ class ExercisesCheckList extends Component {
     const { isFetching } = this.props
 
     return (
-      <div>
-        <CenteredSpinner isVisible={isFetching}/>
-        <List subheader='Exercises'>
-          { this.renderExercises() }
-        </List>
+      <div style={{padding: '0.5em'}}>
+        <Paper zDepth={2}>
+          <CenteredSpinner isVisible={isFetching}/>
+          <List subheader='Exercises'>
+            { this.renderExercises() }
+          </List>
+        </Paper>
       </div>
     )
   }

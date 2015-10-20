@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
 import { fetchAsync, navToEditExercise, deleteAsync } from '../ducks/exercises'
-import { List } from 'material-ui'
+import { List, Paper } from 'material-ui'
 import CenteredSpinner from '../dumb/CenteredSpinner'
 import SimpleListItem from '../dumb/SimpleListItem'
 
@@ -45,12 +45,12 @@ class ExercisesList extends Component {
     const { isFetching } = this.props
 
     return (
-      <div>
+      <Paper zDepth={2}>
         <CenteredSpinner isVisible={isFetching}/>
-        <List subheader='Exercises'>
+        <List subheader='Exercises' subheaderStyle={{fontSize: '1em'}}>
           { this.renderExercises() }
         </List>
-      </div>
+      </Paper>
     )
   }
 }

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
-import { List } from 'material-ui'
+import { List, Paper } from 'material-ui'
 import { fetchAsync, navToEditClient, deleteAsync } from '../ducks/clients'
 import SimpleListItem from '../dumb/SimpleListItem'
 import CenteredSpinner from '../dumb/CenteredSpinner'
@@ -45,12 +45,12 @@ class ClientsList extends Component {
     const { isFetching } = this.props
 
     return (
-      <div>
+      <Paper zDepth={2}>
         <CenteredSpinner isVisible={isFetching}/>
-        <List subheader='Clients'>
+        <List subheader='Clients' subheaderStyle={{fontSize: '1em'}}>
           { this.renderClients() }
         </List>
-      </div>
+      </Paper>
     )
   }
 }

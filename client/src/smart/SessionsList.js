@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
-import { List } from 'material-ui'
+import { List, Paper } from 'material-ui'
 import { fetchAsync, navToEditSession, deleteAsync } from '../ducks/sessions'
 import SimpleListItem from '../dumb/SimpleListItem'
 import CenteredSpinner from '../dumb/CenteredSpinner'
@@ -37,12 +37,12 @@ class SessionsList extends Component {
     const { isFetching } = this.props
 
     return (
-      <div>
+      <Paper zDepth={4}>
         <CenteredSpinner isVisible={isFetching}/>
-        <List subheader='Sessions'>
+        <List subheader='Sessions' subheaderStyle={{fontSize: '1em'}}>
           { this.renderSessions() }
         </List>
-      </div>
+      </Paper>
     )
   }
 }
