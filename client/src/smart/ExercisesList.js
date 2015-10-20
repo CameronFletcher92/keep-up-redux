@@ -6,6 +6,7 @@ import shouldUpdatePure from 'react-pure-render/function'
 import { pushState } from 'redux-router'
 import { fetchAsync } from '../ducks/exercises'
 import SimpleList from '../dumb/SimpleList'
+import FixedActionButton from '../dumb/FixedActionButton'
 
 class ExercisesList extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -21,10 +22,13 @@ class ExercisesList extends Component {
   render() {
     const { entities, syncing, pushState, isFetching } = this.props
     return(
-      <SimpleList title='Exercises' items={entities} busyItems={syncing} onItemClick={(id) => pushState(null, '/exercises/' + id)}
-                  isBusy={isFetching}
-                  getItemLetter={(exercise) => exercise.get('name').charAt(0).toUpperCase()}
-                  getItemName={(exercise) => exercise.get('name')} />
+      <div>
+        <SimpleList title='Exercises' items={entities} busyItems={syncing} onItemClick={(id) => pushState(null, '/exercises/' + id)}
+                    isBusy={isFetching}
+                    getItemLetter={(exercise) => exercise.get('name').charAt(0).toUpperCase()}
+                    getItemName={(exercise) => exercise.get('name')} />
+        <FixedActionButton onClick={() => pushState(null, '/clients/new')}/>
+      </div>
     )
   }
 }

@@ -6,6 +6,7 @@ import shouldUpdatePure from 'react-pure-render/function'
 import { pushState } from 'redux-router'
 import { fetchAsync } from '../ducks/sessions'
 import SimpleList from '../dumb/SimpleList'
+import FixedActionButton from '../dumb/FixedActionButton'
 
 class SessionsList extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -22,10 +23,13 @@ class SessionsList extends Component {
     const { entities, syncing, pushState, isFetching } = this.props
     const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
     return(
-      <SimpleList title='Sessions' items={entities} busyItems={syncing} onItemClick={(id) => pushState(null, '/sessions/' + id)}
-                  isBusy={isFetching}
-                  getItemLetter={(session) => days[session.get('time').getDay()]}
-                  getItemName={(session) => session.get('time').toLocaleString()} />
+      <div>
+        <SimpleList title='Sessions' items={entities} busyItems={syncing} onItemClick={(id) => pushState(null, '/sessions/' + id)}
+                    isBusy={isFetching}
+                    getItemLetter={(session) => days[session.get('time').getDay()]}
+                    getItemName={(session) => session.get('time').toLocaleString()} />
+        <FixedActionButton onClick={() => pushState(null, '/clients/new')}/>
+      </div>
     )
   }
 }

@@ -14,12 +14,9 @@ class TopBar extends Component {
 
   render() {
     const menuItems = [
-      {route: '/clients', text: 'View Clients'},
-      {route: '/clients/new', text: 'New Client'},
-      {route: '/exercises', text: 'View Exercises'},
-      {route: '/exercises/new', text: 'New Exercise'},
-      {route: '/sessions', text: 'View Sessions'},
-      {route: '/sessions/new', text: 'New Session'},
+      {route: '/clients', text: 'Clients'},
+      {route: '/exercises', text: 'Exercises'},
+      {route: '/sessions', text: 'Sessions'},
     ]
 
     const { children, pushState } = this.props
@@ -39,12 +36,7 @@ class TopBar extends Component {
 }
 
 TopBar.PropTypes = {
-  navToCreateClient: PropTypes.func.isRequired,
-  navToViewClients: PropTypes.func.isRequired,
-  navToCreateExercise: PropTypes.func.isRequired,
-  navToViewExercises: PropTypes.func.isRequired,
-  navToCreateSession: PropTypes.func.isRequired,
-  navToViewSessions: PropTypes.func.isRequired
+  pushState: PropTypes.func.isRequired,
 }
 
 export default connect(
