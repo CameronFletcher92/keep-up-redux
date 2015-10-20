@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import shouldUpdatePure from 'react-pure-render/function'
 import ImmPropTypes from 'react-immutable-proptypes'
 import { saveAsync, updateForm } from '../ducks/sessions'
-import { RaisedButton, TextField, DatePicker } from 'material-ui'
+import { RaisedButton, TextField, DatePicker, TimePicker } from 'material-ui'
 import ClientsCheckList from './ClientsCheckList'
 import ExercisesCheckList from './ExercisesCheckList'
 
@@ -23,7 +23,7 @@ class SessionForm extends Component {
     const { form, saveAsync, updateForm } = this.props
     return (
       <div style={styles.container}>
-        <DatePicker textFieldStyle={styles.text} floatingLabelText='Session Time' value={form.get('time')} onChange={(e, d) => updateForm('time', d)} />
+        <DatePicker textFieldStyle={styles.text} floatingLabelText='Session Date' value={form.get('time')} onChange={(e, d) => updateForm('time', d)} />
         <TextField style={styles.text} multiLine={true} floatingLabelText='Additional Notes' value={form.get('notes')} onChange={(e) => updateForm('notes', e.target.value)} />
 
         <div style={styles.checkContainer}>

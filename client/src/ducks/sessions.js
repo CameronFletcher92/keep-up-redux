@@ -26,7 +26,7 @@ const initialState = Immutable.fromJS({
   isFetching: false,
   form: {
     _id: '',
-    time: '',
+    time: new Date(),
     notes: '',
     clients: {},
     exercises: {}
