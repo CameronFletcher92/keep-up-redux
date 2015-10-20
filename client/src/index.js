@@ -9,3 +9,7 @@ injectTap()
 
 // render the root
 ReactDOM.render(<App />, document.getElementById('root'))
+
+if (!__DEV__) {
+  window.onbeforeunload = () => 'Keep-Up will have to re-fetch data if you leave this page.'
+}
