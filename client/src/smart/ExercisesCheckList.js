@@ -5,7 +5,9 @@ import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
 import { toggleExercise } from '../ducks/sessions'
 import { fetchAsync } from '../ducks/exercises'
+import { List } from 'material-ui'
 import CheckboxListItem from '../dumb/CheckboxListItem'
+import CenteredSpinner from '../dumb/CenteredSpinner'
 
 class ExercisesCheckList extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -20,24 +22,33 @@ class ExercisesCheckList extends Component {
   renderExercises() {
     const { toggleExercise, exercises, selectedExercises } = this.props
 
+    let lastLetter = ''
     return exercises.toOrderedSet().map(exercise => {
       const id = exercise.get('_id')
       const checked = selectedExercises.get(id) ? true : false
+      let letter = exercise.get('name').charAt(0).toUpperCase()
+      if (letter !== lastLetter) {
+        lastLetter = letter
+      } else {
+        letter = null
+      }
+
       return (
         <CheckboxListItem key={id} name={exercise.get('name')}
-                          checked={checked} toggle={() => toggleExercise(id)} />
+                          checked={checked} toggle={() => toggleExercise(id)} letter={letter}/>
       )
     })
   }
 
   render() {
-    const { exercises } = this.props
+    const { isFetching } = this.props
+
     return (
       <div>
-        { exercises.size === 0 ? <span>Loading</span> : null }
-        <div>
-          {this.renderExercises()}
-        </div>
+        <CenteredSpinner isVisible={isFetching}/>
+        <List subheader='Exercises'>
+          { this.renderExercises() }
+        </List>
       </div>
     )
   }
@@ -52,7 +63,8 @@ ExercisesCheckList.propTypes = {
                 })
               ),
   toggleExercise: PropTypes.func.isRequired,
-  fetchAsync: PropTypes.func.isRequired
+  fetchAsync: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool.isRequired
 }
 
 export default connect(
@@ -60,6 +72,7 @@ export default connect(
     return {
       selectedExercises: state.sessions.getIn(['form', 'exercises']),
       exercises: state.exercises.get('entities'),
+      isFetching: state.exercises.get('isFetching')
     }
   },
   dispatch => {

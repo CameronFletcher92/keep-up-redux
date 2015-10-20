@@ -5,7 +5,9 @@ import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
 import { toggleClient } from '../ducks/sessions'
 import { fetchAsync } from '../ducks/clients'
+import { List } from 'material-ui'
 import CheckboxListItem from '../dumb/CheckboxListItem'
+import CenteredSpinner from '../dumb/CenteredSpinner'
 
 class ClientsCheckList extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -20,24 +22,33 @@ class ClientsCheckList extends Component {
   renderClients() {
     const { toggleClient, clients, selectedClients } = this.props
 
+    let lastLetter = ''
     return clients.toOrderedSet().map(client => {
       const id = client.get('_id')
       const checked = selectedClients.get(id) ? true : false
+      let letter = client.get('lastName').charAt(0).toUpperCase()
+      if (letter !== lastLetter) {
+        lastLetter = letter
+      } else {
+        letter = null
+      }
+
       return (
         <CheckboxListItem key={id} name={client.get('firstName') + ' ' + client.get('lastName')}
-                          checked={checked} toggle={() => toggleClient(id)} />
+                          checked={checked} toggle={() => toggleClient(id)} letter={letter}/>
       )
     })
   }
 
   render() {
-    const { clients } = this.props
+    const { isFetching } = this.props
+
     return (
       <div>
-        { clients.size === 0 ? <span>Loading</span> : null }
-        <div>
-          {this.renderClients()}
-        </div>
+        <CenteredSpinner isVisible={isFetching}/>
+        <List subheader='Clients' style={{margin: '0em', padding: 0}}>
+          { this.renderClients() }
+        </List>
       </div>
     )
   }
@@ -53,7 +64,8 @@ ClientsCheckList.propTypes = {
                 })
               ),
   toggleClient: PropTypes.func.isRequired,
-  fetchAsync: PropTypes.func.isRequired
+  fetchAsync: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool.isRequired
 }
 
 export default connect(
@@ -61,6 +73,7 @@ export default connect(
     return {
       selectedClients: state.sessions.getIn(['form', 'clients']),
       clients: state.clients.get('entities'),
+      isFetching: state.clients.get('isFetching')
     }
   },
   dispatch => {

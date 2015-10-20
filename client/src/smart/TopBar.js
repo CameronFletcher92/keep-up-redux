@@ -60,7 +60,7 @@ class TopBar extends Component {
         <AppBar style={{position: 'fixed'}} title='Keep Up' zDepth={1} onLeftIconButtonTouchTap={() => this.refs.leftNav.toggle()}/>
         <LeftNav ref='leftNav' menuItems={menuItems} docked={false} onChange={this.menuNavigate.bind(this)}/>
         <div style={{paddingTop: '4.5em', display: 'flex', justifyContent: 'center', alignItems: 'stretch'}}>
-          <div style={{flex: '1', display: 'flex', minWidth: '15em', maxWidth: '60em', flexDirection: 'column'}}>
+          <div style={{flex: '1', display: 'flex', minWidth: '15em', maxWidth: '50em', flexDirection: 'column'}}>
             {children}
           </div>
         </div>

@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
 import { fetchAsync, navToEditExercise, deleteAsync } from '../ducks/exercises'
+import { List } from 'material-ui'
+import CenteredSpinner from '../dumb/CenteredSpinner'
 import SimpleListItem from '../dumb/SimpleListItem'
 
 class ExercisesList extends Component {
@@ -20,12 +22,21 @@ class ExercisesList extends Component {
   renderExercises() {
     const { entities, syncing, navToEditExercise, deleteAsync } = this.props
 
+    let lastLetter = ''
     return entities.toOrderedSet().map(exercise => {
-      var id = exercise.get('_id')
-      var disabled = syncing.get(id) ? true : false
+      const id = exercise.get('_id')
+      const busy = syncing.get(id) ? true : false
+      let letter = exercise.get('name').charAt(0).toUpperCase()
+      if (letter !== lastLetter) {
+        lastLetter = letter
+      } else {
+        letter = null
+      }
+
       return (
-        <SimpleListItem key={id} name={exercise.get('name')} busy={disabled}
-                editClicked={() => navToEditExercise(id)} deleteClicked={() => deleteAsync(id)} />
+        <SimpleListItem key={id} name={exercise.get('name')} busy={busy}
+                        editClicked={() => navToEditExercise(id)} deleteClicked={() => deleteAsync(id)}
+                        letter={letter}/>
       )
     })
   }
@@ -35,10 +46,10 @@ class ExercisesList extends Component {
 
     return (
       <div>
-        { isFetching ? <span>Loading</span> : null }
-        <div>
+        <CenteredSpinner isVisible={isFetching}/>
+        <List subheader='Exercises'>
           { this.renderExercises() }
-        </div>
+        </List>
       </div>
     )
   }

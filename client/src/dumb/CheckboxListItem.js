@@ -1,17 +1,20 @@
 import React, { Component, PropTypes } from 'react'
 import shouldUpdatePure from 'react-pure-render/function'
+import { ListItem, Avatar, Styles, Checkbox} from 'material-ui'
 
 class CheckboxListItem extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   render() {
-    const { name, checked, toggle } = this.props
+    const { name, checked, toggle, letter } = this.props
 
     return (
-      <div onClick={toggle} style={{padding: '10'}}>
-        <span>{name}</span>
-        {checked ? <span> CHECKED </span> : null}
-      </div>
+      <ListItem primaryText={name}
+                leftAvatar={letter ? <Avatar color={Styles.Colors.pinkA200} backgroundColor={Styles.Colors.transparent}>{letter}</Avatar> : null}
+                onClick={toggle} insetChildren={true}
+                rightToggle={
+                  <Checkbox defaultChecked={checked} onCheck={toggle}/>
+                }/>
     )
   }
 }
@@ -19,7 +22,8 @@ class CheckboxListItem extends Component {
 CheckboxListItem.propTypes = {
   name: PropTypes.string.isRequired,
   checked: PropTypes.bool.isRequired,
-  toggle: PropTypes.func.isRequired
+  toggle: PropTypes.func.isRequired,
+  letter: PropTypes.string
 }
 
 export default CheckboxListItem

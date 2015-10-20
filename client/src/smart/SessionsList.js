@@ -3,8 +3,10 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
+import { List } from 'material-ui'
 import { fetchAsync, navToEditSession, deleteAsync } from '../ducks/sessions'
 import SimpleListItem from '../dumb/SimpleListItem'
+import CenteredSpinner from '../dumb/CenteredSpinner'
 
 class SessionsList extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -36,10 +38,10 @@ class SessionsList extends Component {
 
     return (
       <div>
-        { isFetching ? <span>Loading</span> : null }
-        <div>
+        <CenteredSpinner isVisible={isFetching}/>
+        <List subheader='Sessions'>
           { this.renderSessions() }
-        </div>
+        </List>
       </div>
     )
   }

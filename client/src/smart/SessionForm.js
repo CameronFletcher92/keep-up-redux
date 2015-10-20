@@ -23,15 +23,8 @@ class SessionForm extends Component {
           <TextField floatingLabelText='Additional Notes' value={form.get('notes')} onChange={(e) => updateForm('notes', e.target.value)} />
         </div>
 
-        <div>
-          Clients
-          <ClientsCheckList />
-        </div>
-
-        <div>
-          Exercises
-          <ExercisesCheckList />
-        </div>
+        <ClientsCheckList />
+        <ExercisesCheckList />
 
         <RaisedButton label='Save' onClick={() => saveAsync(form.toJS())}/>
       </div>
