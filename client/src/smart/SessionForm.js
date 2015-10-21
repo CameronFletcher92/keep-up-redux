@@ -11,7 +11,7 @@ import IconInputContainer from '../dumb/IconInputContainer'
 
 const styles = {
   container: { display: 'flex', flexDirection: 'column', alignItems: 'stretch' },
-  text: { width: '100%', marginBottom: '1em' },
+  text: { width: '100%', marginBottom: '0.5em' },
   datepicker: { width: '100%' },
   button: { flex: 1, alignSelf: 'flex-end', marginTop: '1em' },
   checkContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' },
