@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
-import { List, Paper } from 'material-ui'
+import { List, Paper, ListDivider } from 'material-ui'
 import SimpleListItem from './SimpleListItem'
 import CenteredSpinner from './CenteredSpinner'
 
@@ -41,6 +41,7 @@ class SimpleList extends Component {
     return (
       <Paper zDepth={2}>
         <List subheader={title} subheaderStyle={{ fontSize: '1em' }}>
+          <ListDivider />
           <CenteredSpinner isVisible={isBusy} />
           {this.renderItems()}
         </List>
