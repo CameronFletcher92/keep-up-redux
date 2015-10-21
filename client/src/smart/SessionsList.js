@@ -28,7 +28,7 @@ class SessionsList extends Component {
                     isBusy={isFetching}
                     getItemLetter={(session) => days[session.get('time').getDay()]}
                     getItemName={(session) => session.get('time').toLocaleString()} />
-        <FixedActionButton onClick={() => pushState(null, '/clients/new')}/>
+        <FixedActionButton onClick={() => pushState(null, '/sessions/new')}/>
       </div>
     )
   }
