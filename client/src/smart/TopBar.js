@@ -27,8 +27,8 @@ class TopBar extends Component {
         <AppBar style={{ position: 'fixed' }} title='Keep Up' zDepth={1} onLeftIconButtonTouchTap={() => this.refs.leftNav.toggle()}/>
         <LeftNav ref='leftNav' menuItems={menuItems} docked={false} onChange={(ev, key, payload) => pushState(null, payload.route)}/>
         <div style={{ paddingTop: '4.0em' }}/>
-        <Flex direction='row' justifyContent='center' padding='0.5em'>
-          <Flex minWidth='15em' maxWidth='50em' direction='column'>
+        <Flex direction='row' justifyContent='center'>
+          <Flex minWidth='15em' maxWidth='50em' direction='column' margin='0.5em'>
             {children}
           </Flex>
         </Flex>

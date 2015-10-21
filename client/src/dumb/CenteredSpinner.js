@@ -17,7 +17,7 @@ class CenteredSpinner extends Component {
       )
     } else if (isVisible && !fixed) {
       return (
-        <Flex padding='1em' justifyContent='center'>
+        <Flex justifyContent='center'>
           <CircularProgress mode='indeterminate' style={styles.relative}/>
         </Flex>
       )
