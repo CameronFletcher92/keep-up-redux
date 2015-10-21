@@ -3,8 +3,8 @@ import { CircularProgress } from 'material-ui'
 import Flex from './Flex'
 
 const styles = {
-  fixed: { position: 'fixed', top: '50%', left: '50%', marginLeft: '-2em', zIndex: '10' },
-  relative: { marginLeft: '-2em', zIndex: '10' }
+  fixed: { position: 'fixed', top: '50%', left: '50%', marginLeft: '-2em' },
+  relative: { marginLeft: '-2em', marginBottom: '2em', marginTop: '1em' }
 }
 
 class CenteredSpinner extends Component {
