@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
-import { List, Paper, CircularProgress } from 'material-ui'
-import Flex from './Flex'
+import { List, Paper } from 'material-ui'
 import CheckboxListItem from './CheckboxListItem'
+import CenteredSpinner from './CenteredSpinner'
 
 class SimpleList extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -34,21 +34,13 @@ class SimpleList extends Component {
     })
   }
 
-  renderProgress() {
-    return (
-      <Flex padding='1em' justifyContent='center'>
-        <CircularProgress mode='indeterminate'/>
-      </Flex>
-    )
-  }
-
   render() {
     const { isBusy, title } = this.props
 
     return (
       <Paper zDepth={2}>
         <List subheader={title} subheaderStyle={{ fontSize: '1em' }}>
-          {isBusy ? this.renderProgress() : null}
+          <CenteredSpinner isVisible={isBusy} />
           {this.renderItems()}
         </List>
       </Paper>

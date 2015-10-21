@@ -26,7 +26,7 @@ class SplashPage extends Component {
 
     if (isFetching) {
       return (
-        <CenteredSpinner isVisible={isFetching} />
+        <CenteredSpinner isVisible={isFetching} fixed={true}/>
       )
     }
 
