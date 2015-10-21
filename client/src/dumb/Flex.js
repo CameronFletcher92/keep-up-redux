@@ -5,10 +5,10 @@ class Flex extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   render() {
-    const { direction, justifyContent, alignItems, grow, shrink, basis, alignSelf, children, minWidth, maxWidth, padding, margin } = this.props
+    const { direction, justifyContent, alignItems, grow, shrink, basis, alignSelf, children, minWidth, maxWidth, margin } = this.props
     return (
       <div style={{ display: 'flex', flex: '1 1 auto', width: '100%', flexDirection: direction, flexGrow: grow, flexShrink: shrink,
-                  justifyContent, alignItems, basis, alignSelf, minWidth, maxWidth, padding, margin }}>
+                  justifyContent, alignItems, basis, alignSelf, minWidth, maxWidth, margin }}>
         {children}
       </div>
     )
@@ -25,7 +25,6 @@ Flex.propTypes = {
   alignSelf: PropTypes.string,
   minWidth: PropTypes.string,
   maxWidth: PropTypes.string,
-  padding: PropTypes.string,
   margin: PropTypes.string
 }
 
