@@ -14,14 +14,14 @@ class ExercisesList extends Component {
   componentWillMount() {
     const { entities, fetchAsync } = this.props
 
-    if (entities.size == 0) {
+    if (entities.size === 0) {
       fetchAsync()
     }
   }
 
   render() {
     const { entities, syncing, pushState, isFetching } = this.props
-    return(
+    return (
       <div>
         <SimpleList title='Exercises' items={entities} busyItems={syncing} onItemClick={(id) => pushState(null, '/exercises/' + id)}
                     isBusy={isFetching}

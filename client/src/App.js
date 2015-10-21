@@ -18,6 +18,7 @@ class App extends Component {
   }
 
   render() {
+    /* global __DEV__ */
     return (
       <div>
         <Provider store={store}>

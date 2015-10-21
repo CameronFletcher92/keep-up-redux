@@ -59,7 +59,7 @@ SimpleList.propTypes = {
   onItemClick: PropTypes.func.isRequired,       // callback for item click
   isBusy: PropTypes.bool.isRequired,            // global isBusy for the whole list
   getItemLetter: PropTypes.func.isRequired,     // (entity) => letter function
-  getItemName: PropTypes.func.isRequired,       // (entity) => name function
+  getItemName: PropTypes.func.isRequired        // (entity) => name function
 }
 
 export default SimpleList

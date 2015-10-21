@@ -17,7 +17,7 @@ class TopBar extends Component {
     const menuItems = [
       {route: '/clients', text: 'Clients'},
       {route: '/exercises', text: 'Exercises'},
-      {route: '/sessions', text: 'Sessions'},
+      {route: '/sessions', text: 'Sessions'}
     ]
 
     const { children, pushState } = this.props
@@ -25,7 +25,7 @@ class TopBar extends Component {
     return (
       <div>
         <AppBar style={{position: 'fixed'}} title='Keep Up' zDepth={1} onLeftIconButtonTouchTap={() => this.refs.leftNav.toggle()}/>
-        <LeftNav ref='leftNav' menuItems={menuItems} docked={false} onChange={(e, k, p) => pushState(null, p.route)}/>
+        <LeftNav ref='leftNav' menuItems={menuItems} docked={false} onChange={(ev, key, payload) => pushState(null, payload.route)}/>
         <div style={{paddingTop: '4.0em'}}/>
         <Flex direction='row' justifyContent='center' padding='0.5em'>
           <Flex minWidth='15em' maxWidth='50em' direction='column'>
@@ -38,13 +38,11 @@ class TopBar extends Component {
 }
 
 TopBar.PropTypes = {
-  pushState: PropTypes.func.isRequired,
+  pushState: PropTypes.func.isRequired
 }
 
 export default connect(
-  state => {
-    return {}
-  },
+  null,
   dispatch => {
     return bindActionCreators({ pushState }, dispatch)
   }

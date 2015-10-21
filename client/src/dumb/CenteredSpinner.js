@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { CircularProgress } from 'material-ui'
 
 class CenteredSpinner extends Component {
-  render () {
+  render() {
     return (
       this.props.isVisible ?
       <CircularProgress style={{position: 'fixed', top: '50%', left: '50%',

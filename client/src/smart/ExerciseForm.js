@@ -6,7 +6,7 @@ import ImmPropTypes from 'react-immutable-proptypes'
 import { saveAsync, updateForm, resetForm } from '../ducks/exercises'
 import { RaisedButton, TextField, SelectField } from 'material-ui'
 
-let styles = {
+const styles = {
   container: {display: 'flex', flexDirection: 'column', alignItems: 'stretch'},
   text: {width: '100%', flex: '1 1 auto', marginBottom: '1em'},
   button: {flex: 1, alignSelf: 'flex-end'}
@@ -17,7 +17,7 @@ class ExerciseForm extends Component {
 
   componentWillMount() {
     const { id, resetForm } = this.props
-    if(id) {
+    if (id) {
       resetForm(id)
     } else {
       resetForm()
@@ -35,9 +35,9 @@ class ExerciseForm extends Component {
     ]
     return (
       <div style={styles.container}>
-        <TextField style={styles.text} floatingLabelText='Exercise' value={form.get('name')} onChange={(e) => updateForm('name', e.target.value)} />
-        <TextField style={styles.text} floatingLabelText='Description' multiLine={true} value={form.get('description')} onChange={(e) => updateForm('description', e.target.value)} />
-        <SelectField style={styles.text} floatingLabelText='Intensity' menuItems={intensities} value={form.get('intensity')} onChange={(e) => updateForm('intensity', e.target.value)} />
+        <TextField style={styles.text} floatingLabelText='Exercise' value={form.get('name')} onChange={(ev) => updateForm('name', ev.target.value)} />
+        <TextField style={styles.text} floatingLabelText='Description' multiLine={true} value={form.get('description')} onChange={(ev) => updateForm('description', ev.target.value)} />
+        <SelectField style={styles.text} floatingLabelText='Intensity' menuItems={intensities} value={form.get('intensity')} onChange={(ev) => updateForm('intensity', ev.target.value)} />
 
         <RaisedButton style={styles.button} primary label='Save' onClick={() => saveAsync(form.toJS())}/>
       </div>
@@ -47,11 +47,11 @@ class ExerciseForm extends Component {
 
 ExerciseForm.propTypes = {
   form: ImmPropTypes.contains({
-          _id: PropTypes.string.isRequired,
-          name: PropTypes.string.isRequired,
-          description: PropTypes.string.isRequired,
-          intensity: PropTypes.number.isRequired
-        }),
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    intensity: PropTypes.number.isRequired
+  }),
   id: PropTypes.string,
   saveAsync: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,

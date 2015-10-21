@@ -32,12 +32,12 @@ class ClientsCheckList extends Component {
 ClientsCheckList.propTypes = {
   selectedClients: ImmPropTypes.map.isRequired,
   clients: ImmPropTypes.mapOf(
-                ImmPropTypes.contains({
-                  _id: PropTypes.string.isRequired,
-                  firstName: PropTypes.string.isRequired,
-                  lastName: PropTypes.string.isRequired,
-                })
-              ),
+    ImmPropTypes.contains({
+      _id: PropTypes.string.isRequired,
+      firstName: PropTypes.string.isRequired,
+      lastName: PropTypes.string.isRequired
+    })
+  ),
   toggleClient: PropTypes.func.isRequired,
   fetchAsync: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired

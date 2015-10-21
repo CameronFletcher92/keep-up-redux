@@ -18,7 +18,7 @@ class SplashPage extends Component {
   }
 
   loginClicked() {
-    console.log('login')
+    // console.log('login')
   }
 
   renderContent() {
@@ -34,7 +34,7 @@ class SplashPage extends Component {
       return (
         <p> Logged in as {user.get('firstName')} {user.get('lastName')} </p>
       )
-    } else {
+    } else if (!isLoggedIn) {
       return (
         <RaisedButton onClick={this.loginClicked} label='Login'/>
       )

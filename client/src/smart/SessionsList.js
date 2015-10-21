@@ -14,7 +14,7 @@ class SessionsList extends Component {
   componentWillMount() {
     const { entities, fetchAsync } = this.props
 
-    if (entities.size == 0) {
+    if (entities.size === 0) {
       fetchAsync()
     }
   }
@@ -22,7 +22,7 @@ class SessionsList extends Component {
   render() {
     const { entities, syncing, pushState, isFetching } = this.props
     const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
-    return(
+    return (
       <div>
         <SimpleList title='Sessions' items={entities} busyItems={syncing} onItemClick={(id) => pushState(null, '/sessions/' + id)}
                     isBusy={isFetching}

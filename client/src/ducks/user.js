@@ -39,19 +39,19 @@ export function fetchAsync() {
 // REDUCER
 export function reducer(state = initialState, action) {
   switch (action.type) {
-    case FETCHING:
-      state = state.set('isFetching', true)
-      return state
+  case FETCHING:
+    state = state.set('isFetching', true)
+    return state
 
-    case FETCHED:
-      state = state.set('isFetching', false)
-      if (action.user) {
-        state = state.set('isLoggedIn', true)
-        state = state.set('entity', Immutable.fromJS(action.user))
-      }
-      return state
+  case FETCHED:
+    state = state.set('isFetching', false)
+    if (action.user) {
+      state = state.set('isLoggedIn', true)
+      state = state.set('entity', Immutable.fromJS(action.user))
+    }
+    return state
 
-    default:
-      return state
+  default:
+    return state
   }
 }

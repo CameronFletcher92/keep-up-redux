@@ -14,14 +14,14 @@ class ClientsList extends Component {
   componentWillMount() {
     const { entities, fetchAsync } = this.props
 
-    if (entities.size == 0) {
+    if (entities.size === 0) {
       fetchAsync()
     }
   }
 
   render() {
     const { entities, syncing, pushState, isFetching } = this.props
-    return(
+    return (
       <div>
         <SimpleList title='Clients' items={entities} busyItems={syncing} onItemClick={(id) => pushState(null, '/clients/' + id)}
                     isBusy={isFetching}
@@ -36,12 +36,12 @@ class ClientsList extends Component {
 ClientsList.propTypes = {
   // entities is an immutable list of immutable clients
   entities: ImmPropTypes.mapOf(
-                ImmPropTypes.contains({
-                  _id: PropTypes.string.isRequired,
-                  firstName: PropTypes.string.isRequired,
-                  lastName: PropTypes.string.isRequired,
-                })
-              ),
+    ImmPropTypes.contains({
+      _id: PropTypes.string.isRequired,
+      firstName: PropTypes.string.isRequired,
+      lastName: PropTypes.string.isRequired
+    })
+  ),
   syncing: ImmPropTypes.map.isRequired,
   fetchAsync: PropTypes.func.isRequired,
   pushState: PropTypes.func.isRequired,

@@ -6,12 +6,12 @@ import Immutable from 'immutable'
 const FETCHING = 'sessions/FETCHING'
 const FETCHED = 'sessions/FETCHED'
 
-const CREATING   = 'sessions/CREATING'
-const CREATED   = 'sessions/CREATED'
+const CREATING = 'sessions/CREATING'
+const CREATED = 'sessions/CREATED'
 
 const SAVING = 'sessions/SAVING'
-const UPDATED  = 'sessions/UPDATED'
-const DELETED  = 'sessions/DELETED'
+const UPDATED = 'sessions/UPDATED'
+const DELETED = 'sessions/DELETED'
 
 const UPDATE_FORM = 'sessions/UPDATE_FORM'
 const RESET_FORM = 'sessions/RESET_FORM'
@@ -111,6 +111,28 @@ export function toggleExercise(id) {
   }
 }
 
+// HELPER FUNCTIONS
+function normalize(session) {
+  const clients = {}
+  session.clients.forEach(id => {
+    clients[id] = true
+  })
+
+  const exercises = {}
+  session.exercises.forEach(id => {
+    exercises[id] = true
+  })
+
+  return {...session, clients, exercises}
+}
+
+function denormalize(session) {
+  const clients = Object.keys(session.clients)
+  const exercises = Object.keys(session.exercises)
+
+  return {...session, clients, exercises}
+}
+
 // ASYNC ACTIONS
 export function fetchAsync() {
   return (dispatch) => {
@@ -121,6 +143,7 @@ export function fetchAsync() {
     })
   }
 }
+
 
 export function saveAsync(session) {
   return (dispatch) => {
@@ -136,7 +159,6 @@ export function saveAsync(session) {
           dispatch(updated(res.body))
         }
       })
-
     } else {
       dispatch(creating())
 
@@ -168,107 +190,87 @@ export function deleteAsync(id) {
   }
 }
 
-function normalize(session) {
-  let clients = {}
-  session.clients.forEach(id => {
-    clients[id] = true
-  })
-
-  let exercises = {}
-  session.exercises.forEach(id => {
-    exercises[id] = true
-  })
-
-  return {...session, clients, exercises}
-}
-
-function denormalize(session) {
-  let clients = Object.keys(session.clients)
-  let exercises = Object.keys(session.exercises)
-
-  return {...session, clients, exercises}
-}
 
 // REDUCER
 export function reducer(state = initialState, action) {
   switch (action.type) {
-    case FETCHING:
-      state = state.set('isFetching', true)
-      return state
+  case FETCHING:
+    state = state.set('isFetching', true)
+    return state
 
-    case FETCHED:
-      // convert fetched sessions to a map by ids
-      let indexed = Immutable.OrderedMap()
-      action.sessions.forEach(s => {
-        s.time = new Date(s.time)
-        indexed = indexed.set(s._id, Immutable.fromJS(normalize(s)))
-      })
-      state = state.set('entities', indexed)
-      state = state.set('isFetching', false)
-      return state
+  case FETCHED:
+    // convert fetched sessions to a map by ids
+    let indexed = new Immutable.OrderedMap()
+    action.sessions.forEach(session => {
+      session.time = new Date(session.time)
+      indexed = indexed.set(session._id, Immutable.fromJS(normalize(session)))
+    })
+    state = state.set('entities', indexed)
+    state = state.set('isFetching', false)
+    return state
 
-    case CREATING:
-      state = state.set('isFetching', true)
-      return state
+  case CREATING:
+    state = state.set('isFetching', true)
+    return state
 
-    case CREATED:
-      action.session.time = new Date(action.session.time)
-      let newSession = Immutable.fromJS(normalize(action.session))
-      state = state.setIn(['entities', newSession.get('_id')], newSession)
-      state = state.set('isFetching', false)
-      return state
+  case CREATED:
+    action.session.time = new Date(action.session.time)
+    const newSession = Immutable.fromJS(normalize(action.session))
+    state = state.setIn(['entities', newSession.get('_id')], newSession)
+    state = state.set('isFetching', false)
+    return state
 
-    case SAVING:
-      state = state.setIn(['syncing', action.id], true)
-      return state
+  case SAVING:
+    state = state.setIn(['syncing', action.id], true)
+    return state
 
-    case UPDATED:
-      action.session.time = new Date(action.session.time)
-      let updatedSession = Immutable.fromJS(normalize(action.session))
-      state = state.setIn(['entities', updatedSession.get('_id')], updatedSession)
-      state = state.deleteIn(['syncing', updatedSession.get('_id')])
-      return state
+  case UPDATED:
+    action.session.time = new Date(action.session.time)
+    const updatedSession = Immutable.fromJS(normalize(action.session))
+    state = state.setIn(['entities', updatedSession.get('_id')], updatedSession)
+    state = state.deleteIn(['syncing', updatedSession.get('_id')])
+    return state
 
-    case DELETED:
-      state = state.deleteIn(['entities', action.id])
-      state = state.deleteIn(['syncing', action.id])
-      return state
+  case DELETED:
+    state = state.deleteIn(['entities', action.id])
+    state = state.deleteIn(['syncing', action.id])
+    return state
 
-    case UPDATE_FORM:
-      state = state.setIn(['form', action.field], action.value)
-      return state
+  case UPDATE_FORM:
+    state = state.setIn(['form', action.field], action.value)
+    return state
 
-    case RESET_FORM:
-      if (action.id) {
-        // set initial form state to be id's entity
-        state = state.mergeIn(['form'], state.getIn(['entities', action.id]))
-      } else {
-        // set form state as it's initial state
-        state = state.set('form', initialState.get('form'))
-      }
-      return state
+  case RESET_FORM:
+    if (action.id) {
+      // set initial form state to be id's entity
+      state = state.mergeIn(['form'], state.getIn(['entities', action.id]))
+    } else {
+      // set form state as it's initial state
+      state = state.set('form', initialState.get('form'))
+    }
+    return state
 
-    case TOGGLE_CLIENT:
-      if (state.getIn(['form', 'clients', action.id])) {
-        // if the id exists in clients, remove it
-        state = state.deleteIn(['form', 'clients', action.id])
-      } else {
-        // if it doesn't exist, add it
-        state = state.setIn(['form', 'clients', action.id], true)
-      }
-      return state
+  case TOGGLE_CLIENT:
+    if (state.getIn(['form', 'clients', action.id])) {
+      // if the id exists in clients, remove it
+      state = state.deleteIn(['form', 'clients', action.id])
+    } else {
+      // if it doesn't exist, add it
+      state = state.setIn(['form', 'clients', action.id], true)
+    }
+    return state
 
-    case TOGGLE_EXERCISE:
-      if (state.getIn(['form', 'exercises', action.id])) {
-        // if the id exists in clients, remove it
-        state = state.deleteIn(['form', 'exercises', action.id])
-      } else {
-        // if it doesn't exist, add it
-        state = state.setIn(['form', 'exercises', action.id], true)
-      }
-      return state
+  case TOGGLE_EXERCISE:
+    if (state.getIn(['form', 'exercises', action.id])) {
+      // if the id exists in clients, remove it
+      state = state.deleteIn(['form', 'exercises', action.id])
+    } else {
+      // if it doesn't exist, add it
+      state = state.setIn(['form', 'exercises', action.id], true)
+    }
+    return state
 
-    default:
-      return state
+  default:
+    return state
   }
 }

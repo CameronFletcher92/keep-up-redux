@@ -4,11 +4,11 @@ import { connect } from 'react-redux'
 import shouldUpdatePure from 'react-pure-render/function'
 import ImmPropTypes from 'react-immutable-proptypes'
 import { saveAsync, updateForm, resetForm } from '../ducks/sessions'
-import { RaisedButton, TextField, DatePicker, TimePicker } from 'material-ui'
+import { RaisedButton, TextField, DatePicker } from 'material-ui'
 import ClientsCheckList from './ClientsCheckList'
 import ExercisesCheckList from './ExercisesCheckList'
 
-let styles = {
+const styles = {
   container: {display: 'flex', flexDirection: 'column', alignItems: 'stretch'},
   text: {width: '100%', marginBottom: '1em'},
   button: {flex: 1, alignSelf: 'flex-end'},
@@ -21,7 +21,7 @@ class SessionForm extends Component {
 
   componentWillMount() {
     const { id, resetForm } = this.props
-    if(id) {
+    if (id) {
       resetForm(id)
     } else {
       resetForm()
@@ -32,8 +32,8 @@ class SessionForm extends Component {
     const { form, saveAsync, updateForm } = this.props
     return (
       <div style={styles.container}>
-        <DatePicker textFieldStyle={styles.text} floatingLabelText='Session Date' value={form.get('time')} onChange={(e, d) => updateForm('time', d)} />
-        <TextField style={styles.text} multiLine={true} floatingLabelText='Additional Notes' value={form.get('notes')} onChange={(e) => updateForm('notes', e.target.value)} />
+        <DatePicker textFieldStyle={styles.text} floatingLabelText='Session Date' value={form.get('time')} onChange={(ev, dt) => updateForm('time', dt)} />
+        <TextField style={styles.text} multiLine={true} floatingLabelText='Additional Notes' value={form.get('notes')} onChange={(ev) => updateForm('notes', ev.target.value)} />
 
         <div style={styles.checkContainer}>
           <div style={styles.checklist}>
@@ -52,10 +52,10 @@ class SessionForm extends Component {
 
 SessionForm.propTypes = {
   form: ImmPropTypes.contains({
-          _id: PropTypes.string.isRequired,
-          time: PropTypes.instanceOf(Date).isRequired,
-          notes: PropTypes.string.isRequired,
-        }),
+    _id: PropTypes.string.isRequired,
+    time: PropTypes.instanceOf(Date).isRequired,
+    notes: PropTypes.string.isRequired
+  }),
   id: PropTypes.string,
   saveAsync: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
