@@ -13,7 +13,7 @@ class IconInputContainer extends Component {
         <div style={{ marginTop: '2em', marginRight: '1em' }}>
           <FontIcon className='material-icons' style={{ fontSize: '200%', color: Styles.Colors.grey700 }}>{icon}</FontIcon>
         </div>
-        <Flex direction='row'>
+        <Flex direction='row' justifyContent='stretch'>
           {children}
         </Flex>
       </Flex>

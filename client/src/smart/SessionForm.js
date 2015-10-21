@@ -3,15 +3,17 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shouldUpdatePure from 'react-pure-render/function'
 import ImmPropTypes from 'react-immutable-proptypes'
-import { saveAsync, updateForm, resetForm } from '../ducks/sessions'
 import { RaisedButton, TextField, DatePicker } from 'material-ui'
+import { saveAsync, updateForm, resetForm } from '../ducks/sessions'
 import ClientsCheckList from './ClientsCheckList'
 import ExercisesCheckList from './ExercisesCheckList'
+import IconInputContainer from '../dumb/IconInputContainer'
 
 const styles = {
   container: { display: 'flex', flexDirection: 'column', alignItems: 'stretch' },
   text: { width: '100%', marginBottom: '1em' },
-  button: { flex: 1, alignSelf: 'flex-end' },
+  datepicker: { width: '100%' },
+  button: { flex: 1, alignSelf: 'flex-end', marginTop: '1em' },
   checkContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' },
   checklist: { flex: '1 1 auto', margin: '0.5em' }
 }
@@ -32,8 +34,12 @@ class SessionForm extends Component {
     const { form, saveAsync, updateForm } = this.props
     return (
       <div style={styles.container}>
-        <DatePicker textFieldStyle={styles.text} floatingLabelText='Session Date' value={form.get('time')} onChange={(ev, dt) => updateForm('time', dt)} />
-        <TextField style={styles.text} multiLine={true} floatingLabelText='Additional Notes' value={form.get('notes')} onChange={(ev) => updateForm('notes', ev.target.value)} />
+        <IconInputContainer icon='event'>
+          <DatePicker style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Session Date' value={form.get('time')} onChange={(ev, dt) => updateForm('time', dt)} />
+        </IconInputContainer>
+        <IconInputContainer icon='description'>
+          <TextField style={styles.text} multiLine={true} floatingLabelText='Additional Notes' value={form.get('notes')} onChange={(ev) => updateForm('notes', ev.target.value)} />
+        </IconInputContainer>
 
         <div style={styles.checkContainer}>
           <div style={styles.checklist}>

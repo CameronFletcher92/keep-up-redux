@@ -3,13 +3,14 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shouldUpdatePure from 'react-pure-render/function'
 import ImmPropTypes from 'react-immutable-proptypes'
-import { saveAsync, updateForm, resetForm } from '../ducks/exercises'
 import { RaisedButton, TextField, SelectField } from 'material-ui'
+import { saveAsync, updateForm, resetForm } from '../ducks/exercises'
+import IconInputContainer from '../dumb/IconInputContainer'
 
 const styles = {
   container: { display: 'flex', flexDirection: 'column', alignItems: 'stretch' },
-  text: { width: '100%', flex: '1 1 auto', marginBottom: '1em' },
-  button: { flex: 1, alignSelf: 'flex-end' }
+  text: { width: '100%', marginBottom: '1em' },
+  button: { flex: 1, alignSelf: 'flex-end', marginTop: '1em' }
 }
 
 class ExerciseForm extends Component {
@@ -35,9 +36,15 @@ class ExerciseForm extends Component {
     ]
     return (
       <div style={styles.container}>
-        <TextField style={styles.text} floatingLabelText='Exercise' value={form.get('name')} onChange={(ev) => updateForm('name', ev.target.value)} />
-        <TextField style={styles.text} floatingLabelText='Description' multiLine={true} value={form.get('description')} onChange={(ev) => updateForm('description', ev.target.value)} />
-        <SelectField style={styles.text} floatingLabelText='Intensity' menuItems={intensities} value={form.get('intensity')} onChange={(ev) => updateForm('intensity', ev.target.value)} />
+        <IconInputContainer icon='directions_run'>
+          <TextField style={styles.text} floatingLabelText='Exercise' value={form.get('name')} onChange={(ev) => updateForm('name', ev.target.value)} />
+        </IconInputContainer>
+        <IconInputContainer icon='description'>
+          <TextField style={styles.text} floatingLabelText='Description' multiLine={true} value={form.get('description')} onChange={(ev) => updateForm('description', ev.target.value)} />
+        </IconInputContainer>
+        <IconInputContainer icon='whatshot'>
+          <SelectField style={styles.text} floatingLabelText='Intensity' menuItems={intensities} value={form.get('intensity')} onChange={(ev) => updateForm('intensity', ev.target.value)} />
+        </IconInputContainer>
 
         <RaisedButton style={styles.button} primary label='Save' onClick={() => saveAsync(form.toJS())}/>
       </div>
