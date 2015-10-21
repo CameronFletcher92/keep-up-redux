@@ -27,7 +27,7 @@ class ExercisesList extends Component {
                     isBusy={isFetching}
                     getItemLetter={(exercise) => exercise.get('name').charAt(0).toUpperCase()}
                     getItemName={(exercise) => exercise.get('name')} />
-        <FixedActionButton onClick={() => pushState(null, '/sessions/new')}/>
+        <FixedActionButton onClick={() => pushState(null, '/exercises/new')}/>
       </div>
     )
   }
