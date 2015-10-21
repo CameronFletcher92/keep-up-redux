@@ -27,7 +27,7 @@ class ClientsList extends Component {
                     isBusy={isFetching}
                     getItemLetter={(client) => client.get('lastName').charAt(0).toUpperCase()}
                     getItemName={(client) => client.get('firstName') + ' ' + client.get('lastName')} />
-        <FixedActionButton onClick={() => pushState(null, '/clients/new')}/>
+        <FixedActionButton icon='add' onClick={() => pushState(null, '/clients/new')}/>
       </div>
     )
   }
@@ -57,6 +57,6 @@ export default connect(
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchAsync, pushState}, dispatch)
+    return bindActionCreators({ fetchAsync, pushState }, dispatch)
   }
 )(ClientsList)

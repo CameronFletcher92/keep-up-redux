@@ -5,8 +5,8 @@ class CenteredSpinner extends Component {
   render() {
     return (
       this.props.isVisible ?
-      <CircularProgress style={{position: 'fixed', top: '50%', left: '50%',
-                                marginLeft: '-2em', zIndex: '10'}}/> : null
+      <CircularProgress style={{ position: 'fixed', top: '50%', left: '50%',
+                                marginLeft: '-2em', zIndex: '10' }}/> : null
     )
   }
 }

@@ -7,9 +7,9 @@ import { saveAsync, updateForm, resetForm } from '../ducks/exercises'
 import { RaisedButton, TextField, SelectField } from 'material-ui'
 
 const styles = {
-  container: {display: 'flex', flexDirection: 'column', alignItems: 'stretch'},
-  text: {width: '100%', flex: '1 1 auto', marginBottom: '1em'},
-  button: {flex: 1, alignSelf: 'flex-end'}
+  container: { display: 'flex', flexDirection: 'column', alignItems: 'stretch' },
+  text: { width: '100%', flex: '1 1 auto', marginBottom: '1em' },
+  button: { flex: 1, alignSelf: 'flex-end' }
 }
 
 class ExerciseForm extends Component {

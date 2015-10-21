@@ -9,11 +9,11 @@ import ClientsCheckList from './ClientsCheckList'
 import ExercisesCheckList from './ExercisesCheckList'
 
 const styles = {
-  container: {display: 'flex', flexDirection: 'column', alignItems: 'stretch'},
-  text: {width: '100%', marginBottom: '1em'},
-  button: {flex: 1, alignSelf: 'flex-end'},
-  checkContainer: {flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap'},
-  checklist: {flex: '1 1 auto', margin: '0.5em'}
+  container: { display: 'flex', flexDirection: 'column', alignItems: 'stretch' },
+  text: { width: '100%', marginBottom: '1em' },
+  button: { flex: 1, alignSelf: 'flex-end' },
+  checkContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' },
+  checklist: { flex: '1 1 auto', margin: '0.5em' }
 }
 
 class SessionForm extends Component {

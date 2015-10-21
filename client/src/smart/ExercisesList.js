@@ -27,7 +27,7 @@ class ExercisesList extends Component {
                     isBusy={isFetching}
                     getItemLetter={(exercise) => exercise.get('name').charAt(0).toUpperCase()}
                     getItemName={(exercise) => exercise.get('name')} />
-        <FixedActionButton onClick={() => pushState(null, '/exercises/new')}/>
+        <FixedActionButton icon='add' onClick={() => pushState(null, '/exercises/new')}/>
       </div>
     )
   }
@@ -56,6 +56,6 @@ export default connect(
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchAsync, pushState}, dispatch)
+    return bindActionCreators({ fetchAsync, pushState }, dispatch)
   }
 )(ExercisesList)

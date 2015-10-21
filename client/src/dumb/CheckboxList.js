@@ -40,8 +40,8 @@ class SimpleList extends Component {
     return (
       <Paper zDepth={2}>
         <CenteredSpinner isVisible={isBusy}/>
-        <List subheader={title} subheaderStyle={{fontSize: '1em'}}>
-          { this.renderItems() }
+        <List subheader={title} subheaderStyle={{ fontSize: '1em' }}>
+          {this.renderItems()}
         </List>
       </Paper>
     )

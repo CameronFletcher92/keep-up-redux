@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import shouldUpdatePure from 'react-pure-render/function'
-import { ListItem, Avatar, Styles, Checkbox} from 'material-ui'
+import { ListItem, Avatar, Styles, Checkbox } from 'material-ui'
 
 class CheckboxListItem extends Component {
   shouldComponentUpdate = shouldUpdatePure

@@ -27,13 +27,13 @@ let store
 if (__DEV__) {
   store = compose(
     applyMiddleware(thunk),
-    reduxReactRouter({createHistory}),
+    reduxReactRouter({ createHistory }),
     devTools()
   )(createStore)(rootReducer)
 } else {
   store = compose(
     applyMiddleware(thunk),
-    reduxReactRouter({createHistory}),
+    reduxReactRouter({ createHistory }),
   )(createStore)(rootReducer)
 }
 

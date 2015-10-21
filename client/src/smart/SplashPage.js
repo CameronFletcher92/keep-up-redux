@@ -11,7 +11,7 @@ class SplashPage extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   componentWillMount() {
-    const {fetchAsync, isLoggedIn} = this.props
+    const { fetchAsync, isLoggedIn } = this.props
     if (!isLoggedIn) {
       fetchAsync()
     }
@@ -22,7 +22,7 @@ class SplashPage extends Component {
   }
 
   renderContent() {
-    const {isFetching, isLoggedIn, user} = this.props
+    const { isFetching, isLoggedIn, user } = this.props
 
     if (isFetching) {
       return (

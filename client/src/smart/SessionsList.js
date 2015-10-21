@@ -28,7 +28,7 @@ class SessionsList extends Component {
                     isBusy={isFetching}
                     getItemLetter={(session) => days[session.get('time').getDay()]}
                     getItemName={(session) => session.get('time').toLocaleString()} />
-        <FixedActionButton onClick={() => pushState(null, '/sessions/new')}/>
+        <FixedActionButton icon='add' onClick={() => pushState(null, '/sessions/new')}/>
       </div>
     )
   }
@@ -57,6 +57,6 @@ export default connect(
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchAsync, pushState}, dispatch)
+    return bindActionCreators({ fetchAsync, pushState }, dispatch)
   }
 )(SessionsList)

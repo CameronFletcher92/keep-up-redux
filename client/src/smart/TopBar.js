@@ -15,18 +15,18 @@ class TopBar extends Component {
 
   render() {
     const menuItems = [
-      {route: '/clients', text: 'Clients'},
-      {route: '/exercises', text: 'Exercises'},
-      {route: '/sessions', text: 'Sessions'}
+      { route: '/clients', text: 'Clients' },
+      { route: '/exercises', text: 'Exercises' },
+      { route: '/sessions', text: 'Sessions' }
     ]
 
     const { children, pushState } = this.props
 
     return (
       <div>
-        <AppBar style={{position: 'fixed'}} title='Keep Up' zDepth={1} onLeftIconButtonTouchTap={() => this.refs.leftNav.toggle()}/>
+        <AppBar style={{ position: 'fixed' }} title='Keep Up' zDepth={1} onLeftIconButtonTouchTap={() => this.refs.leftNav.toggle()}/>
         <LeftNav ref='leftNav' menuItems={menuItems} docked={false} onChange={(ev, key, payload) => pushState(null, payload.route)}/>
-        <div style={{paddingTop: '4.0em'}}/>
+        <div style={{ paddingTop: '4.0em' }}/>
         <Flex direction='row' justifyContent='center' padding='0.5em'>
           <Flex minWidth='15em' maxWidth='50em' direction='column'>
             {children}

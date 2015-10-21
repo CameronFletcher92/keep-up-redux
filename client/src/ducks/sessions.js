@@ -123,14 +123,14 @@ function normalize(session) {
     exercises[id] = true
   })
 
-  return {...session, clients, exercises}
+  return { ...session, clients, exercises }
 }
 
 function denormalize(session) {
   const clients = Object.keys(session.clients)
   const exercises = Object.keys(session.exercises)
 
-  return {...session, clients, exercises}
+  return { ...session, clients, exercises }
 }
 
 // ASYNC ACTIONS
