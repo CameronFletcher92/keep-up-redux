@@ -4,7 +4,7 @@ import Flex from './Flex'
 
 const styles = {
   fixed: { position: 'fixed', top: '50%', left: '50%', marginLeft: '-2em' },
-  relative: { marginLeft: '-2em', marginBottom: '2em', marginTop: '1em' }
+  relative: { marginLeft: '-0.5em', marginTop: '2em', marginBottom: '2em' }
 }
 
 class CenteredSpinner extends Component {

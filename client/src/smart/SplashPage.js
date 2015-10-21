@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
+import { RaisedButton, FontIcon } from 'material-ui'
 import { fetchAsync } from '../ducks/user'
 import CenteredSpinner from '../dumb/CenteredSpinner'
-import { RaisedButton } from 'material-ui'
+import Flex from '../dumb/Flex'
 
 class SplashPage extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -22,19 +23,12 @@ class SplashPage extends Component {
   }
 
   renderContent() {
-    const { isFetching, isLoggedIn, user } = this.props
-
-    if (isFetching) {
-      return (
-        <CenteredSpinner isVisible={isFetching} fixed={true}/>
-      )
-    }
-
+    const { isLoggedIn, isFetching, user } = this.props
     if (isLoggedIn) {
       return (
-        <p> Logged in as {user.get('firstName')} {user.get('lastName')} </p>
+        <p>Logged in as {user.get('firstName')} {user.get('lastName')} </p>
       )
-    } else if (!isLoggedIn) {
+    } else if (!isFetching) {
       return (
         <RaisedButton onClick={this.loginClicked} label='Login'/>
       )
@@ -42,13 +36,14 @@ class SplashPage extends Component {
   }
 
   render() {
+    const { isFetching } = this.props
     return (
-      <div>
-        <h2>Welcome to Keep Up!</h2>
-        <p>Keep Up is an application designed to help personal trainers / health professionals with tracking their clients</p>
-
+      <Flex direction='column' alignItems='center'>
+        <h1>Welcome to Keep Up!</h1>
+        <FontIcon className='material-icons' style={{ fontSize: '1000%' }}>face</FontIcon>
+        <CenteredSpinner isVisible={isFetching}/>
         {this.renderContent()}
-      </div>
+      </Flex>
     )
   }
 }
