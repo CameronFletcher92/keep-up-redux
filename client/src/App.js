@@ -9,6 +9,10 @@ import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react'
 class App extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
+  componentDidUpdate() {
+    console.log('Rendering App')
+  }
+
   renderDevTools() {
     return (
       <DebugPanel top right bottom>

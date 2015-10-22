@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react'
-import shouldUpdatePure from 'react-pure-render/function'
 import { ListItem, Avatar, Styles, Checkbox } from 'material-ui'
 
 class CheckboxListItem extends Component {
-  shouldComponentUpdate = shouldUpdatePure
+  shouldComponentUpdate = () => false
 
   render() {
     const { name, checked, toggle, letter } = this.props

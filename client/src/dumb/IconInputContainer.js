@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import shouldUpdatePure from 'react-pure-render/function'
+import shallowEqual from 'react-pure-render/shallowEqual'
 import { Styles, FontIcon } from 'material-ui'
 import Flex from './Flex'
 

@@ -9,7 +9,7 @@ class SimpleList extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   renderItems() {
-    const { items, selectedItems, onItemClick, getItemLetter, getItemName } = this.props
+    const { items, selectedItems, getItemLetter, getItemName, onItemClick } = this.props
 
     let lastLetter = ''
     return items.toOrderedSet().map(item => {

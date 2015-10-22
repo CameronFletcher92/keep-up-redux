@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { CircularProgress } from 'material-ui'
 import Flex from './Flex'
+import shouldUpdatePure from 'react-pure-render/function'
 
 const styles = {
   fixed: { position: 'fixed', top: '50%', left: '50%', marginLeft: '-2em' },
@@ -8,6 +9,8 @@ const styles = {
 }
 
 class CenteredSpinner extends Component {
+  shouldComponentUpdate = shouldUpdatePure
+
   render() {
     const { isVisible, fixed } = this.props
 

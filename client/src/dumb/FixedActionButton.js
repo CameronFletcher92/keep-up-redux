@@ -2,6 +2,12 @@ import React, { Component, PropTypes } from 'react'
 import { FloatingActionButton, FontIcon } from 'material-ui'
 
 class FixedActionButton extends Component {
+  shouldComponentUpdate = () => false
+
+  componentDidUpdate() {
+    console.log('Rendering FixedActionButton')
+  }
+
   render() {
     /* global __DEV__*/
     const rightMargin = __DEV__ ? '20em' : '2em'
