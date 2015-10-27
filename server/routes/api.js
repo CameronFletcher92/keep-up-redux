@@ -119,6 +119,7 @@ module.exports = (app, passport) => {
     if (req.isAuthenticated()) {
       const client = req.body
       const query = Client.find({ _id: client._id })
+      client.trainer = req.user._id
 
       Client.findOneAndUpdate(query, client, (err, updatedClient) => {
         if (err || !updatedClient) {
@@ -171,8 +172,9 @@ module.exports = (app, passport) => {
     console.log('PUT /api/exercises')
     if (req.isAuthenticated()) {
       const exercise = req.body
-      const query = Exercise.find({ _id: exercise._id })
+      exercise.trainer = req.user._id
 
+      const query = Exercise.find({ _id: exercise._id })
       Exercise.findOneAndUpdate(query, exercise, (err, updatedExercise) => {
         if (err || !updatedExercise) {
           console.error('could not update exercise')
@@ -223,8 +225,9 @@ module.exports = (app, passport) => {
     console.log('PUT /api/sessions')
     if (req.isAuthenticated()) {
       const session = req.body
-      const query = Session.find({ _id: session._id })
+      session.trainer = req.user._id
 
+      const query = Session.find({ _id: session._id })
       Session.findOneAndUpdate(query, session, (err, updatedSession) => {
         if (err || !updatedSession) {
           console.error('could not update session')
