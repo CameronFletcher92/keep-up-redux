@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import shouldUpdatePure from 'react-pure-render/function'
 import ImmPropTypes from 'react-immutable-proptypes'
+import { pushState } from 'redux-router'
 import { Avatar, List, ListItem, ListDivider, Paper } from 'material-ui'
 import { fetchReportAsync } from '../ducks/clients'
 import { fetchAsync as fetchExercisesAsync } from '../ducks/exercises'
@@ -31,7 +32,7 @@ class Report extends Component {
     }
   }
 
-  renderSessions(sessionIds, sessions) {
+  renderSessions(sessionIds, sessions, pushState) {
     if (sessions.size === 0) {
       return null
     }
@@ -40,25 +41,27 @@ class Report extends Component {
     return sessionIds.map(sessionId => {
       return (
         <ListItem key={sessionId} primaryText={sessions.getIn([sessionId, 'time']).toLocaleString('en-AU')}
-                  leftAvatar={<Avatar> {days[sessions.getIn([sessionId, 'time']).getDay()]} </Avatar>}/>
+                  leftAvatar={<Avatar> {days[sessions.getIn([sessionId, 'time']).getDay()]} </Avatar>}
+                  onClick={() => pushState({ title: 'Edit Exercise' }, '/sessions/' + sessionId)}/>
       )
     })
   }
 
-  renderExercises(exerciseCounts, exercises) {
+  renderExercises(exerciseCounts, exercises, pushState) {
     if (exercises.size === 0) {
       return null
     }
     return exerciseCounts.keySeq().map(exerciseId => {
       return (
         <ListItem key={exerciseId} primaryText={exercises.getIn([exerciseId, 'name'])}
-                  leftAvatar={<Avatar>{exerciseCounts.get(exerciseId)}</Avatar>}/>
+                  leftAvatar={<Avatar>{exerciseCounts.get(exerciseId)}</Avatar>}
+                  onClick={() => pushState({ title: 'Edit Exercise' }, '/exercises/' + exerciseId)}/>
       )
     })
   }
 
   render() {
-    const { report, isFetching, exercises, sessions, sessionsFetching, exercisesFetching } = this.props
+    const { report, isFetching, exercises, sessions, sessionsFetching, exercisesFetching, pushState } = this.props
 
     return (
       <Paper zDepth={2}>
@@ -78,7 +81,7 @@ class Report extends Component {
                     </div>
                     <ListDivider />
                     <CenteredSpinner isVisible={sessionsFetching} />
-                    {this.renderSessions(report.get('sessions'), sessions)}
+                    {this.renderSessions(report.get('sessions'), sessions, pushState)}
                   </List>
                 </div>
                 <div style={styles.list}>
@@ -88,7 +91,7 @@ class Report extends Component {
                     </div>
                     <ListDivider />
                     <CenteredSpinner isVisible={exercisesFetching} />
-                    {this.renderExercises(report.get('exercises'), exercises)}
+                    {this.renderExercises(report.get('exercises'), exercises, pushState)}
                   </List>
                 </div>
               </div>
@@ -125,7 +128,8 @@ Report.propTypes = {
   id: PropTypes.string.isRequired,
   isFetching: PropTypes.bool.isRequired,
   sessionsFetching: PropTypes.bool.isRequired,
-  exercisesFetching: PropTypes.bool.isRequired
+  exercisesFetching: PropTypes.bool.isRequired,
+  pushState: PropTypes.func.isRequired
 }
 
 export default connect(
@@ -141,6 +145,6 @@ export default connect(
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchReportAsync, fetchSessionsAsync, fetchExercisesAsync }, dispatch)
+    return bindActionCreators({ fetchReportAsync, fetchSessionsAsync, fetchExercisesAsync, pushState }, dispatch)
   }
 )(Report)

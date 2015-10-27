@@ -23,7 +23,8 @@ class ExercisesList extends Component {
     const { entities, syncing, pushState, isFetching, updateSearch, search } = this.props
     return (
       <div>
-        <SimpleList title='Exercises' items={entities} busyItems={syncing} onItemClick={(id) => pushState({ title: 'Edit Exercise' }, '/exercises/' + id)}
+        <SimpleList title='Exercises' items={entities} busyItems={syncing}
+                    onItemClick={(id) => pushState({ title: 'Edit Exercise' }, '/exercises/' + id)}
                     isBusy={isFetching} updateSearch={updateSearch} search={search}
                     getItemLetter={(exercise) => exercise.get('name').charAt(0).toUpperCase()}
                     getItemName={(exercise) => exercise.get('name')} />
