@@ -49,7 +49,8 @@ mongoose.connect(uri)
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'))
 
 // require the routes
-// require('./routes/faker')(app)
+/* global __DEV__ */
+if (app.settings.env !== 'production') require('./routes/faker')(app)
 require('./routes/auth')(app, passport)
 require('./routes/api')(app, passport)
 require('./routes/static')(app)
