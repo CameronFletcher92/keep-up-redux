@@ -1,13 +1,21 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Provider } from 'react-redux'
 import { ReduxRouter } from 'redux-router'
 import shouldUpdatePure from 'react-pure-render/function'
 import store from './store'
 import routes from './routes'
 import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react'
+import ThemeManager from 'material-ui/lib/styles/theme-manager'
+import muiTheme from 'material-ui/lib/styles/raw-themes/light-raw-theme'
 
 class App extends Component {
   shouldComponentUpdate = shouldUpdatePure
+
+  getChildContext() {
+    return {
+      muiTheme: ThemeManager.getMuiTheme(muiTheme)
+    }
+  }
 
   componentDidUpdate() {
     console.log('Rendering App')
@@ -32,6 +40,10 @@ class App extends Component {
       </div>
     )
   }
+}
+
+App.childContextTypes = {
+  muiTheme: PropTypes.object.isRequired
 }
 
 export default App

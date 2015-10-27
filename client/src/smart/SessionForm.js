@@ -37,6 +37,7 @@ class SessionForm extends Component {
         <IconInputContainer icon='event'>
           <DatePicker style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Session Date' value={form.get('time')} onChange={(ev, dt) => updateForm('time', dt)} />
         </IconInputContainer>
+
         <IconInputContainer icon='description'>
           <TextField style={styles.text} multiLine={true} floatingLabelText='Additional Notes' value={form.get('notes')} onChange={(ev) => updateForm('notes', ev.target.value)} />
         </IconInputContainer>
