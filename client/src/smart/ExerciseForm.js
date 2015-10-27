@@ -39,9 +39,11 @@ class ExerciseForm extends Component {
         <IconInputContainer icon='directions_run'>
           <TextField style={styles.text} floatingLabelText='Exercise' value={form.get('name')} onChange={(ev) => updateForm('name', ev.target.value)} />
         </IconInputContainer>
+
         <IconInputContainer icon='description'>
           <TextField style={styles.text} floatingLabelText='Description' multiLine={true} value={form.get('description')} onChange={(ev) => updateForm('description', ev.target.value)} />
         </IconInputContainer>
+
         <IconInputContainer icon='whatshot'>
           <SelectField style={styles.text} floatingLabelText='Intensity' menuItems={intensities} value={form.get('intensity')} onChange={(ev) => updateForm('intensity', ev.target.value)} />
         </IconInputContainer>
