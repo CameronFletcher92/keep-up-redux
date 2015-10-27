@@ -27,7 +27,7 @@ class SessionsList extends Component {
         <SimpleList title='Sessions' items={entities} busyItems={syncing} onItemClick={(id) => pushState({ title: 'Edit Session' }, '/sessions/' + id)}
                     isBusy={isFetching} search={search} updateSearch={updateSearch}
                     getItemLetter={(session) => days[session.get('time').getDay()]}
-                    getItemName={(session) => session.get('time').toLocaleString()} />
+                    getItemName={(session) => session.get('time').toLocaleString('en-AU')} />
         <FixedActionButton icon='add' onClick={() => pushState({ title: 'New Session' }, '/sessions/new')}/>
       </div>
     )

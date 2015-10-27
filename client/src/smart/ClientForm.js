@@ -27,6 +27,10 @@ class ClientForm extends Component {
     }
   }
 
+  formatDate(date) {
+    return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+  }
+
   render() {
     const { form, saveAsync, updateForm } = this.props
     return (
@@ -40,7 +44,7 @@ class ClientForm extends Component {
         </IconInputContainer>
 
         <IconInputContainer icon='event'>
-          <DatePicker style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Birth Date' value={form.get('birthDate')} onChange={(ev, dt) => updateForm('birthDate', dt)} />
+          <DatePicker formatDate={this.formatDate} style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Birth Date' value={form.get('birthDate')} onChange={(ev, dt) => updateForm('birthDate', dt)} />
         </IconInputContainer>
 
         <IconInputContainer icon='place'>

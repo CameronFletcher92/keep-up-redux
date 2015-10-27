@@ -30,12 +30,16 @@ class SessionForm extends Component {
     }
   }
 
+  formatDate(date) {
+    return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+  }
+
   render() {
     const { form, saveAsync, updateForm } = this.props
     return (
       <div style={styles.container}>
         <IconInputContainer icon='event'>
-          <DatePicker style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Session Date' value={form.get('time')} onChange={(ev, dt) => updateForm('time', dt)} />
+          <DatePicker formatDate={this.formatDate} style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Session Date' value={form.get('time')} onChange={(ev, dt) => updateForm('time', dt)} />
         </IconInputContainer>
 
         <IconInputContainer icon='description'>

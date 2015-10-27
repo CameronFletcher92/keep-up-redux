@@ -3,7 +3,7 @@ const faker = require('faker')
 const lo = require('lodash')
 
 // time for queries to execute on server
-const timeout = 2000
+const timeout = 1000
 
 // server-side data, refreshes on restart
 const clients = []
@@ -20,7 +20,7 @@ function seedDB() {
     lastName: 'User'
   }
 
-  for (let index = 1; index <= 20; index++) {
+  for (let index = 1; index <= 10; index++) {
     clients.push({
       _id: 'CL' + index,
       firstName: faker.name.firstName(),
@@ -40,7 +40,7 @@ function seedDB() {
 
   sessions.push({
     _id: 'SES1',
-    clients: ['CL1', 'CL3', 'CL5'],
+    clients: ['CL1', 'CL2', 'CL3', 'CL4', 'CL5', 'CL6', 'CL7', 'CL8', 'CL9', 'CL10'],
     exercises: ['EX1', 'EX3', 'EX5'],
     time: faker.date.past(),
     notes: faker.company.catchPhrase()
@@ -142,7 +142,7 @@ module.exports = (app) => {
       exercises: resExercises
     }
 
-    setTimeout(() => res.json(result), timeout)
+    setTimeout(() => res.json(result), 500)
   })
 
   /*

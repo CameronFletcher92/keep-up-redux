@@ -3,32 +3,106 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import shouldUpdatePure from 'react-pure-render/function'
 import ImmPropTypes from 'react-immutable-proptypes'
+import { Avatar, List, ListItem, ListDivider, Paper } from 'material-ui'
 import { fetchReportAsync } from '../ducks/clients'
+import { fetchAsync as fetchExercisesAsync } from '../ducks/exercises'
+import { fetchAsync as fetchSessionsAsync } from '../ducks/sessions'
 import CenteredSpinner from '../dumb/CenteredSpinner'
+
+const styles = {
+  container: { display: 'flex', flexDirection: 'column', alignItems: 'stretch', margin: '1em' },
+  listContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' },
+  list: { flex: '1 1 auto', margin: '0.5em' }
+}
 
 class Report extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   componentWillMount() {
-    const { id, fetchReportAsync } = this.props
+    const { id, fetchReportAsync, sessions, exercises, fetchSessionsAsync, fetchExercisesAsync } = this.props
     fetchReportAsync(id)
+
+    if (sessions.size === 0) {
+      fetchSessionsAsync()
+    }
+
+    if (exercises.size === 0) {
+      fetchExercisesAsync()
+    }
+  }
+
+  renderSessions(sessionIds, sessions) {
+    if (sessions.size === 0) {
+      return null
+    }
+    const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
+
+    return sessionIds.map(sessionId => {
+      return (
+        <ListItem key={sessionId} primaryText={sessions.getIn([sessionId, 'time']).toLocaleString('en-AU')}
+                  leftAvatar={<Avatar> {days[sessions.getIn([sessionId, 'time']).getDay()]} </Avatar>}/>
+      )
+    })
+  }
+
+  renderExercises(exerciseCounts, exercises) {
+    if (exercises.size === 0) {
+      return null
+    }
+    return exerciseCounts.keySeq().map(exerciseId => {
+      return (
+        <ListItem key={exerciseId} primaryText={exercises.getIn([exerciseId, 'name'])}
+                  leftAvatar={<Avatar>{exerciseCounts.get(exerciseId)}</Avatar>}/>
+      )
+    })
   }
 
   render() {
-    const { report, isFetching } = this.props
+    const { report, isFetching, exercises, sessions, sessionsFetching, exercisesFetching } = this.props
 
     return (
-      <div>
-        <CenteredSpinner isVisible={isFetching}/>
-        <div>Name: {report.get('name')}</div>
-        <div>Sessions: {report.get('sessions').size}</div>
-        <div>Exercises: {report.get('exercises').size}</div>
-      </div>
+      <Paper zDepth={2}>
+        <div style={styles.container}>
+          <CenteredSpinner isVisible={isFetching}/>
+          {!isFetching ?
+            <div>
+              <div style={{ marginTop: '-1em', marginBottom: '-1em' }}>
+                <h2>{report.get('name')}</h2>
+              </div>
+
+              <div style={styles.listContainer}>
+                <div style={styles.list}>
+                  <List>
+                    <div>
+                      <h3>Sessions: {report.get('sessions').size}</h3>
+                    </div>
+                    <ListDivider />
+                    <CenteredSpinner isVisible={sessionsFetching} />
+                    {this.renderSessions(report.get('sessions'), sessions)}
+                  </List>
+                </div>
+                <div style={styles.list}>
+                  <List>
+                    <div>
+                      <h3>Exercises: {report.get('exercises').size}</h3>
+                    </div>
+                    <ListDivider />
+                    <CenteredSpinner isVisible={exercisesFetching} />
+                    {this.renderExercises(report.get('exercises'), exercises)}
+                  </List>
+                </div>
+              </div>
+            </div>
+            : null}
+        </div>
+      </Paper>
     )
   }
 }
 
 Report.propTypes = {
+  fetchSessionsAsync: PropTypes.func.isRequired,
+  fetchExercisesAsync: PropTypes.func.isRequired,
   report: ImmPropTypes.contains({
     name: PropTypes.string.isRequired,
     sessions: ImmPropTypes.listOf(
@@ -36,8 +110,22 @@ Report.propTypes = {
     ).isRequired,
     exercises: ImmPropTypes.map.isRequired
   }),
+  sessions: ImmPropTypes.mapOf(
+                ImmPropTypes.contains({
+                  _id: PropTypes.string.isRequired,
+                  time: PropTypes.instanceOf(Date).isRequired
+                })
+              ),
+  exercises: ImmPropTypes.mapOf(
+                ImmPropTypes.contains({
+                  _id: PropTypes.string.isRequired,
+                  name: PropTypes.string.isRequired
+                })
+              ),
   id: PropTypes.string.isRequired,
-  isFetching: PropTypes.bool.isRequired
+  isFetching: PropTypes.bool.isRequired,
+  sessionsFetching: PropTypes.bool.isRequired,
+  exercisesFetching: PropTypes.bool.isRequired
 }
 
 export default connect(
@@ -45,10 +133,14 @@ export default connect(
     return {
       report: state.clients.get('report'),
       isFetching: state.clients.get('isFetching'),
-      id: state.router.params.id
+      id: state.router.params.id,
+      sessions: state.sessions.get('entities'),
+      exercises: state.exercises.get('entities'),
+      sessionsFetching: state.sessions.get('isFetching'),
+      exercisesFetching: state.exercises.get('isFetching')
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchReportAsync }, dispatch)
+    return bindActionCreators({ fetchReportAsync, fetchSessionsAsync, fetchExercisesAsync }, dispatch)
   }
 )(Report)
