@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import shouldUpdatePure from 'react-pure-render/function'
 import ImmPropTypes from 'react-immutable-proptypes'
 import { fetchReportAsync } from '../ducks/clients'
+import CenteredSpinner from '../dumb/CenteredSpinner'
 
 class Report extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -14,10 +15,11 @@ class Report extends Component {
   }
 
   render() {
-    const { report } = this.props
+    const { report, isFetching } = this.props
 
     return (
       <div>
+        <CenteredSpinner isVisible={isFetching}/>
         <div>Name: {report.get('name')}</div>
         <div>Sessions: {report.get('sessions').size}</div>
         <div>Exercises: {report.get('exercises').size}</div>
@@ -34,13 +36,15 @@ Report.propTypes = {
     ).isRequired,
     exercises: ImmPropTypes.map.isRequired
   }),
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  isFetching: PropTypes.bool.isRequired
 }
 
 export default connect(
   state => {
     return {
       report: state.clients.get('report'),
+      isFetching: state.clients.get('isFetching'),
       id: state.router.params.id
     }
   },

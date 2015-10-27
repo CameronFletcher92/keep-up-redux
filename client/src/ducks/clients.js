@@ -197,7 +197,6 @@ export function reducer(state = initialState, action) {
     return state.set('isFetching', true)
 
   case FETCHED_REPORT:
-    console.log('report fetched', action.report)
     state = state.set('report', Immutable.fromJS(action.report))
     state = state.set('isFetching', false)
     return state
