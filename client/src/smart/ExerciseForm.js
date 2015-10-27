@@ -3,14 +3,14 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shouldUpdatePure from 'react-pure-render/function'
 import ImmPropTypes from 'react-immutable-proptypes'
-import { RaisedButton, TextField, SelectField } from 'material-ui'
+import { TextField, SelectField } from 'material-ui'
 import { saveAsync, updateForm, resetForm } from '../ducks/exercises'
 import IconInputContainer from '../dumb/IconInputContainer'
+import FixedActionButton from '../dumb/FixedActionButton'
 
 const styles = {
   container: { display: 'flex', flexDirection: 'column', alignItems: 'stretch' },
-  text: { width: '100%', marginBottom: '0.5em' },
-  button: { flex: 1, alignSelf: 'flex-end', marginTop: '1em' }
+  text: { width: '100%', marginBottom: '0.5em' }
 }
 
 class ExerciseForm extends Component {
@@ -48,7 +48,7 @@ class ExerciseForm extends Component {
           <SelectField style={styles.text} floatingLabelText='Intensity' menuItems={intensities} value={form.get('intensity')} onChange={(ev) => updateForm('intensity', ev.target.value)} />
         </IconInputContainer>
 
-        <RaisedButton style={styles.button} primary label='Save' onClick={() => saveAsync(form.toJS())}/>
+        <FixedActionButton icon='done' onClick={() => saveAsync(form.toJS())}/>
       </div>
     )
   }

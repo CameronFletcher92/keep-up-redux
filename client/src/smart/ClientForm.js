@@ -3,16 +3,16 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shouldUpdatePure from 'react-pure-render/function'
 import ImmPropTypes from 'react-immutable-proptypes'
-import { RaisedButton, TextField, Checkbox, DatePicker } from 'material-ui'
+import { TextField, Checkbox, DatePicker } from 'material-ui'
 import { saveAsync, updateForm, resetForm } from '../ducks/clients'
 import IconInputContainer from '../dumb/IconInputContainer'
+import FixedActionButton from '../dumb/FixedActionButton'
 
 const styles = {
   container: { display: 'flex', flexDirection: 'column', alignItems: 'stretch' },
   text: { width: '100%', marginBottom: '0.5em' },
   datepicker: { width: '100%' },
-  checkbox: { width: '100%', marginTop: '2em' },
-  button: { flex: 1, alignSelf: 'flex-end', marginTop: '1em' }
+  checkbox: { width: '100%', marginTop: '2em' }
 }
 
 class ClientForm extends Component {
@@ -55,7 +55,7 @@ class ClientForm extends Component {
           <Checkbox style={styles.checkbox} label='Private Health' defaultChecked={form.get('privateHealth')} onCheck={(ev, ch) => updateForm('privateHealth', ch)}/>
         </IconInputContainer>
 
-        <RaisedButton style={styles.button} label='Save' primary onClick={() => saveAsync(form.toJS())}/>
+        <FixedActionButton icon='done' onClick={() => saveAsync(form.toJS())}/>
       </div>
     )
   }

@@ -3,17 +3,17 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shouldUpdatePure from 'react-pure-render/function'
 import ImmPropTypes from 'react-immutable-proptypes'
-import { RaisedButton, TextField, DatePicker } from 'material-ui'
+import { TextField, DatePicker } from 'material-ui'
 import { saveAsync, updateForm, resetForm } from '../ducks/sessions'
 import ClientsCheckList from './ClientsCheckList'
 import ExercisesCheckList from './ExercisesCheckList'
 import IconInputContainer from '../dumb/IconInputContainer'
+import FixedActionButton from '../dumb/FixedActionButton'
 
 const styles = {
   container: { display: 'flex', flexDirection: 'column', alignItems: 'stretch' },
   text: { width: '100%', marginBottom: '0.5em' },
   datepicker: { width: '100%' },
-  button: { flex: 1, alignSelf: 'flex-end', marginTop: '1em' },
   checkContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' },
   checklist: { flex: '1 1 auto', margin: '0.5em' }
 }
@@ -51,7 +51,7 @@ class SessionForm extends Component {
           </div>
         </div>
 
-        <RaisedButton style={styles.button} primary label='Save' onClick={() => saveAsync(form.toJS())}/>
+        <FixedActionButton icon='done' onClick={() => saveAsync(form.toJS())}/>
       </div>
     )
   }
