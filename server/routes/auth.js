@@ -4,14 +4,17 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 
 module.exports = (app, passport) => {
   // API Access link for creating client ID and secret:
-  const GOOGLE_CLIENT_ID = '605515633008-gnqeu680g02spr6fbv8asal8assgd353.apps.googleusercontent.com'
-  const GOOGLE_CLIENT_SECRET = 'mhrncAcTi_cWAYo7etNT2YDg'
+  const DEV_GOOGLE_CLIENT_ID = '605515633008-gnqeu680g02spr6fbv8asal8assgd353.apps.googleusercontent.com'
+  const PROD_GOOGLE_CLIENT_ID = '605515633008-d9knijfcqub8ecg87ff0jhmrf2hqolo9.apps.googleusercontent.com'
+
+  const DEV_GOOGLE_CLIENT_SECRET = 'bIyz1rEMOUTj6LxXB0dWWpUh'
+  const PROD_GOOGLE_CLIENT_SECRET = 'egzwUYDNLBEEgv-UXuWy4pn6'
 
   // Passport google strategy setup
   passport.use(new GoogleStrategy(
     {
-      clientID: GOOGLE_CLIENT_ID,
-      clientSecret: GOOGLE_CLIENT_SECRET,
+      clientID: app.settings.env === 'production' ? PROD_GOOGLE_CLIENT_ID : DEV_GOOGLE_CLIENT_ID,
+      clientSecret: app.settings.env === 'production' ? PROD_GOOGLE_CLIENT_SECRET : DEV_GOOGLE_CLIENT_SECRET,
       callbackURL: '/api/login/callback'
     },
 
