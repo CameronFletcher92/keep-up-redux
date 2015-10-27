@@ -37,7 +37,7 @@ const SimpleList = ({ isBusy, title, items, selectedItems, getItemLetter, getIte
   return (
     <Paper zDepth={2}>
       <List>
-        <div style={{ marginTop: '-2em', padding: '0.8em', paddingLeft: '1.5em', paddingRight: '5em' }}>
+        <div style={{ marginTop: '-2em', paddingLeft: '1.5em', paddingRight: '2.5em', paddingTop: '0.5em' }}>
           <IconInputContainer icon='search'>
             <TextField style={{ width: '100%' }} floatingLabelText={title} value={search} onChange={(ev) => updateSearch(ev.target.value)} />
           </IconInputContainer>
