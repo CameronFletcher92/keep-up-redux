@@ -1,5 +1,6 @@
 const Client = require('../models/client')
 const Exercise = require('../models/exercise')
+const Session = require('../models/session')
 
 module.exports = (app, passport) => {
   /*
@@ -145,6 +146,58 @@ module.exports = (app, passport) => {
         console.error('could not fetch exercises')
       } else {
         res.json(exercises)
+      }
+    })
+  })
+
+  /*
+   *  SESSIONS
+   */
+  // create a new session
+  app.post('/api/sessions', (req, res) => {
+    console.log('POST /api/sessions')
+    if (req.isAuthenticated()) {
+      const session = req.body
+      delete session._id
+      session.trainer = req.user._id
+
+      Session.create(session, (err, newSession) => {
+        if (err || !newSession) {
+          console.error('could not create session')
+        } else {
+          res.json(newSession)
+        }
+      })
+    }
+  })
+
+  // update a session
+  app.put('/api/sessions', (req, res) => {
+    console.log('PUT /api/sessions')
+    if (req.isAuthenticated()) {
+      const session = req.body
+      const query = Session.find({ _id: session._id })
+
+      Session.findOneAndUpdate(query, session, (err, updatedSession) => {
+        if (err || !updatedSession) {
+          console.error('could not update session')
+        } else {
+          res.json(session)
+        }
+      })
+    }
+  })
+
+  // fetch the sessions
+  app.get('/api/sessions', (req, res) => {
+    console.log('GET /api/sessions')
+    // get sessions for user based off the authenticated user's id
+    const query = Session.find({ trainer: req.user._id }).sort({ name: 1 })
+    query.exec((err, sessions) => {
+      if (err || !sessions) {
+        console.error('could not fetch sessions')
+      } else {
+        res.json(sessions)
       }
     })
   })

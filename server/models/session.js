@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const SessionSchema = new Schema({
-  // _id: { type: Schema.Types.ObjectId, default: () => new Schema.Types.ObjectId() },
   trainer: { type: Schema.Types.ObjectId, ref: 'User' },
   time: Date,
   notes: String,
@@ -10,4 +9,4 @@ const SessionSchema = new Schema({
   exercises: [{ type: Schema.Types.ObjectId, ref: 'Exercise' }]
 })
 
-module.exports = mongoose.model('Client', SessionSchema)
+module.exports = mongoose.model('Session', SessionSchema)
