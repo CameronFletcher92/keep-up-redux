@@ -30,7 +30,7 @@ class SplashPage extends Component {
       )
     } else if (!isFetching) {
       return (
-        <RaisedButton onClick={this.loginClicked} label='Login'/>
+        <RaisedButton label='Login' primary={true} linkButton={true} onClick={this.loginClicked} href='/api/login'/>
       )
     }
   }

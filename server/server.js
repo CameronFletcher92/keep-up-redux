@@ -3,12 +3,33 @@ const express = require('express')
 const webpack = require('webpack')
 const config = require('../config/webpack.dev.config')
 const bodyParser = require('body-parser')
+const passport = require('passport')
+const session = require('express-session')
+const mongoose = require('mongoose')
 
+// Passport session setup.
+passport.serializeUser((user, done) => {
+  done(null, user)
+})
+passport.deserializeUser((obj, done) => {
+  done(null, obj)
+})
+
+// express setup
 const app = express()
 app.use(bodyParser.json())
-const compiler = webpack(config)
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
+}))
 
-// enable hotloading for dev server in development environment
+// Initialize Passport
+app.use(passport.initialize())
+app.use(passport.session())
+
+// compiler and hotloader setup
+const compiler = webpack(config)
 if (process.env.NODE_ENV === 'development') {
   console.log('Enabling hotloading and injecting redux dev tools')
   app.use(require('webpack-dev-middleware')(compiler, {
@@ -19,8 +40,18 @@ if (process.env.NODE_ENV === 'development') {
   app.use(require('webpack-hot-middleware')(compiler))
 }
 
+// Connect Database
+const uri = app.settings.env === 'production' ? process.env.MONGOLAB_URI
+                                              : 'mongodb://localhost/keep-up'
+console.log('mongo uri: ' + uri)
+
+mongoose.connect(uri)
+mongoose.connection.on('error', console.error.bind(console, 'connection error:'))
+
 // require the routes
-require('./routes/faker')(app)
+// require('./routes/faker')(app)
+require('./routes/auth')(app, passport)
+require('./routes/api')(app, passport)
 require('./routes/static')(app)
 
 // listen on port 3000

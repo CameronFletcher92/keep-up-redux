@@ -142,7 +142,7 @@ module.exports = (app) => {
       exercises: resExercises
     }
 
-    setTimeout(() => res.json(result), 500)
+    setTimeout(() => res.json(result), timeout)
   })
 
   /*
