@@ -32,6 +32,7 @@ module.exports = (app, passport) => {
         } else {
           // create new user from google profile information
           const newUser = {
+            _id: null,
             googleId: profile.id,
             firstName: profile.name.givenName,
             lastName: profile.name.familyName
@@ -39,7 +40,7 @@ module.exports = (app, passport) => {
 
           User.create(newUser, (err2, createdUser) => {
             if (err2) {
-              console.error('could not create user')
+              console.error('could not create user', err2)
             }
             return done(null, createdUser)
           })
