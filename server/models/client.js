@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const ClientSchema = new Schema({
+  _id: Schema.Types.ObjectId,
   trainer: { type: Schema.Types.ObjectId, ref: 'User' },
   firstName: String,
   lastName: String,

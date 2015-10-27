@@ -50,10 +50,12 @@ module.exports = (app, passport) => {
     console.log('POST /api/clients')
     if (req.isAuthenticated()) {
       const client = req.body
+      client._id = null
       client.trainer = req.user._id
 
       Client.create(client, (err, newClient) => {
         if (err || !newClient) {
+          console.error(err)
           console.error('could not create client')
         } else {
           res.json(newClient)
@@ -102,6 +104,7 @@ module.exports = (app, passport) => {
     console.log('POST /api/exercises')
     if (req.isAuthenticated()) {
       const exercise = req.body
+      exercise._id = null
       exercise.trainer = req.user._id
 
       Exercise.create(exercise, (err, newExercise) => {

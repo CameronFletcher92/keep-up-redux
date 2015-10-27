@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const SessionSchema = new Schema({
+  _id: Schema.Types.ObjectId,
   trainer: { type: Schema.Types.ObjectId, ref: 'User' },
   time: Date,
   notes: String,
