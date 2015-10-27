@@ -34,21 +34,17 @@ function renderItems(items, busyItems, onItemClick, getItemLetter, getItemName, 
   })
 }
 
-function renderHeader(title, search, updateSearch) {
-  return (
-    <div style={{ paddingLeft: '0.3em', paddingRight: '1em' }}>
-      <IconInputContainer icon='search'>
-        <TextField style={{ width: '100%' }} floatingLabelText={'Search ' + title} value={search} onChange={(ev) => updateSearch(ev.target.value)} />
-      </IconInputContainer>
-    </div>
-  )
-}
-
 const SimpleList = ({ isBusy, title, search, updateSearch, items, busyItems, onItemClick, getItemLetter, getItemName }) => {
   return (
     <Paper zDepth={2}>
-      <List subheader={renderHeader(title, search, updateSearch)} subheaderStyle={{ fontSize: '1em' }}>
+      <List>
+        <div style={{ marginTop: '-2em', padding: '0.7em', paddingLeft: '1.5em' }}>
+          <IconInputContainer icon='search'>
+            <TextField style={{ width: '100%' }} floatingLabelText={'Search ' + title} value={search} onChange={(ev) => updateSearch(ev.target.value)} />
+          </IconInputContainer>
+        </div>
         <ListDivider />
+
         <CenteredSpinner isVisible={isBusy} />
         {renderItems(items, busyItems, onItemClick, getItemLetter, getItemName, search)}
       </List>
