@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
 import { pushState } from 'redux-router'
-import { fetchAsync } from '../ducks/exercises'
+import { fetchAsync, updateSearch } from '../ducks/exercises'
 import SimpleList from '../dumb/SimpleList'
 import FixedActionButton from '../dumb/FixedActionButton'
 
@@ -20,14 +20,14 @@ class ExercisesList extends Component {
   }
 
   render() {
-    const { entities, syncing, pushState, isFetching } = this.props
+    const { entities, syncing, pushState, isFetching, updateSearch, search } = this.props
     return (
       <div>
-        <SimpleList title='Exercises' items={entities} busyItems={syncing} onItemClick={(id) => pushState(null, '/exercises/' + id)}
-                    isBusy={isFetching}
+        <SimpleList title='Exercises' items={entities} busyItems={syncing} onItemClick={(id) => pushState({ title: 'Edit Exercise' }, '/exercises/' + id)}
+                    isBusy={isFetching} updateSearch={updateSearch} search={search}
                     getItemLetter={(exercise) => exercise.get('name').charAt(0).toUpperCase()}
                     getItemName={(exercise) => exercise.get('name')} />
-        <FixedActionButton icon='add' onClick={() => pushState(null, '/exercises/new')}/>
+        <FixedActionButton icon='add' onClick={() => pushState({ title: 'New Exercise' }, '/exercises/new')}/>
       </div>
     )
   }
@@ -44,7 +44,9 @@ ExercisesList.propTypes = {
   syncing: ImmPropTypes.map.isRequired,
   fetchAsync: PropTypes.func.isRequired,
   pushState: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired
+  isFetching: PropTypes.bool.isRequired,
+  search: PropTypes.string.isRequired,
+  updateSearch: PropTypes.func.isRequired
 }
 
 export default connect(
@@ -52,10 +54,11 @@ export default connect(
     return {
       entities: state.exercises.get('entities'),
       isFetching: state.exercises.get('isFetching'),
-      syncing: state.exercises.get('syncing')
+      syncing: state.exercises.get('syncing'),
+      search: state.exercises.get('search')
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchAsync, pushState }, dispatch)
+    return bindActionCreators({ fetchAsync, pushState, updateSearch }, dispatch)
   }
 )(ExercisesList)

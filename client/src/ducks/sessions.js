@@ -19,11 +19,14 @@ const RESET_FORM = 'sessions/RESET_FORM'
 const TOGGLE_CLIENT = 'sessions/TOGGLE_CLIENT'
 const TOGGLE_EXERCISE = 'sessions/TOGGLE_EXERCISE'
 
+const UPDATE_SEARCH = 'sessions/UPDATE_SEARCH'
+
 // INITIAL STATE
 const initialState = Immutable.fromJS({
   entities: {},
   syncing: {},
   isFetching: false,
+  search: '',
   form: {
     _id: '',
     time: new Date(),
@@ -94,6 +97,13 @@ export function resetForm(id) {
   return {
     type: RESET_FORM,
     id
+  }
+}
+
+export function updateSearch(value) {
+  return {
+    type: UPDATE_SEARCH,
+    value
   }
 }
 
@@ -174,7 +184,7 @@ export function saveAsync(session) {
     dispatch(resetForm())
 
     // navigate back to view (new/updated model will be marked)
-    dispatch(pushState(null, '/sessions'))
+    dispatch(pushState({ title: 'Sessions' }, '/sessions'))
   }
 }
 
@@ -268,6 +278,10 @@ export function reducer(state = initialState, action) {
       // if it doesn't exist, add it
       state = state.setIn(['form', 'exercises', action.id], true)
     }
+    return state
+
+  case UPDATE_SEARCH:
+    state = state.set('search', action.value)
     return state
 
   default:

@@ -16,11 +16,14 @@ const DELETED = 'clients/DELETED'
 const UPDATE_FORM = 'clients/UPDATE_FORM'
 const RESET_FORM = 'clients/RESET_FORM'
 
+const UPDATE_SEARCH = 'clients/UPDATE_SEARCH'
+
 // INITIAL STATE
 const initialState = Immutable.fromJS({
   entities: {},
   syncing: {},
   isFetching: false,
+  search: '',
   form: {
     _id: '',
     firstName: '',
@@ -96,6 +99,13 @@ export function resetForm(id) {
   }
 }
 
+export function updateSearch(value) {
+  return {
+    type: UPDATE_SEARCH,
+    value
+  }
+}
+
 // ASYNC ACTIONS
 export function fetchAsync() {
   return (dispatch) => {
@@ -133,7 +143,7 @@ export function saveAsync(client) {
     dispatch(resetForm())
 
     // navigate back to view (new/updated model will be marked)
-    dispatch(pushState(null, '/clients'))
+    dispatch(pushState({ title: 'Clients' }, '/clients'))
   }
 }
 
@@ -205,6 +215,10 @@ export function reducer(state = initialState, action) {
       // set form state as it's initial state
       state = state.set('form', initialState.get('form'))
     }
+    return state
+
+  case UPDATE_SEARCH:
+    state = state.set('search', action.value)
     return state
 
   default:

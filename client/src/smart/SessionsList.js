@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
 import { pushState } from 'redux-router'
-import { fetchAsync } from '../ducks/sessions'
+import { fetchAsync, updateSearch } from '../ducks/sessions'
 import SimpleList from '../dumb/SimpleList'
 import FixedActionButton from '../dumb/FixedActionButton'
 
@@ -20,15 +20,15 @@ class SessionsList extends Component {
   }
 
   render() {
-    const { entities, syncing, pushState, isFetching } = this.props
+    const { entities, syncing, pushState, isFetching, search, updateSearch } = this.props
     const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
     return (
       <div>
-        <SimpleList title='Sessions' items={entities} busyItems={syncing} onItemClick={(id) => pushState(null, '/sessions/' + id)}
-                    isBusy={isFetching}
+        <SimpleList title='Sessions' items={entities} busyItems={syncing} onItemClick={(id) => pushState({ title: 'Edit Session' }, '/sessions/' + id)}
+                    isBusy={isFetching} search={search} updateSearch={updateSearch}
                     getItemLetter={(session) => days[session.get('time').getDay()]}
                     getItemName={(session) => session.get('time').toLocaleString()} />
-        <FixedActionButton icon='add' onClick={() => pushState(null, '/sessions/new')}/>
+        <FixedActionButton icon='add' onClick={() => pushState({ title: 'New Session' }, '/sessions/new')}/>
       </div>
     )
   }
@@ -53,10 +53,11 @@ export default connect(
     return {
       entities: state.sessions.get('entities'),
       isFetching: state.sessions.get('isFetching'),
-      syncing: state.sessions.get('syncing')
+      syncing: state.sessions.get('syncing'),
+      search: state.sessions.get('search')
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchAsync, pushState }, dispatch)
+    return bindActionCreators({ fetchAsync, pushState, updateSearch }, dispatch)
   }
 )(SessionsList)

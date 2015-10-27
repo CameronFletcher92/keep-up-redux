@@ -20,12 +20,12 @@ class TopBar extends Component {
       { route: '/sessions', text: 'Sessions' }
     ]
 
-    const { children, pushState } = this.props
+    const { children, pushState, title } = this.props
 
     return (
       <div>
-        <AppBar style={{ position: 'fixed' }} title='Keep Up' zDepth={1} onLeftIconButtonTouchTap={() => this.refs.leftNav.toggle()}/>
-        <LeftNav ref='leftNav' menuItems={menuItems} docked={false} onChange={(ev, key, payload) => pushState(null, payload.route)}/>
+        <AppBar style={{ position: 'fixed' }} title={title} zDepth={1} onLeftIconButtonTouchTap={() => this.refs.leftNav.toggle()}/>
+        <LeftNav ref='leftNav' menuItems={menuItems} docked={false} onChange={(ev, key, payload) => pushState({ title: payload.text }, payload.route)}/>
         <div style={{ paddingTop: '4.0em' }}/>
         <Flex direction='row' justifyContent='center'>
           <Flex minWidth='15em' maxWidth='50em' direction='column' margin='0.5em'>
@@ -38,11 +38,17 @@ class TopBar extends Component {
 }
 
 TopBar.PropTypes = {
-  pushState: PropTypes.func.isRequired
+  pushState: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired
 }
 
 export default connect(
-  null,
+  state => {
+    const routerState = state.router.location.state
+    return {
+      title: routerState ? routerState.title : 'Keep Up'
+    }
+  },
   dispatch => {
     return bindActionCreators({ pushState }, dispatch)
   }
