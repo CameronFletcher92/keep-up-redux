@@ -1,4 +1,3 @@
-'use strict'
 const User = require('../models/user')
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 

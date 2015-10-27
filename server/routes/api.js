@@ -1,4 +1,3 @@
-'use strict'
 const Client = require('../models/client')
 const Exercise = require('../models/exercise')
 const Session = require('../models/session')
@@ -14,52 +13,6 @@ module.exports = (app, passport) => {
       // do nothing (never called)
     }
   )
-
-  /*
-   * REPORTS
-   */
-
-  // fetch a client's report
-  app.get('/api/reports/:id', (req, res) => {
-    if (req.isAuthenticated()) {
-      const id = req.params.id
-      console.log('GET /api/reports/' + id)
-
-      const resSessions = []
-      const resExercises = {}
-      let name = ''
-
-      // determine the clients name
-      let query = Client.find({ _id: id })
-      query.findOne((err, client) => {
-        name = client.firstName + ' ' + client.lastName
-
-        // fetch the sessions with the client and populate result
-        query = Session.find({ trainer: req.user._id, clients: id })
-        query.find((err, sessions) => {
-          sessions.forEach(session => {
-            resSessions.push(session._id)
-            session.exercises.forEach(exerciseId => {
-              if (resExercises[exerciseId]) {
-                resExercises[exerciseId] = resExercises[exerciseId] + 1
-              } else {
-                resExercises[exerciseId] = 1
-              }
-            })
-          })
-
-          // construct the result
-          const result = {
-            name,
-            sessions: resSessions,
-            exercises: resExercises
-          }
-
-          res.json(result)
-        })
-      })
-    }
-  })
 
   // callback from google authentication
   app.get('/api/login/callback',
