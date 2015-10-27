@@ -18,6 +18,9 @@ const RESET_FORM = 'clients/RESET_FORM'
 
 const UPDATE_SEARCH = 'clients/UPDATE_SEARCH'
 
+const FETCHING_REPORT = 'clients/FETCHING_REPORT'
+const FETCHED_REPORT = 'clients/FETCHED_REPORT'
+
 // INITIAL STATE
 const initialState = Immutable.fromJS({
   entities: {},
@@ -32,10 +35,28 @@ const initialState = Immutable.fromJS({
     address: '',
     notes: '',
     privateHealth: false
+  },
+  report: {
+    name: '',
+    sessions: [],
+    exercises: {}
   }
 })
 
 // ACTIONS
+export function fetchingReport() {
+  return {
+    type: FETCHING_REPORT
+  }
+}
+
+export function fetchedReport(report) {
+  return {
+    type: FETCHED_REPORT,
+    report
+  }
+}
+
 export function fetching() {
   return {
     type: FETCHING
@@ -107,6 +128,16 @@ export function updateSearch(value) {
 }
 
 // ASYNC ACTIONS
+export function fetchReportAsync(id) {
+  return (dispatch) => {
+    dispatch(fetchingReport())
+
+    request.get('/api/reports/' + id).end((err, res) => {
+      dispatch(fetchedReport(res.body))
+    })
+  }
+}
+
 export function fetchAsync() {
   return (dispatch) => {
     dispatch(fetching())
@@ -162,6 +193,15 @@ export function deleteAsync(id) {
 // REDUCER
 export function reducer(state = initialState, action) {
   switch (action.type) {
+  case FETCHING_REPORT:
+    return state.set('isFetching', true)
+
+  case FETCHED_REPORT:
+    console.log('report fetched', action.report)
+    state = state.set('report', Immutable.fromJS(action.report))
+    state = state.set('isFetching', false)
+    return state
+
   case FETCHING:
     return state.set('isFetching', true)
 

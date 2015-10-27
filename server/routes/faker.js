@@ -110,22 +110,34 @@ module.exports = (app) => {
 
     const resSessions = []
     const resExercises = {}
+    let name = ''
 
+    // determine the clients name
+    for (let index = 0; index < clients.length; index++) {
+      const client = clients[index]
+      if (client._id === id) {
+        name = client.firstName + ' ' + client.lastName
+      }
+    }
+
+    // for every session, add to the result if client attended, and add all exercises
     for (let index = 0; index < sessions.length; index++) {
       const session = sessions[index]
       if (session.clients.indexOf(id) !== -1) {
         resSessions.push(session._id)
-      }
-
-      for (let index2 = 0; index2 < session.exercises.length; index2++) {
-        const exercise = session.exercises[index2]
-        if (resExercises[exercise._id]) {
-          resExercises[exercise._id] = resExercises[exercise._id] + 1
+        for (let index2 = 0; index2 < session.exercises.length; index2++) {
+          const exerciseId = session.exercises[index2]
+          if (resExercises[exerciseId]) {
+            resExercises[exerciseId] = resExercises[exerciseId] + 1
+          } else {
+            resExercises[exerciseId] = 1
+          }
         }
       }
     }
 
     const result = {
+      name,
       sessions: resSessions,
       exercises: resExercises
     }
