@@ -98,6 +98,41 @@ module.exports = (app) => {
     setTimeout(() => res.json(user), timeout)
   })
 
+
+  /*
+   * REPORTS
+   */
+
+  // fetch a client's report
+  app.get('/api/reports/:id', (req, res) => {
+    const id = req.params.id
+    console.log('GET FAKED /api/reports/' + id)
+
+    const resSessions = []
+    const resExercises = {}
+
+    for (let index = 0; index < sessions.length; index++) {
+      const session = sessions[index]
+      if (session.clients.indexOf(id) !== -1) {
+        resSessions.push(session._id)
+      }
+
+      for (let index2 = 0; index2 < session.exercises.length; index2++) {
+        const exercise = session.exercises[index2]
+        if (resExercises[exercise._id]) {
+          resExercises[exercise._id] = resExercises[exercise._id] + 1
+        }
+      }
+    }
+
+    const result = {
+      sessions: resSessions,
+      exercises: resExercises
+    }
+
+    setTimeout(() => res.json(result), timeout)
+  })
+
   /*
    * CLIENTS
    */

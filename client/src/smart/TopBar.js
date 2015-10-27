@@ -17,7 +17,8 @@ class TopBar extends Component {
     const menuItems = [
       { route: '/clients', text: 'Clients' },
       { route: '/exercises', text: 'Exercises' },
-      { route: '/sessions', text: 'Sessions' }
+      { route: '/sessions', text: 'Sessions' },
+      { route: '/reports', text: 'Reports' }
     ]
 
     const { children, pushState, title } = this.props

@@ -9,6 +9,7 @@ import ExercisesList from './smart/ExercisesList'
 import SessionsList from './smart/SessionsList'
 import SessionForm from './smart/SessionForm'
 import SplashPage from './smart/SplashPage'
+import ReportsList from './smart/ReportsList'
 
 function requireAuth(nextState, replaceState) {
   if (!store.getState().user.get('isLoggedIn')) {
@@ -33,6 +34,8 @@ const routes = (
     <Route path='sessions' component={SessionsList} onEnter={requireAuth} />
     <Route path='sessions/new' component={SessionForm} onEnter={requireAuth} />
     <Route path='sessions/:id' component={SessionForm} onEnter={requireAuth} />
+
+    <Route path='reports' component={ReportsList} onEnter={requireAuth} />
   </Route>
 )
 
