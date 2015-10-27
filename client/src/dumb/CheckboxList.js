@@ -4,9 +4,7 @@ import { List, Paper, ListDivider } from 'material-ui'
 import CheckboxListItem from './CheckboxListItem'
 import CenteredSpinner from './CenteredSpinner'
 
-function renderItems() {
-  const { items, selectedItems, getItemLetter, getItemName, onItemClick } = this.props
-
+function renderItems(items, selectedItems, getItemLetter, getItemName, onItemClick) {
   let lastLetter = ''
   return items.toOrderedSet().map(item => {
     const id = item.get('_id')
