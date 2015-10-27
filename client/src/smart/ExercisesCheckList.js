@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
 import { toggleExercise } from '../ducks/sessions'
-import { fetchAsync } from '../ducks/exercises'
+import { fetchAsync, updateSearch } from '../ducks/exercises'
 import CheckboxList from '../dumb/CheckboxList'
 
 class ExercisesCheckList extends Component {
@@ -19,10 +19,10 @@ class ExercisesCheckList extends Component {
   }
 
   render() {
-    const { exercises, selectedExercises, toggleExercise, isFetching } = this.props
+    const { exercises, selectedExercises, toggleExercise, isFetching, search, updateSearch } = this.props
     return (
       <CheckboxList title='Exercises' items={exercises} selectedItems={selectedExercises} onItemClick={toggleExercise}
-                    isBusy={isFetching}
+                    isBusy={isFetching} search={search} updateSearch={updateSearch}
                     getItemLetter={(exercise) => exercise.get('name').charAt(0).toUpperCase()}
                     getItemName={(exercise) => exercise.get('name')} />
     )
@@ -39,7 +39,9 @@ ExercisesCheckList.propTypes = {
               ),
   toggleExercise: PropTypes.func.isRequired,
   fetchAsync: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired
+  isFetching: PropTypes.bool.isRequired,
+  search: PropTypes.string.isRequired,
+  updateSearch: PropTypes.func.isRequired
 }
 
 export default connect(
@@ -47,10 +49,11 @@ export default connect(
     return {
       selectedExercises: state.sessions.getIn(['form', 'exercises']),
       exercises: state.exercises.get('entities'),
-      isFetching: state.exercises.get('isFetching')
+      isFetching: state.exercises.get('isFetching'),
+      search: state.exercises.get('search')
     }
   },
   dispatch => {
-    return bindActionCreators({ toggleExercise, fetchAsync }, dispatch)
+    return bindActionCreators({ toggleExercise, fetchAsync, updateSearch }, dispatch)
   }
 )(ExercisesCheckList)

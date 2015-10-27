@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from 'react-pure-render/function'
 import { toggleClient } from '../ducks/sessions'
-import { fetchAsync } from '../ducks/clients'
+import { fetchAsync, updateSearch } from '../ducks/clients'
 import CheckboxList from '../dumb/CheckboxList'
 
 class ClientsCheckList extends Component {
@@ -19,10 +19,10 @@ class ClientsCheckList extends Component {
   }
 
   render() {
-    const { clients, selectedClients, toggleClient, isFetching } = this.props
+    const { clients, selectedClients, toggleClient, isFetching, search, updateSearch } = this.props
     return (
       <CheckboxList title='Clients' items={clients} selectedItems={selectedClients} onItemClick={toggleClient}
-                    isBusy={isFetching}
+                    isBusy={isFetching} search={search} updateSearch={updateSearch}
                     getItemLetter={(client) => client.get('lastName').charAt(0).toUpperCase()}
                     getItemName={(client) => client.get('firstName') + ' ' + client.get('lastName')} />
     )
@@ -40,7 +40,9 @@ ClientsCheckList.propTypes = {
   ),
   toggleClient: PropTypes.func.isRequired,
   fetchAsync: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired
+  isFetching: PropTypes.bool.isRequired,
+  search: PropTypes.string.isRequired,
+  updateSearch: PropTypes.func.isRequired
 }
 
 export default connect(
@@ -48,10 +50,11 @@ export default connect(
     return {
       selectedClients: state.sessions.getIn(['form', 'clients']),
       clients: state.clients.get('entities'),
-      isFetching: state.clients.get('isFetching')
+      isFetching: state.clients.get('isFetching'),
+      search: state.clients.get('search')
     }
   },
   dispatch => {
-    return bindActionCreators({ toggleClient, fetchAsync }, dispatch)
+    return bindActionCreators({ toggleClient, fetchAsync, updateSearch }, dispatch)
   }
 )(ClientsCheckList)

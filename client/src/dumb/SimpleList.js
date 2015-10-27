@@ -40,7 +40,7 @@ const SimpleList = ({ isBusy, title, search, updateSearch, items, busyItems, onI
       <List>
         <div style={{ marginTop: '-2em', padding: '0.8em', paddingLeft: '1.5em', paddingRight: '5em' }}>
           <IconInputContainer icon='search'>
-            <TextField style={{ width: '100%' }} floatingLabelText={'Search ' + title} value={search} onChange={(ev) => updateSearch(ev.target.value)} />
+            <TextField style={{ width: '100%' }} floatingLabelText={title} value={search} onChange={(ev) => updateSearch(ev.target.value)} />
           </IconInputContainer>
         </div>
         <ListDivider />
@@ -64,7 +64,7 @@ SimpleList.propTypes = {
   isBusy: PropTypes.bool.isRequired,            // global isBusy for the whole list
   getItemLetter: PropTypes.func.isRequired,     // (entity) => letter function
   getItemName: PropTypes.func.isRequired,       // (entity) => name function
-  search: PropTypes.string.isRequired,      // the currently active search text,
+  search: PropTypes.string.isRequired,          // the currently active search text,
   updateSearch: PropTypes.func.isRequired       // callback for search updating
 }
 
