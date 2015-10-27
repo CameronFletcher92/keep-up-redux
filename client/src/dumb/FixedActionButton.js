@@ -1,24 +1,15 @@
-import React, { Component, PropTypes } from 'react'
+import React, { PropTypes } from 'react'
 import { FloatingActionButton, FontIcon } from 'material-ui'
 
-class FixedActionButton extends Component {
-  shouldComponentUpdate = () => false
+const FixedActionButton = ({ icon, onClick }) => {
+  /* global __DEV__ */
+  const rightMargin = __DEV__ ? '20em' : '2em'
 
-  componentDidUpdate() {
-    console.log('Rendering FixedActionButton')
-  }
-
-  render() {
-    /* global __DEV__*/
-    const rightMargin = __DEV__ ? '20em' : '2em'
-
-    const { onClick, icon } = this.props
-    return (
-      <FloatingActionButton onClick={onClick} style={{ position: 'fixed', right: rightMargin, bottom: '2em', zIndex: '5' }}>
-        <FontIcon className='material-icons'>{icon}</FontIcon>
-      </FloatingActionButton>
-    )
-  }
+  return (
+    <FloatingActionButton onClick={onClick} style={{ position: 'fixed', right: rightMargin, bottom: '2em', zIndex: '5' }}>
+      <FontIcon className='material-icons'>{icon}</FontIcon>
+    </FloatingActionButton>
+  )
 }
 
 FixedActionButton.propTypes = {

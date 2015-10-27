@@ -1,30 +1,23 @@
-import React, { Component, PropTypes } from 'react'
-import shouldUpdatePure from 'react-pure-render/function'
+import React, { PropTypes } from 'react'
 import { ListItem, Avatar, Styles, LinearProgress } from 'material-ui'
 
-class SimpleListItem extends Component {
-  shouldComponentUpdate = shouldUpdatePure
+function renderProgress() {
+  return (
+    <div style={{ padding: '1em' }}>
+      <LinearProgress mode='indeterminate'/>
+    </div>
+  )
+}
 
-  renderProgress() {
-    return (
-      <div style={{ padding: '1em' }}>
-        <LinearProgress mode='indeterminate'/>
-      </div>
-    )
-  }
-
-  render() {
-    const { name, editClicked, busy, letter } = this.props
-
-    return (
-      <div>
-        <ListItem primaryText={name}
-                  leftAvatar={letter ? <Avatar color={Styles.Colors.pinkA200} backgroundColor={Styles.Colors.cyanA100}>{letter}</Avatar> : null}
-                  onClick={editClicked} disabled={busy} insetChildren={true}/>
-        {busy ? this.renderProgress() : null}
-      </div>
-    )
-  }
+const SimpleListItem = ({ name, editClicked, busy, letter }) => {
+  return (
+    <div>
+      <ListItem primaryText={name}
+                leftAvatar={letter ? <Avatar color={Styles.Colors.pinkA200} backgroundColor={Styles.Colors.cyanA100}>{letter}</Avatar> : null}
+                onClick={editClicked} disabled={busy} insetChildren={true}/>
+      {busy ? renderProgress() : null}
+    </div>
+  )
 }
 
 SimpleListItem.propTypes = {

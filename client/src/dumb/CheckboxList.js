@@ -1,52 +1,45 @@
-import React, { Component, PropTypes } from 'react'
+import React, { PropTypes } from 'react'
 import ImmPropTypes from 'react-immutable-proptypes'
-import shouldUpdatePure from 'react-pure-render/function'
 import { List, Paper, ListDivider } from 'material-ui'
 import CheckboxListItem from './CheckboxListItem'
 import CenteredSpinner from './CenteredSpinner'
 
-class SimpleList extends Component {
-  shouldComponentUpdate = shouldUpdatePure
+function renderItems() {
+  const { items, selectedItems, getItemLetter, getItemName, onItemClick } = this.props
 
-  renderItems() {
-    const { items, selectedItems, getItemLetter, getItemName, onItemClick } = this.props
+  let lastLetter = ''
+  return items.toOrderedSet().map(item => {
+    const id = item.get('_id')
+    const name = getItemName(item)
 
-    let lastLetter = ''
-    return items.toOrderedSet().map(item => {
-      const id = item.get('_id')
-      const name = getItemName(item)
+    // if busyItems is true at the id, that item is busy
+    const selected = selectedItems.get(id) ? true : false
 
-      // if busyItems is true at the id, that item is busy
-      const selected = selectedItems.get(id) ? true : false
-
-      // determine whether this item should have a left letter icon using the callback
-      let letter = getItemLetter(item)
-      if (letter && letter !== lastLetter) {
-        lastLetter = letter
-      } else {
-        letter = null
-      }
-
-      return (
-        <CheckboxListItem key={id} name={name}
-                          checked={selected} toggle={() => onItemClick(id)} letter={letter}/>
-      )
-    })
-  }
-
-  render() {
-    const { isBusy, title } = this.props
+    // determine whether this item should have a left letter icon using the callback
+    let letter = getItemLetter(item)
+    if (letter && letter !== lastLetter) {
+      lastLetter = letter
+    } else {
+      letter = null
+    }
 
     return (
-      <Paper zDepth={2}>
-        <List subheader={title} subheaderStyle={{ fontSize: '1em' }}>
-          <ListDivider />
-          <CenteredSpinner isVisible={isBusy} />
-          {this.renderItems()}
-        </List>
-      </Paper>
+      <CheckboxListItem key={id} name={name}
+                        checked={selected} toggle={() => onItemClick(id)} letter={letter}/>
     )
-  }
+  })
+}
+
+const SimpleList = ({ isBusy, title, items, selectedItems, getItemLetter, getItemName, onItemClick }) => {
+  return (
+    <Paper zDepth={2}>
+      <List subheader={title} subheaderStyle={{ fontSize: '1em' }}>
+        <ListDivider />
+        <CenteredSpinner isVisible={isBusy} />
+        {renderItems(items, selectedItems, getItemLetter, getItemName, onItemClick)}
+      </List>
+    </Paper>
+  )
 }
 
 SimpleList.propTypes = {
