@@ -12,13 +12,13 @@ import CenteredSpinner from '../dumb/CenteredSpinner'
 import IconInputContainer from '../dumb/IconInputContainer'
 
 const styles = {
-  container: { display: 'flex', flexDirection: 'column', alignItems: 'stretch', margin: '1em', paddingTop: '1em' },
+  reportContainer: { padding: '1em', marginTop: '1em', display: 'flex', flexDirection: 'column', alignItems: 'stretch' },
+  dateContainer: { padding: '0em', margin: '0em', flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' },
+  datepicker: { flex: '1 1 auto', margin: '0em', marginRight: '1em' },
+  text: { width: '100%', marginBottom: '0.5em' },
+  button: { flex: '0 1 auto', margin: '0em', alignSelf: 'center' },
   listContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' },
-  list: { flex: '1 1 auto', margin: '0.5em' },
-  dateContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' },
-  datepicker: { flex: '1 1 auto', margin: '0em', marginRight: '1em', marginLeft: '1em' },
-  button: { flex: '0 1 auto', margin: '0em', marginTop: '2em' },
-  text: { width: '100%', marginBottom: '0.5em' }
+  list: { flex: '1 1 auto', margin: '0.5em' }
 }
 
 class Report extends Component {
@@ -94,7 +94,7 @@ class Report extends Component {
           </div>
         </div>
         <Paper zDepth={2}>
-          <div style={styles.container}>
+          <div style={styles.reportContainer}>
             <CenteredSpinner isVisible={props.isFetching}/>
             {!props.isFetching ?
               <div>
