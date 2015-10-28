@@ -18,9 +18,6 @@ const RESET_FORM = 'exercises/RESET_FORM'
 
 const UPDATE_SEARCH = 'exercises/UPDATE_SEARCH'
 
-/* global __CORDOVA__ */
-const API_ROOT = __CORDOVA__ ? 'http://keep-up-app.herokuapp.com' : ''
-
 // INITIAL STATE
 const initialState = Immutable.fromJS({
   entities: {},
@@ -111,7 +108,7 @@ export function fetchAsync() {
   return (dispatch) => {
     dispatch(fetching())
 
-    request.get(API_ROOT + '/api/exercises').end((err, res) => {
+    request.get('/api/exercises').end((err, res) => {
       dispatch(fetched(res.body))
     })
   }
@@ -123,7 +120,7 @@ export function saveAsync(exercise) {
       dispatch(saving(exercise._id))
 
       // update
-      request.put(API_ROOT + '/api/exercises').send(exercise).end((err, res) => {
+      request.put('/api/exercises').send(exercise).end((err, res) => {
         if (!err && res.ok) {
           dispatch(updated(res.body))
         }
@@ -132,7 +129,7 @@ export function saveAsync(exercise) {
       dispatch(creating())
 
       // create
-      request.post(API_ROOT + '/api/exercises').send(exercise).end((err, res) => {
+      request.post('/api/exercises').send(exercise).end((err, res) => {
         if (!err && res.ok) {
           dispatch(created(res.body))
         }
@@ -151,7 +148,7 @@ export function deleteAsync(id) {
   return (dispatch) => {
     dispatch(saving(id))
 
-    request.del(API_ROOT + '/api/exercises/' + id).end((err, res) => {
+    request.del('/api/exercises/' + id).end((err, res) => {
       if (!err && res.ok) {
         dispatch(deleted(id))
       }

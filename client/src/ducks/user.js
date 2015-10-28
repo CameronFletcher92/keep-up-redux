@@ -5,9 +5,6 @@ import Immutable from 'immutable'
 const FETCHING = 'user/FETCHING'
 const FETCHED = 'user/FETCHED'
 
-/* global __CORDOVA__ */
-const API_ROOT = __CORDOVA__ ? 'http://keep-up-app.herokuapp.com' : ''
-
 // INITIAL STATE
 const initialState = Immutable.fromJS({
   isFetching: false,
@@ -33,7 +30,7 @@ export function fetchAsync() {
   return (dispatch) => {
     dispatch(fetching())
 
-    request.get(API_ROOT + '/api/user').end((err, res) => {
+    request.get('/api/user').end((err, res) => {
       dispatch(fetched(res.body))
     })
   }

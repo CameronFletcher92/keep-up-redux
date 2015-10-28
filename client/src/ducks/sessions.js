@@ -21,9 +21,6 @@ const TOGGLE_EXERCISE = 'sessions/TOGGLE_EXERCISE'
 
 const UPDATE_SEARCH = 'sessions/UPDATE_SEARCH'
 
-/* global __CORDOVA__ */
-const API_ROOT = __CORDOVA__ ? 'http://keep-up-app.herokuapp.com' : ''
-
 // INITIAL STATE
 const initialState = Immutable.fromJS({
   entities: {},
@@ -151,7 +148,7 @@ export function fetchAsync() {
   return (dispatch) => {
     dispatch(fetching())
 
-    request.get(API_ROOT + '/api/sessions').end((err, res) => {
+    request.get('/api/sessions').end((err, res) => {
       dispatch(fetched(res.body))
     })
   }
@@ -167,7 +164,7 @@ export function saveAsync(session) {
       dispatch(saving(session._id))
 
       // update
-      request.put(API_ROOT + '/api/sessions').send(session).end((err, res) => {
+      request.put('/api/sessions').send(session).end((err, res) => {
         if (!err && res.ok) {
           dispatch(updated(res.body))
         }
@@ -176,7 +173,7 @@ export function saveAsync(session) {
       dispatch(creating())
 
       // create
-      request.post(API_ROOT + '/api/sessions').send(session).end((err, res) => {
+      request.post('/api/sessions').send(session).end((err, res) => {
         if (!err && res.ok) {
           dispatch(created(res.body))
         }
@@ -195,7 +192,7 @@ export function deleteAsync(id) {
   return (dispatch) => {
     dispatch(saving(id))
 
-    request.del(API_ROOT + '/api/sessions/' + id).end((err, res) => {
+    request.del('/api/sessions/' + id).end((err, res) => {
       if (!err && res.ok) {
         dispatch(deleted(id))
       }

@@ -30,18 +30,12 @@ class SplashPage extends Component {
       return (
         <div style={styles.content}>
           <p>Logged in as {props.user.get('firstName')} {props.user.get('lastName')} </p>
-          {__CORDOVA__ ?
-            <RaisedButton label='Logout' primary={true} linkButton={true} onClick={() => window.location = 'http://keep-up-app.herokuapp.com/api/logout'}/>
-          :
-            <RaisedButton label='Logout' primary={true} linkButton={true} href='/api/logout'/>}
+          <RaisedButton label='Logout' primary={true} linkButton={true} href='/api/logout'/>
         </div>
       )
     } else if (!props.isFetching) {
       return (
-        __CORDOVA__ ?
-          <RaisedButton label='Login' primary={true} linkButton={true} onClick={() => window.location = 'http://keep-up-app.herokuapp.com/api/login'}/>
-        :
-          <RaisedButton label='Login' primary={true} linkButton={true} href='/api/login'/>
+        <RaisedButton label='Login' primary={true} linkButton={true} href='/api/login'/>
       )
     }
   }

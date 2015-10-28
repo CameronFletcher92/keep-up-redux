@@ -23,9 +23,6 @@ const FETCHED_REPORT = 'clients/FETCHED_REPORT'
 
 const UPDATE_REPORT_DATE = 'clients/UPDATE_REPORT_DATE'
 
-/* global __CORDOVA__ */
-const API_ROOT = __CORDOVA__ ? 'http://keep-up-app.herokuapp.com' : ''
-
 // INITIAL STATE
 const initialState = Immutable.fromJS({
   entities: {},
@@ -148,7 +145,7 @@ export function fetchReportAsync(id, minDate, maxDate) {
 
     const min = minDate ? minDate.toISOString() : null
     const max = maxDate ? maxDate.toISOString() : null
-    request.get(API_ROOT + '/api/reports/' + id).query({ min, max }).end((err, res) => {
+    request.get('/api/reports/' + id).query({ min, max }).end((err, res) => {
       dispatch(fetchedReport(res.body))
     })
   }
@@ -158,7 +155,7 @@ export function fetchAsync() {
   return (dispatch) => {
     dispatch(fetching())
 
-    request.get(API_ROOT + '/api/clients').end((err, res) => {
+    request.get('/api/clients').end((err, res) => {
       dispatch(fetched(res.body))
     })
   }
@@ -170,7 +167,7 @@ export function saveAsync(client) {
       dispatch(saving(client._id))
 
       // update
-      request.put(API_ROOT + '/api/clients').send(client).end((err, res) => {
+      request.put('/api/clients').send(client).end((err, res) => {
         if (!err && res.ok) {
           dispatch(updated(res.body))
         }
@@ -179,7 +176,7 @@ export function saveAsync(client) {
       dispatch(creating())
 
       // create
-      request.post(API_ROOT + '/api/clients').send(client).end((err, res) => {
+      request.post('/api/clients').send(client).end((err, res) => {
         if (!err && res.ok) {
           dispatch(created(res.body))
         }
@@ -198,7 +195,7 @@ export function deleteAsync(id) {
   return (dispatch) => {
     dispatch(saving(id))
 
-    request.del(API_ROOT + '/api/clients/' + id).end((err, res) => {
+    request.del('/api/clients/' + id).end((err, res) => {
       if (!err && res.ok) {
         dispatch(deleted(id))
       }

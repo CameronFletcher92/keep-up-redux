@@ -19,8 +19,7 @@ module.exports = {
     new HtmlWebpackPlugin({ template: htmlPath, inject: true }),
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
-      __DEV__: false,
-      __CORDOVA__: false
+      __DEV__: false
     }),
 
     // optimization
