@@ -1,7 +1,7 @@
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux'
 import { routerStateReducer, reduxReactRouter } from 'redux-router'
 import { devTools } from 'redux-devtools'
-import { createHistory, createHashHistory } from 'history'
+import { createHistory } from 'history'
 import thunk from 'redux-thunk'
 
 // Combine router reducer with all the ducks' reducers
