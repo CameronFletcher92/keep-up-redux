@@ -10,51 +10,57 @@ const mongoose = require('mongoose')
 // express setup
 const app = express()
 
-// Passport session setup.
-passport.serializeUser((user, done) => {
-  done(null, user)
-})
-passport.deserializeUser((obj, done) => {
-  done(null, obj)
-})
+// Production setup
+if (app.settings.env === 'production') {
+  console.log('Initializing Production Server')
 
-app.use(bodyParser.json())
-app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true
-}))
+  // Passport session setup.
+  passport.serializeUser((user, done) => {
+    done(null, user)
+  })
+  passport.deserializeUser((obj, done) => {
+    done(null, obj)
+  })
 
-// Initialize Passport
-app.use(passport.initialize())
-app.use(passport.session())
+  // express midlewares
+  app.use(bodyParser.json())
+  app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true
+  }))
+  app.use(passport.initialize())
+  app.use(passport.session())
 
-// compiler and hotloader setup
-const compiler = webpack(config)
-if (process.env.NODE_ENV === 'development') {
-  console.log('Enabling hotloading and injecting redux dev tools')
+  // Connect Database
+  const uri = app.settings.env === 'production' && process.env.MONGOLAB_URI ? process.env.MONGOLAB_URI
+                                                : 'mongodb://localhost/keep-up'
+  console.log('mongo uri: ' + uri)
+  mongoose.connect(uri)
+  mongoose.connection.on('error', console.error.bind(console, 'connection error:'))
+
+  // require the routes
+  require('./routes/auth')(app, passport)
+  require('./routes/api')(app, passport)
+  require('./routes/static')(app)
+}
+
+// Development setup
+if (app.settings.env === 'development') {
+  console.log('Initializing Dev Server')
+
+  // compiler and hotloader setup
+  const compiler = webpack(config)
   app.use(require('webpack-dev-middleware')(compiler, {
     noInfo: true,
     publicPath: config.output.publicPath
   }))
-
   app.use(require('webpack-hot-middleware')(compiler))
+
+  // routes
+  require('./routes/faker')(app)
+  require('./routes/static')(app)
 }
-
-// Connect Database
-const uri = app.settings.env === 'production' && process.env.MONGOLAB_URI ? process.env.MONGOLAB_URI
-                                              : 'mongodb://localhost/keep-up'
-console.log('mongo uri: ' + uri)
-
-mongoose.connect(uri)
-mongoose.connection.on('error', console.error.bind(console, 'connection error:'))
-
-// require the routes
-/* global __DEV__ */
-if (app.settings.env !== 'production') require('./routes/faker')(app)
-require('./routes/auth')(app, passport)
-require('./routes/api')(app, passport)
-require('./routes/static')(app)
 
 // listen on port 3000
 app.listen(process.env.PORT || 3000, (err) => {
