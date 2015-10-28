@@ -10,8 +10,10 @@ import SessionForm from './smart/SessionForm'
 import SplashPage from './smart/SplashPage'
 import ReportsList from './smart/ReportsList'
 import Report from './smart/Report'
+import store from './store'
 
 function readCookie(name) {
+  console.log('reading cookie')
   name += '='
   for (let ca = document.cookie.split(/;\s*/), index = ca.length - 1; index >= 0; index--) {
     if (!ca[index].indexOf(name)) {
@@ -21,10 +23,10 @@ function readCookie(name) {
 }
 
 function requireAuth(nextState, replaceState) {
-  const cookie = readCookie('userid')
-
   /* global __DEV__ */
-  if (!cookie && !__DEV__) {
+  if (store.getState().user.get('isLoggedIn') || readCookie('userid')) {
+    return
+  } else {
     console.log('rediricting')
     // redirect back to login.
     replaceState({ nextPathname: nextState.location.pathname }, '/')
