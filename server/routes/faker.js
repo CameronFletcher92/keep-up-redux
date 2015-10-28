@@ -20,7 +20,7 @@ function seedDB() {
     lastName: 'User'
   }
 
-  for (let index = 1; index <= 10; index++) {
+  for (let index = 1; index <= 20; index++) {
     clients.push({
       _id: 'CL' + index,
       firstName: faker.name.firstName(),
