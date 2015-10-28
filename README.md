@@ -14,18 +14,16 @@ npm run cordova - package and run the app in cordova using the ios-sim
 - Name
 - Address
 - Date of Birth
-- notes
+- Notes
 - Private health (boolean)
-- Code field (letters and numbers)
 
 ## Exercises
 - Name
-- Intensity
-- Muscle Group
 - Description
+- Intensity
 
-## Classes
-- List of Clients
-- List of Exercises
+## Sessions
 - Date
 - Notes
+- List of Clients
+- List of Exercises
