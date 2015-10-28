@@ -17,6 +17,7 @@ const styles = {
   datepicker: { flex: '1 1 auto', margin: '0em', marginRight: '1em' },
   text: { width: '100%', marginBottom: '0.5em' },
   button: { flex: '0 1 auto', margin: '0em', alignSelf: 'center' },
+  nameContainer: { marginTop: '-1em', marginBottom: '-1em' },
   listContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' },
   list: { flex: '1 1 auto', margin: '0.5em' }
 }
@@ -99,7 +100,7 @@ class Report extends Component {
             <CenteredSpinner isVisible={props.isFetching}/>
             {!props.isFetching ?
               <div>
-                <div style={{ marginTop: '-1em', marginBottom: '-1em' }}>
+                <div style={styles.nameContainer}>
                   <h2>{props.report.get('name')}</h2>
                 </div>
 

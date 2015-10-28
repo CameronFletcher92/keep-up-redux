@@ -4,7 +4,12 @@ import { connect } from 'react-redux'
 import shouldUpdatePure from 'react-pure-render/function'
 import { AppBar, LeftNav } from '../themes/muiComponents'
 import { pushState } from 'redux-router'
-import Flex from '../dumb/Flex'
+
+const styles = {
+  appbar: { position: 'fixed' },
+  container: { display: 'flex', flexDirection: 'row', justifyContent: 'center', paddingTop: '4em' },
+  content: { display: 'flex', flex: '1', flexDirection: 'column', minWidth: '15em', maxWidth: '50em', margin: '0.5em' }
+}
 
 class TopBar extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -24,15 +29,14 @@ class TopBar extends Component {
 
     return (
       <div>
-        <AppBar style={{ position: 'fixed' }} title={props.title} zDepth={1} onLeftIconButtonTouchTap={() => this.refs.leftNav.toggle()}/>
+        <AppBar style={styles.appbar} title={props.title} zDepth={1} onLeftIconButtonTouchTap={() => this.refs.leftNav.toggle()}/>
         <LeftNav ref='leftNav' menuItems={menuItems} docked={false}
                  onChange={(ev, key, payload) => props.pushState({ title: payload.text }, payload.route)}/>
-        <div style={{ paddingTop: '4.0em' }}/>
-        <Flex direction='row' justifyContent='center'>
-          <Flex minWidth='15em' maxWidth='50em' direction='column' margin='0.5em'>
+        <div style={styles.container}>
+          <div style={styles.content}>
             {props.children}
-          </Flex>
-        </Flex>
+          </div>
+        </div>
       </div>
     )
   }

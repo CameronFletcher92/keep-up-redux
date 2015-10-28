@@ -5,6 +5,11 @@ import CheckboxListItem from './CheckboxListItem'
 import CenteredSpinner from './CenteredSpinner'
 import IconInputContainer from './IconInputContainer'
 
+const styles = {
+  searchContainer: { marginTop: '-2em', paddingLeft: '1.5em', paddingRight: '2.5em', paddingTop: '0.5em' },
+  text: { width: '100%' }
+}
+
 function renderItems(props) {
   let lastLetter = ''
   return props.items.toOrderedSet().map(item => {
@@ -37,9 +42,9 @@ const SimpleList = (props) => {
   return (
     <Paper zDepth={2}>
       <List>
-        <div style={{ marginTop: '-2em', paddingLeft: '1.5em', paddingRight: '2.5em', paddingTop: '0.5em' }}>
+        <div style={styles.searchContainer}>
           <IconInputContainer icon='search'>
-            <TextField style={{ width: '100%' }} floatingLabelText={props.title} value={props.search} onChange={(ev) => props.updateSearch(ev.target.value)} />
+            <TextField style={styles.text} floatingLabelText={props.title} value={props.search} onChange={(ev) => props.updateSearch(ev.target.value)} />
           </IconInputContainer>
         </div>
         <ListDivider />

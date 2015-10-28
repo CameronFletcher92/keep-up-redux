@@ -1,9 +1,13 @@
 import React, { PropTypes } from 'react'
 import { ListItem, Avatar, LinearProgress } from '../themes/muiComponents'
 
+const styles = {
+  container: { padding: '1em' }
+}
+
 function renderProgress() {
   return (
-    <div style={{ padding: '1em' }}>
+    <div style={styles.container}>
       <LinearProgress mode='indeterminate'/>
     </div>
   )

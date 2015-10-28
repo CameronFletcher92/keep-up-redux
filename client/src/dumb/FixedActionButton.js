@@ -1,9 +1,13 @@
 import React, { PropTypes } from 'react'
 import { FloatingActionButton, FontIcon } from '../themes/muiComponents'
 
+const styles = {
+  button: { position: 'fixed', right: '2em', top: '2.2em', zIndex: '10001' }
+}
+
 const FixedActionButton = (props) => {
   return (
-    <FloatingActionButton onClick={props.onClick} style={{ position: 'fixed', right: '2em', top: '2.2em', zIndex: '10001' }}>
+    <FloatingActionButton onClick={props.onClick} style={styles.button}>
       <FontIcon className='material-icons'>{props.icon}</FontIcon>
     </FloatingActionButton>
   )

@@ -6,7 +6,12 @@ import shouldUpdatePure from 'react-pure-render/function'
 import { RaisedButton, FontIcon } from '../themes/muiComponents'
 import { fetchAsync } from '../ducks/user'
 import CenteredSpinner from '../dumb/CenteredSpinner'
-import Flex from '../dumb/Flex'
+
+const styles = {
+  container: { display: 'flex', flexDirection: 'column', alignItems: 'center' },
+  content: { flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' },
+  icon: { fontSize: '1000%' }
+}
 
 class SplashPage extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -23,13 +28,13 @@ class SplashPage extends Component {
     /* global __CORDOVA__ */
     if (props.isLoggedIn) {
       return (
-        <Flex direction='column' alignItems='center'>
+        <div style={styles.content}>
           <p>Logged in as {props.user.get('firstName')} {props.user.get('lastName')} </p>
           {__CORDOVA__ ?
             <RaisedButton label='Logout' primary={true} linkButton={true} onClick={() => window.location = 'http://keep-up-app.herokuapp.com/api/logout'}/>
           :
             <RaisedButton label='Logout' primary={true} linkButton={true} href='/api/logout'/>}
-        </Flex>
+        </div>
       )
     } else if (!props.isFetching) {
       return (
@@ -44,12 +49,12 @@ class SplashPage extends Component {
   render() {
     const props = this.props
     return (
-      <Flex direction='column' alignItems='center'>
+      <div style={styles.container}>
         <h1>Welcome to Keep Up!</h1>
-        <FontIcon className='material-icons' style={{ fontSize: '1000%' }}>face</FontIcon>
+        <FontIcon className='material-icons' style={styles.icon}>face</FontIcon>
         <CenteredSpinner isVisible={props.isFetching}/>
         {this.renderContent()}
-      </Flex>
+      </div>
     )
   }
 }

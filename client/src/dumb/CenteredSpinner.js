@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react'
 import { CircularProgress } from '../themes/muiComponents'
-import Flex from './Flex'
 
 const styles = {
   fixed: { position: 'fixed', top: '50%', left: '50%', marginLeft: '-2em' },
-  relative: { marginLeft: '-0.5em', marginTop: '2em', marginBottom: '2em' }
+  relativeContainer: { display: 'flex', flexDirection: 'row', flex: '1 1 auto', justifyContent: 'center' },
+  relativeSpinner: { marginLeft: '-0.5em', marginTop: '2em', marginBottom: '2em' }
 }
 
 const CenteredSpinner = (props) => {
@@ -14,9 +14,11 @@ const CenteredSpinner = (props) => {
     )
   } else if (props.isVisible && !props.fixed) {
     return (
-      <Flex justifyContent='center'>
-        <CircularProgress mode='indeterminate' style={styles.relative}/>
-      </Flex>
+      <div>
+        <div style={styles.relativeContainer}>
+          <CircularProgress mode='indeterminate' style={styles.relativeSpinner}/>
+        </div>
+      </div>
     )
   } else {
     return (
