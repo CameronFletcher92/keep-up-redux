@@ -25,7 +25,6 @@ class SplashPage extends Component {
 
   renderContent() {
     const props = this.props
-    /* global __CORDOVA__ */
     if (props.isLoggedIn) {
       return (
         <div style={styles.content}>

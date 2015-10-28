@@ -8,3 +8,8 @@ injectTap()
 
 // render the root
 ReactDOM.render(<App />, document.getElementById('root'))
+
+// window rotation on phones always
+window.shouldRotateToOrientation = () => {
+  return true
+}
