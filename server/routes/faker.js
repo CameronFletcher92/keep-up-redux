@@ -106,7 +106,9 @@ module.exports = (app) => {
   // fetch a client's report
   app.get('/api/reports/:id', (req, res) => {
     const id = req.params.id
-    console.log('GET FAKED /api/reports/' + id)
+    const min = req.query.min ? new Date(req.query.min) : null
+    const max = req.query.max ? new Date(req.query.max) : null
+    console.log('GET FAKED /api/reports/' + id, ' min = ' + min + ' max = ' + max)
 
     const resSessions = []
     const resExercises = {}

@@ -139,15 +139,13 @@ export function updateSearch(value) {
   }
 }
 
-export function fetchReportAsync(id, min, max) {
+export function fetchReportAsync(id, minDate, maxDate) {
   return (dispatch) => {
-    console.log('fetching report')
-    console.log('min', min)
-    console.log('max', max)
-
     dispatch(fetchingReport())
 
-    request.get('/api/reports/' + id).end((err, res) => {
+    const min = minDate ? minDate.toISOString() : null
+    const max = maxDate ? maxDate.toISOString() : null
+    request.get('/api/reports/' + id).query({ min, max }).end((err, res) => {
       dispatch(fetchedReport(res.body))
     })
   }
