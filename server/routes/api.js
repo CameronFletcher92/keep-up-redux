@@ -99,16 +99,12 @@ module.exports = (app, passport) => {
     if (req.isAuthenticated() && req.user) {
       const client = req.body
       delete client._id
-
-      console.log('setting trainer as', req.user)
       client.trainer = req.user._id
 
       Client.create(client, (err, newClient) => {
         if (err || !newClient) {
           console.error(err)
-          console.error('could not create client')
         } else {
-          console.log('new client', newClient)
           res.json(newClient)
         }
       })
@@ -121,8 +117,6 @@ module.exports = (app, passport) => {
     if (req.isAuthenticated() && req.user) {
       const client = req.body
       const query = Client.find({ _id: client._id })
-
-      console.log('setting trainer as', req.user)
       client.trainer = req.user._id
 
       Client.findOneAndUpdate(query, client, (err, updatedClient) => {
@@ -159,8 +153,6 @@ module.exports = (app, passport) => {
     if (req.isAuthenticated() && req.user) {
       const exercise = req.body
       delete exercise._id
-
-      console.log('setting trainer as', req.user)
       exercise.trainer = req.user._id
 
       Exercise.create(exercise, (err, newExercise) => {
@@ -178,8 +170,6 @@ module.exports = (app, passport) => {
     console.log('PUT /api/exercises')
     if (req.isAuthenticated() && req.user) {
       const exercise = req.body
-
-      console.log('setting trainer as', req.user)
       exercise.trainer = req.user._id
 
       const query = Exercise.find({ _id: exercise._id })
@@ -216,8 +206,6 @@ module.exports = (app, passport) => {
     if (req.isAuthenticated() && req.user) {
       const session = req.body
       delete session._id
-
-      console.log('setting trainer as', req.user)
       session.trainer = req.user._id
 
       Session.create(session, (err, newSession) => {
@@ -235,8 +223,6 @@ module.exports = (app, passport) => {
     console.log('PUT /api/sessions')
     if (req.isAuthenticated() && req.user) {
       const session = req.body
-
-      console.log('setting trainer as', req.user)
       session.trainer = req.user._id
 
       const query = Session.find({ _id: session._id })

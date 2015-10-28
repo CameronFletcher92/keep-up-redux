@@ -21,8 +21,6 @@ module.exports = (app, passport) => {
     // when authenticating from middleware, get the user from the db
     // or create a new one to pass into the response
     (accessToken, refreshToken, profile, done) => {
-      console.log('google user signed in, id: ', profile.id)
-
       // find existing user in the db by their google id
       const query = User.findOne({ googleId: profile.id })
       query.exec((err, existingUser) => {
@@ -31,12 +29,12 @@ module.exports = (app, passport) => {
         }
 
         if (existingUser !== null) {
+          console.log('user account fetched', existingUser)
           // log in existing user
           return done(null, existingUser)
         } else {
           // create new user from google profile information
           const newUser = {
-            _id: null,
             googleId: profile.id,
             firstName: profile.name.givenName,
             lastName: profile.name.familyName
@@ -46,6 +44,7 @@ module.exports = (app, passport) => {
             if (err2) {
               console.error('could not create user', err2)
             }
+            console.log('user account created', createdUser)
             return done(null, createdUser)
           })
         }
