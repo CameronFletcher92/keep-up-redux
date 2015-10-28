@@ -23,8 +23,8 @@ module.exports = (app, passport) => {
   app.get('/api/reports/:id', (req, res) => {
     if (req.isAuthenticated() && req.user) {
       const id = req.params.id
-      const min = req.query.min ? new Date(req.query.min) : null
-      const max = req.query.max ? new Date(req.query.max) : null
+      const min = req.query.min ? new Date(req.query.min) : new Date(-8640000000000000)
+      const max = req.query.max ? new Date(req.query.max) : new Date(8640000000000000)
       console.log('GET /api/reports/' + id, ' min = ' + min + ' max = ' + max)
 
       // construct a result object
