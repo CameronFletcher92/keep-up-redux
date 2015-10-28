@@ -12,36 +12,32 @@ class SplashPage extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   componentWillMount() {
-    const { fetchAsync, isLoggedIn } = this.props
-    if (!isLoggedIn) {
-      fetchAsync()
+    const props = this.props
+    if (!props.isLoggedIn) {
+      props.fetchAsync()
     }
   }
 
-  loginClicked() {
-    // console.log('login')
-  }
-
   renderContent() {
-    const { isLoggedIn, isFetching, user } = this.props
-    if (isLoggedIn) {
+    const props = this.props
+    if (props.isLoggedIn) {
       return (
-        <p>Logged in as {user.get('firstName')} {user.get('lastName')} </p>
+        <p>Logged in as {props.user.get('firstName')} {props.user.get('lastName')} </p>
       )
-    } else if (!isFetching) {
+    } else if (!props.isFetching) {
       return (
-        <RaisedButton label='Login' primary={true} linkButton={true} onClick={this.loginClicked} href='/api/login'/>
+        <RaisedButton label='Login' primary={true} linkButton={true} href='/api/login'/>
       )
     }
   }
 
   render() {
-    const { isFetching } = this.props
+    const props = this.props
     return (
       <Flex direction='column' alignItems='center'>
         <h1>Welcome to Keep Up!</h1>
         <FontIcon className='material-icons' style={{ fontSize: '1000%' }}>face</FontIcon>
-        <CenteredSpinner isVisible={isFetching}/>
+        <CenteredSpinner isVisible={props.isFetching}/>
         {this.renderContent()}
       </Flex>
     )

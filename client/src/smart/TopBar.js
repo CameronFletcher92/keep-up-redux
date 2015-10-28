@@ -14,6 +14,7 @@ class TopBar extends Component {
   }
 
   render() {
+    const props = this.props
     const menuItems = [
       { route: '/clients', text: 'Clients' },
       { route: '/exercises', text: 'Exercises' },
@@ -21,16 +22,15 @@ class TopBar extends Component {
       { route: '/reports', text: 'Reports' }
     ]
 
-    const { children, pushState, title } = this.props
-
     return (
       <div>
-        <AppBar style={{ position: 'fixed' }} title={title} zDepth={1} onLeftIconButtonTouchTap={() => this.refs.leftNav.toggle()}/>
-        <LeftNav ref='leftNav' menuItems={menuItems} docked={false} onChange={(ev, key, payload) => pushState({ title: payload.text }, payload.route)}/>
+        <AppBar style={{ position: 'fixed' }} title={props.title} zDepth={1} onLeftIconButtonTouchTap={() => this.refs.leftNav.toggle()}/>
+        <LeftNav ref='leftNav' menuItems={menuItems} docked={false}
+                 onChange={(ev, key, payload) => props.pushState({ title: payload.text }, payload.route)}/>
         <div style={{ paddingTop: '4.0em' }}/>
         <Flex direction='row' justifyContent='center'>
           <Flex minWidth='15em' maxWidth='50em' direction='column' margin='0.5em'>
-            {children}
+            {props.children}
           </Flex>
         </Flex>
       </div>

@@ -17,16 +17,16 @@ class ExerciseForm extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   componentWillMount() {
-    const { id, resetForm } = this.props
-    if (id) {
-      resetForm(id)
+    const props = this.props
+    if (props.id) {
+      props.resetForm(props.id)
     } else {
-      resetForm()
+      props.resetForm()
     }
   }
 
   render() {
-    const { form, saveAsync, updateForm } = this.props
+    const props = this.props
     const intensities = [
       { payload: 1, text: '1' },
       { payload: 2, text: '2' },
@@ -37,18 +37,21 @@ class ExerciseForm extends Component {
     return (
       <div style={styles.container}>
         <IconInputContainer icon='directions_run'>
-          <TextField style={styles.text} floatingLabelText='Exercise' value={form.get('name')} onChange={(ev) => updateForm('name', ev.target.value)} />
+          <TextField style={styles.text} floatingLabelText='Exercise' value={props.form.get('name')}
+                     onChange={(ev) => props.updateForm('name', ev.target.value)} />
         </IconInputContainer>
 
         <IconInputContainer icon='description'>
-          <TextField style={styles.text} floatingLabelText='Description' multiLine={true} value={form.get('description')} onChange={(ev) => updateForm('description', ev.target.value)} />
+          <TextField style={styles.text} floatingLabelText='Description' multiLine={true}
+                     value={props.form.get('description')} onChange={(ev) => props.updateForm('description', ev.target.value)} />
         </IconInputContainer>
 
         <IconInputContainer icon='whatshot'>
-          <SelectField style={styles.text} floatingLabelText='Intensity' menuItems={intensities} value={form.get('intensity')} onChange={(ev) => updateForm('intensity', ev.target.value)} />
+          <SelectField style={styles.text} floatingLabelText='Intensity' menuItems={intensities}
+                       value={props.form.get('intensity')} onChange={(ev) => props.updateForm('intensity', ev.target.value)} />
         </IconInputContainer>
 
-        <FixedActionButton icon='done' onClick={() => saveAsync(form.toJS())}/>
+        <FixedActionButton icon='done' onClick={() => props.saveAsync(props.form.toJS())}/>
       </div>
     )
   }

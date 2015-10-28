@@ -12,22 +12,23 @@ class ClientsList extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   componentWillMount() {
-    const { entities, fetchAsync } = this.props
+    const props = this.props
 
-    if (entities.size === 0) {
-      fetchAsync()
+    if (props.entities.size === 0) {
+      props.fetchAsync()
     }
   }
 
   render() {
-    const { entities, syncing, pushState, isFetching, updateSearch, search } = this.props
+    const props = this.props
     return (
       <div>
-        <SimpleList title='Clients' items={entities} busyItems={syncing} onItemClick={(id) => pushState({ title: 'Edit Client' }, '/clients/' + id)}
-                    isBusy={isFetching} updateSearch={updateSearch} search={search}
+        <SimpleList title='Clients' items={props.entities} busyItems={props.syncing}
+                    onItemClick={(id) => props.pushState({ title: 'Edit Client' }, '/clients/' + id)}
+                    isBusy={props.isFetching} updateSearch={props.updateSearch} search={props.search}
                     getItemLetter={(client) => client.get('lastName').charAt(0).toUpperCase()}
                     getItemName={(client) => client.get('firstName') + ' ' + client.get('lastName')} />
-        <FixedActionButton icon='add' onClick={() => pushState({ title: 'New Client' }, '/clients/new')}/>
+        <FixedActionButton icon='add' onClick={() => props.pushState({ title: 'New Client' }, '/clients/new')}/>
       </div>
     )
   }

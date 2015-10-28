@@ -20,78 +20,80 @@ class Report extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   componentWillMount() {
-    const { id, fetchReportAsync, sessions, exercises, fetchSessionsAsync, fetchExercisesAsync } = this.props
-    fetchReportAsync(id)
+    const props = this.props
+    props.fetchReportAsync(props.id)
 
-    if (sessions.size === 0) {
-      fetchSessionsAsync()
+    if (props.sessions.size === 0) {
+      props.fetchSessionsAsync()
     }
 
-    if (exercises.size === 0) {
-      fetchExercisesAsync()
+    if (props.exercises.size === 0) {
+      props.fetchExercisesAsync()
     }
   }
 
-  renderSessions(sessionIds, sessions, pushState) {
-    if (sessions.size === 0) {
+  renderSessions() {
+    const props = this.props
+    if (props.sessions.size === 0) {
       return null
     }
     const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
 
-    return sessionIds.map(sessionId => {
+    return props.report.get('sessions').map(sessionId => {
       return (
-        <ListItem key={sessionId} primaryText={sessions.getIn([sessionId, 'time']).toLocaleString('en-AU')}
-                  leftAvatar={<Avatar> {days[sessions.getIn([sessionId, 'time']).getDay()]} </Avatar>}
-                  onClick={() => pushState({ title: 'Edit Exercise' }, '/sessions/' + sessionId)}/>
+        <ListItem key={sessionId} primaryText={props.sessions.getIn([sessionId, 'time']).toLocaleString('en-AU')}
+                  leftAvatar={<Avatar> {days[props.sessions.getIn([sessionId, 'time']).getDay()]} </Avatar>}
+                  onClick={() => props.pushState({ title: 'Edit Exercise' }, '/sessions/' + sessionId)}/>
       )
     })
   }
 
-  renderExercises(exerciseCounts, exercises, pushState) {
-    if (exercises.size === 0) {
+  renderExercises() {
+    const props = this.props
+    if (props.exercises.size === 0) {
       return null
     }
-    return exerciseCounts.keySeq().map(exerciseId => {
+    return props.report.get('exercises').keySeq().map(exerciseId => {
       return (
-        <ListItem key={exerciseId} primaryText={exercises.getIn([exerciseId, 'name'])}
-                  leftAvatar={<Avatar>{exerciseCounts.get(exerciseId)}</Avatar>}
-                  onClick={() => pushState({ title: 'Edit Exercise' }, '/exercises/' + exerciseId)}/>
+        <ListItem key={exerciseId} primaryText={props.exercises.getIn([exerciseId, 'name'])}
+                  leftAvatar={<Avatar>{props.report.get('exercises').get(exerciseId)}</Avatar>}
+                  onClick={() => props.pushState({ title: 'Edit Exercise' }, '/exercises/' + exerciseId)}/>
       )
     })
   }
 
   render() {
-    const { report, isFetching, exercises, sessions, sessionsFetching, exercisesFetching, pushState } = this.props
+    const props = this.props
 
     return (
       <Paper zDepth={2}>
         <div style={styles.container}>
-          <CenteredSpinner isVisible={isFetching}/>
-          {!isFetching ?
+          <CenteredSpinner isVisible={props.isFetching}/>
+          {!props.isFetching ?
             <div>
               <div style={{ marginTop: '-1em', marginBottom: '-1em' }}>
-                <h2>{report.get('name')}</h2>
+                <h2>{props.report.get('name')}</h2>
               </div>
 
               <div style={styles.listContainer}>
                 <div style={styles.list}>
                   <List>
                     <div>
-                      <h3>Sessions: {report.get('sessions').size}</h3>
+                      <h3>Sessions: {props.report.get('sessions').size}</h3>
                     </div>
                     <ListDivider />
-                    <CenteredSpinner isVisible={sessionsFetching} />
-                    {this.renderSessions(report.get('sessions'), sessions, pushState)}
+                    <CenteredSpinner isVisible={props.sessionsFetching} />
+                    {this.renderSessions()}
                   </List>
                 </div>
                 <div style={styles.list}>
                   <List>
                     <div>
-                      <h3>Exercises: {report.get('exercises').size}</h3>
+                      <h3>Exercises: {props.report.get('exercises').size}</h3>
                     </div>
                     <ListDivider />
-                    <CenteredSpinner isVisible={exercisesFetching} />
-                    {this.renderExercises(report.get('exercises'), exercises, pushState)}
+                    <CenteredSpinner isVisible={props.exercisesFetching} />
+                    {this.renderExercises()}
                   </List>
                 </div>
               </div>

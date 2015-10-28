@@ -22,11 +22,11 @@ class SessionForm extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   componentWillMount() {
-    const { id, resetForm } = this.props
-    if (id) {
-      resetForm(id)
+    const props = this.props
+    if (props.id) {
+      props.resetForm(props.id)
     } else {
-      resetForm()
+      props.resetForm()
     }
   }
 
@@ -35,15 +35,17 @@ class SessionForm extends Component {
   }
 
   render() {
-    const { form, saveAsync, updateForm } = this.props
+    const props = this.props
     return (
       <div style={styles.container}>
         <IconInputContainer icon='event'>
-          <DatePicker formatDate={this.formatDate} style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Session Date' value={form.get('time')} onChange={(ev, dt) => updateForm('time', dt)} />
+          <DatePicker formatDate={this.formatDate} style={styles.datepicker} textFieldStyle={styles.text}
+                      floatingLabelText='Session Date' value={props.form.get('time')} onChange={(ev, dt) => props.updateForm('time', dt)} />
         </IconInputContainer>
 
         <IconInputContainer icon='description'>
-          <TextField style={styles.text} multiLine={true} floatingLabelText='Additional Notes' value={form.get('notes')} onChange={(ev) => updateForm('notes', ev.target.value)} />
+          <TextField style={styles.text} multiLine={true} floatingLabelText='Additional Notes' value={props.form.get('notes')}
+                     onChange={(ev) => props.updateForm('notes', ev.target.value)} />
         </IconInputContainer>
 
         <div style={styles.checkContainer}>
@@ -55,7 +57,7 @@ class SessionForm extends Component {
           </div>
         </div>
 
-        <FixedActionButton icon='done' onClick={() => saveAsync(form.toJS())}/>
+        <FixedActionButton icon='done' onClick={() => props.saveAsync(props.form.toJS())}/>
       </div>
     )
   }

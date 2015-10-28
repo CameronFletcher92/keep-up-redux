@@ -11,18 +11,18 @@ class ClientsCheckList extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   componentWillMount() {
-    const { clients, fetchAsync } = this.props
+    const props = this.props
 
-    if (clients.size === 0) {
-      fetchAsync()
+    if (props.clients.size === 0) {
+      props.fetchAsync()
     }
   }
 
   render() {
-    const { clients, selectedClients, toggleClient, isFetching, search, updateSearch } = this.props
+    const props = this.props
     return (
-      <CheckboxList title='Clients' items={clients} selectedItems={selectedClients} onItemClick={toggleClient}
-                    isBusy={isFetching} search={search} updateSearch={updateSearch}
+      <CheckboxList title='Clients' items={props.clients} selectedItems={props.selectedClients} onItemClick={props.toggleClient}
+                    isBusy={props.isFetching} search={props.search} updateSearch={props.updateSearch}
                     getItemLetter={(client) => client.get('lastName').charAt(0).toUpperCase()}
                     getItemName={(client) => client.get('firstName') + ' ' + client.get('lastName')} />
     )

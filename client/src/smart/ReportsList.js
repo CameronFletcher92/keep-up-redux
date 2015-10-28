@@ -11,19 +11,20 @@ class ReportsList extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   componentWillMount() {
-    const { entities, fetchAsync } = this.props
+    const props = this.props
 
-    if (entities.size === 0) {
-      fetchAsync()
+    if (props.entities.size === 0) {
+      props.fetchAsync()
     }
   }
 
   render() {
-    const { entities, syncing, pushState, isFetching, updateSearch, search } = this.props
+    const props = this.props
     return (
       <div>
-        <SimpleList title='Reports' items={entities} busyItems={syncing} onItemClick={(id) => pushState({ title: 'Report' }, '/reports/' + id)}
-                    isBusy={isFetching} updateSearch={updateSearch} search={search}
+        <SimpleList title='Reports' items={props.entities} busyItems={props.syncing}
+                    onItemClick={(id) => props.pushState({ title: 'Report' }, '/reports/' + id)}
+                    isBusy={props.isFetching} updateSearch={props.updateSearch} search={props.search}
                     getItemLetter={(client) => client.get('lastName').charAt(0).toUpperCase()}
                     getItemName={(client) => client.get('firstName') + ' ' + client.get('lastName')} />
       </div>

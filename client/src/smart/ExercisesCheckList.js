@@ -11,18 +11,18 @@ class ExercisesCheckList extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   componentWillMount() {
-    const { exercises, fetchAsync } = this.props
+    const props = this.props
 
-    if (exercises.size === 0) {
-      fetchAsync()
+    if (props.exercises.size === 0) {
+      props.fetchAsync()
     }
   }
 
   render() {
-    const { exercises, selectedExercises, toggleExercise, isFetching, search, updateSearch } = this.props
+    const props = this.props
     return (
-      <CheckboxList title='Exercises' items={exercises} selectedItems={selectedExercises} onItemClick={toggleExercise}
-                    isBusy={isFetching} search={search} updateSearch={updateSearch}
+      <CheckboxList title='Exercises' items={props.exercises} selectedItems={props.selectedExercises} onItemClick={props.toggleExercise}
+                    isBusy={props.isFetching} search={props.search} updateSearch={props.updateSearch}
                     getItemLetter={(exercise) => exercise.get('name').charAt(0).toUpperCase()}
                     getItemName={(exercise) => exercise.get('name')} />
     )

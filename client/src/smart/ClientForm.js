@@ -19,11 +19,11 @@ class ClientForm extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   componentWillMount() {
-    const { id, resetForm } = this.props
-    if (id) {
-      resetForm(id)
+    const props = this.props
+    if (props.id) {
+      props.resetForm(props.id)
     } else {
-      resetForm()
+      props.resetForm()
     }
   }
 
@@ -32,34 +32,40 @@ class ClientForm extends Component {
   }
 
   render() {
-    const { form, saveAsync, updateForm } = this.props
+    const props = this.props
     return (
       <div style={styles.container}>
         <IconInputContainer icon='person'>
-          <TextField style={styles.text} floatingLabelText='First Name' value={form.get('firstName')} onChange={(ev) => updateForm('firstName', ev.target.value)} />
+          <TextField style={styles.text} floatingLabelText='First Name' value={props.form.get('firstName')}
+                     onChange={(ev) => props.updateForm('firstName', ev.target.value)} />
         </IconInputContainer>
 
         <IconInputContainer icon='person'>
-          <TextField style={styles.text} floatingLabelText='Last Name' value={form.get('lastName')} onChange={(ev) => updateForm('lastName', ev.target.value)} />
+          <TextField style={styles.text} floatingLabelText='Last Name' value={props.form.get('lastName')}
+                     onChange={(ev) => props.updateForm('lastName', ev.target.value)} />
         </IconInputContainer>
 
         <IconInputContainer icon='event'>
-          <DatePicker formatDate={this.formatDate} style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Birth Date' value={form.get('birthDate')} onChange={(ev, dt) => updateForm('birthDate', dt)} />
+          <DatePicker formatDate={this.formatDate} style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Birth Date'
+                      value={props.form.get('birthDate')} onChange={(ev, dt) => props.updateForm('birthDate', dt)} />
         </IconInputContainer>
 
         <IconInputContainer icon='place'>
-          <TextField style={styles.text} floatingLabelText='Address' value={form.get('address')} onChange={(ev) => updateForm('address', ev.target.value)} />
+          <TextField style={styles.text} floatingLabelText='Address' value={props.form.get('address')}
+                     onChange={(ev) => props.updateForm('address', ev.target.value)} />
         </IconInputContainer>
 
         <IconInputContainer icon='description'>
-          <TextField style={styles.text} multiLine={true} floatingLabelText='Notes' value={form.get('notes')} onChange={(ev) => updateForm('notes', ev.target.value)} />
+          <TextField style={styles.text} multiLine={true} floatingLabelText='Notes' value={props.form.get('notes')}
+                     onChange={(ev) => props.updateForm('notes', ev.target.value)} />
         </IconInputContainer>
 
         <IconInputContainer icon='healing'>
-          <Checkbox style={styles.checkbox} label='Private Health' defaultChecked={form.get('privateHealth')} onCheck={(ev, ch) => updateForm('privateHealth', ch)}/>
+          <Checkbox style={styles.checkbox} label='Private Health' defaultChecked={props.form.get('privateHealth')}
+                    onCheck={(ev, ch) => props.updateForm('privateHealth', ch)}/>
         </IconInputContainer>
 
-        <FixedActionButton icon='done' onClick={() => saveAsync(form.toJS())}/>
+        <FixedActionButton icon='done' onClick={() => props.saveAsync(props.form.toJS())}/>
       </div>
     )
   }

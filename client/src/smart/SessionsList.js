@@ -12,23 +12,24 @@ class SessionsList extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   componentWillMount() {
-    const { entities, fetchAsync } = this.props
+    const props = this.props
 
-    if (entities.size === 0) {
-      fetchAsync()
+    if (props.entities.size === 0) {
+      props.fetchAsync()
     }
   }
 
   render() {
-    const { entities, syncing, pushState, isFetching, search, updateSearch } = this.props
+    const props = this.props
     const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
     return (
       <div>
-        <SimpleList title='Sessions' items={entities} busyItems={syncing} onItemClick={(id) => pushState({ title: 'Edit Session' }, '/sessions/' + id)}
-                    isBusy={isFetching} search={search} updateSearch={updateSearch}
+        <SimpleList title='Sessions' items={props.entities} busyItems={props.syncing}
+                    onItemClick={(id) => props.pushState({ title: 'Edit Session' }, '/sessions/' + id)}
+                    isBusy={props.isFetching} search={props.search} updateSearch={props.updateSearch}
                     getItemLetter={(session) => days[session.get('time').getDay()]}
                     getItemName={(session) => session.get('time').toLocaleString('en-AU')} />
-        <FixedActionButton icon='add' onClick={() => pushState({ title: 'New Session' }, '/sessions/new')}/>
+        <FixedActionButton icon='add' onClick={() => props.pushState({ title: 'New Session' }, '/sessions/new')}/>
       </div>
     )
   }
