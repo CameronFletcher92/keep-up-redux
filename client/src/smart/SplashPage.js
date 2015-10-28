@@ -22,7 +22,10 @@ class SplashPage extends Component {
     const props = this.props
     if (props.isLoggedIn) {
       return (
-        <p>Logged in as {props.user.get('firstName')} {props.user.get('lastName')} </p>
+        <Flex direction='column' alignItems='center'>
+          <p>Logged in as {props.user.get('firstName')} {props.user.get('lastName')} </p>
+          <RaisedButton label='Logout' primary={true} linkButton={true} href='/api/logout'/>
+        </Flex>
       )
     } else if (!props.isFetching) {
       return (
