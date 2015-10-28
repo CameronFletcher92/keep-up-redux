@@ -4,11 +4,12 @@
   "description": "Personal training client tracking application",
   "scripts": {
     "dev": "NODE_ENV=development nodemon --watch server --harmony server/server.js",
-    "clean": "rm -rf client/build",
+    "clean": "rm -rf client/build www/ platforms plugins",
     "build": "NODE_ENV=production webpack -p --progress --colors --config config/webpack.prod.config.js",
     "start": "NODE_ENV=production node --harmony server/server.js",
     "postinstall": "npm run build",
-    "deploy": "npm run clean && git push heroku master"
+    "deploy": "npm run clean && git push heroku master",
+    "cordova": "npm run clean && NODE_ENV=production webpack -p --progress --colors --config config/webpack.prod.ios.config.js && cordova platforms add ios && cordova plugin add cordova-plugin-crosswalk-webview && cordova run ios"
   },
   "repository": {
     "type": "git",
@@ -38,6 +39,8 @@
     "eslint-plugin-react": "^3.6.3",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.1",
+    "script-loader": "^0.6.1",
+    "webpack-cordova-plugin": "^0.1.5",
     "webpack-dev-middleware": "^1.2.0",
     "webpack-hot-middleware": "^2.4.1"
   },

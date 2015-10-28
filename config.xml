@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<widget id="com.example.keep-up-cordova" version="0.0.1"
+  xmlns="http://www.w3.org/ns/widgets"
+  xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>keep-up-cordova</name>
+  <description>
+    Keep Up
+  </description>
+  <author email="cameronfletcher92@gmail.com" href="https://github.com/CameronFletcher92">
+    Cameron Fletcher
+  </author>
+  <content src="index.html"/>
+  <access origin="*"/>
+</widget>
