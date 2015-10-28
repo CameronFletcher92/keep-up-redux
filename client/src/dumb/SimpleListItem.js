@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { ListItem, Avatar, LinearProgress } from 'material-ui'
+import { ListItem, Avatar, LinearProgress } from '../themes/muiComponents'
 
 function renderProgress() {
   return (

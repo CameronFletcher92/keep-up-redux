@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import ImmPropTypes from 'react-immutable-proptypes'
-import { List, Paper, ListDivider, TextField } from 'material-ui'
+import { List, Paper, ListDivider, TextField } from '../themes/muiComponents'
 import SimpleListItem from './SimpleListItem'
 import CenteredSpinner from './CenteredSpinner'
 import IconInputContainer from './IconInputContainer'

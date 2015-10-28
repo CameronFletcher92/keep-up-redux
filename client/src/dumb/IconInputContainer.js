@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { FontIcon } from 'material-ui'
+import { FontIcon } from '../themes/muiComponents'
 import Flex from './Flex'
 import { palette } from '../themes/muiTheme'
 

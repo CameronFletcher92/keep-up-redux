@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shouldUpdatePure from 'react-pure-render/function'
-import { AppBar, LeftNav } from 'material-ui'
+import { AppBar, LeftNav } from '../themes/muiComponents'
 import { pushState } from 'redux-router'
 import Flex from '../dumb/Flex'
 

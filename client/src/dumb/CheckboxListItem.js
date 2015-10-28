@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { ListItem, Avatar, Checkbox } from 'material-ui'
+import { ListItem, Avatar, Checkbox } from '../themes/muiComponents'
 
 const CheckboxListItem = (props) => {
   return (

@@ -5,7 +5,7 @@ import shouldUpdatePure from 'react-pure-render/function'
 import store from './store'
 import routes from './routes'
 import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react'
-import ThemeManager from 'material-ui/lib/styles/theme-manager'
+import { ThemeManager } from './themes/muiComponents'
 import muiTheme from './themes/muiTheme'
 
 class App extends Component {

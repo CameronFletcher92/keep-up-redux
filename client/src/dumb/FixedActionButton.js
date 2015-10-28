@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { FloatingActionButton, FontIcon } from 'material-ui'
+import { FloatingActionButton, FontIcon } from '../themes/muiComponents'
 
 const FixedActionButton = (props) => {
   return (

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { CircularProgress } from 'material-ui'
+import { CircularProgress } from '../themes/muiComponents'
 import Flex from './Flex'
 
 const styles = {
