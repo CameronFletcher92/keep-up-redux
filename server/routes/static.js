@@ -7,6 +7,12 @@ module.exports = (app) => {
   })
 
   app.get('/*', (req, res) => {
+    if (req.isAuthenticated() && req.user) {
+      res.cookie('userid', req.user._id, { maxAge: 2592000000 })
+    } else {
+      res.clearCookie('userid')
+    }
+
     console.log('GET /*')
     res.sendFile('index.html', { root: './client/build/' })
   })

@@ -15,6 +15,25 @@ module.exports = (app, passport) => {
     }
   )
 
+  // callback from google authentication
+  app.get('/api/login/callback',
+    passport.authenticate('google'),
+    (req, res) => {
+      console.log('GET /api/login/callback')
+      res.redirect('/')
+    }
+  )
+
+  // log out the current user
+  app.get('/api/logout', (req, res) => {
+    console.log('GET /api/logout')
+    if (req.isAuthenticated() && req.user) {
+      req.logout()
+      res.clearCookie('userid')
+      res.redirect('/')
+    }
+  })
+
   /*
    * REPORTS
    */
@@ -64,15 +83,6 @@ module.exports = (app, passport) => {
     }
   })
 
-  // callback from google authentication
-  app.get('/api/login/callback',
-    passport.authenticate('google'),
-    (req, res) => {
-      console.log('GET /api/login/callback')
-      res.redirect('/')
-    }
-  )
-
   // get the current user
   app.get('/api/user', (req, res) => {
     console.log('GET /api/user')
@@ -80,15 +90,6 @@ module.exports = (app, passport) => {
       res.json(req.user)
     } else {
       res.json(null)
-    }
-  })
-
-  // log out the current user
-  app.get('/api/logout', (req, res) => {
-    console.log('GET /api/logout')
-    if (req.isAuthenticated() && req.user) {
-      req.logout()
-      res.redirect('/')
     }
   })
 
@@ -135,15 +136,17 @@ module.exports = (app, passport) => {
   // fetch the clients
   app.get('/api/clients', (req, res) => {
     console.log('GET /api/clients')
-    // get clients for user based off the authenticated user's id
-    const query = Client.find({ trainer: req.user._id }).sort({ lastName: 1 })
-    query.exec((err, clients) => {
-      if (err || !clients) {
-        console.error('could not fetch clients')
-      } else {
-        res.json(clients)
-      }
-    })
+    if (req.isAuthenticated() && req.user) {
+      // get clients for user based off the authenticated user's id
+      const query = Client.find({ trainer: req.user._id }).sort({ lastName: 1 })
+      query.exec((err, clients) => {
+        if (err || !clients) {
+          console.error('could not fetch clients')
+        } else {
+          res.json(clients)
+        }
+      })
+    }
   })
 
   /*
@@ -188,16 +191,18 @@ module.exports = (app, passport) => {
 
   // fetch the exercises
   app.get('/api/exercises', (req, res) => {
-    console.log('GET /api/exercises')
-    // get exercises for user based off the authenticated user's id
-    const query = Exercise.find({ trainer: req.user._id }).sort({ name: 1 })
-    query.exec((err, exercises) => {
-      if (err || !exercises) {
-        console.error('could not fetch exercises')
-      } else {
-        res.json(exercises)
-      }
-    })
+    if (req.isAuthenticated() && req.user) {
+      console.log('GET /api/exercises')
+      // get exercises for user based off the authenticated user's id
+      const query = Exercise.find({ trainer: req.user._id }).sort({ name: 1 })
+      query.exec((err, exercises) => {
+        if (err || !exercises) {
+          console.error('could not fetch exercises')
+        } else {
+          res.json(exercises)
+        }
+      })
+    }
   })
 
   /*
@@ -242,14 +247,16 @@ module.exports = (app, passport) => {
   // fetch the sessions
   app.get('/api/sessions', (req, res) => {
     console.log('GET /api/sessions')
-    // get sessions for user based off the authenticated user's id
-    const query = Session.find({ trainer: req.user._id }).sort({ name: 1 })
-    query.exec((err, sessions) => {
-      if (err || !sessions) {
-        console.error('could not fetch sessions')
-      } else {
-        res.json(sessions)
-      }
-    })
+    if (req.isAuthenticated() && req.user) {
+      // get sessions for user based off the authenticated user's id
+      const query = Session.find({ trainer: req.user._id }).sort({ name: 1 })
+      query.exec((err, sessions) => {
+        if (err || !sessions) {
+          console.error('could not fetch sessions')
+        } else {
+          res.json(sessions)
+        }
+      })
+    }
   })
 }

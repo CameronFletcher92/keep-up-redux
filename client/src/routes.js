@@ -1,5 +1,4 @@
 import React from 'react'
-import store from './store.js'
 import { Route, IndexRoute } from 'react-router'
 import TopBar from './smart/TopBar'
 import ClientForm from './smart/ClientForm'
@@ -12,8 +11,20 @@ import SplashPage from './smart/SplashPage'
 import ReportsList from './smart/ReportsList'
 import Report from './smart/Report'
 
+function readCookie(name) {
+  name += '='
+  for (let ca = document.cookie.split(/;\s*/), index = ca.length - 1; index >= 0; index--) {
+    if (!ca[index].indexOf(name)) {
+      return ca[index].replace(name, '')
+    }
+  }
+}
+
 function requireAuth(nextState, replaceState) {
-  if (!store.getState().user.get('isLoggedIn')) {
+  const cookie = readCookie('userid')
+  console.log('cookie', cookie)
+
+  if (!cookie) {
     // redirect back to login.
     replaceState({ nextPathname: nextState.location.pathname }, '/')
   }
