@@ -4,16 +4,21 @@ import { bindActionCreators } from 'redux'
 import shouldUpdatePure from 'react-pure-render/function'
 import ImmPropTypes from 'react-immutable-proptypes'
 import { pushState } from 'redux-router'
-import { Avatar, List, ListItem, ListDivider, Paper } from '../themes/muiComponents'
-import { fetchReportAsync } from '../ducks/clients'
+import { Avatar, List, ListItem, ListDivider, Paper, DatePicker, RaisedButton } from '../themes/muiComponents'
+import { fetchReportAsync, updateReportDate } from '../ducks/clients'
 import { fetchAsync as fetchExercisesAsync } from '../ducks/exercises'
 import { fetchAsync as fetchSessionsAsync } from '../ducks/sessions'
 import CenteredSpinner from '../dumb/CenteredSpinner'
+import IconInputContainer from '../dumb/IconInputContainer'
 
 const styles = {
-  container: { display: 'flex', flexDirection: 'column', alignItems: 'stretch', margin: '1em' },
+  container: { display: 'flex', flexDirection: 'column', alignItems: 'stretch', margin: '1em', paddingTop: '1em' },
   listContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' },
-  list: { flex: '1 1 auto', margin: '0.5em' }
+  list: { flex: '1 1 auto', margin: '0.5em' },
+  dateContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' },
+  datepicker: { flex: '1 1 auto', margin: '0em', marginRight: '1em', marginLeft: '1em' },
+  button: { flex: '0 1 auto', margin: '0em', marginTop: '2em' },
+  text: { width: '100%', marginBottom: '0.5em' }
 }
 
 class Report extends Component {
@@ -21,7 +26,7 @@ class Report extends Component {
 
   componentWillMount() {
     const props = this.props
-    props.fetchReportAsync(props.id)
+    props.fetchReportAsync(props.id, props.reportMin, props.reportMax)
 
     if (props.sessions.size === 0) {
       props.fetchSessionsAsync()
@@ -62,45 +67,68 @@ class Report extends Component {
     })
   }
 
+  formatDate(date) {
+    return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+  }
+
   render() {
     const props = this.props
 
     return (
-      <Paper zDepth={2}>
-        <div style={styles.container}>
-          <CenteredSpinner isVisible={props.isFetching}/>
-          {!props.isFetching ?
-            <div>
-              <div style={{ marginTop: '-1em', marginBottom: '-1em' }}>
-                <h2>{props.report.get('name')}</h2>
-              </div>
-
-              <div style={styles.listContainer}>
-                <div style={styles.list}>
-                  <List>
-                    <div>
-                      <h3>Sessions: {props.report.get('sessions').size}</h3>
-                    </div>
-                    <ListDivider />
-                    <CenteredSpinner isVisible={props.sessionsFetching} />
-                    {this.renderSessions()}
-                  </List>
-                </div>
-                <div style={styles.list}>
-                  <List>
-                    <div>
-                      <h3>Exercises: {props.report.get('exercises').size}</h3>
-                    </div>
-                    <ListDivider />
-                    <CenteredSpinner isVisible={props.exercisesFetching} />
-                    {this.renderExercises()}
-                  </List>
-                </div>
-              </div>
-            </div>
-            : null}
+      <div>
+        <div style={styles.dateContainer}>
+          <div style={styles.datepicker}>
+            <IconInputContainer icon='event'>
+              <DatePicker formatDate={this.formatDate} style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Min Date'
+                          value={props.reportMin} onChange={(ev, dt) => props.updateReportDate('min', dt)} />
+            </IconInputContainer>
+          </div>
+          <div style={styles.datepicker}>
+            <IconInputContainer icon='event'>
+              <DatePicker formatDate={this.formatDate} style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Max Date'
+                          value={props.reportMax} onChange={(ev, dt) => props.updateReportDate('max', dt)} />
+            </IconInputContainer>
+          </div>
+          <div style={styles.button}>
+            <RaisedButton label='Refresh' primary onClick={() => props.fetchReportAsync(props.id, props.reportMin, props.reportMax)}/>
+          </div>
         </div>
-      </Paper>
+        <Paper zDepth={2}>
+          <div style={styles.container}>
+            <CenteredSpinner isVisible={props.isFetching}/>
+            {!props.isFetching ?
+              <div>
+                <div style={{ marginTop: '-1em', marginBottom: '-1em' }}>
+                  <h2>{props.report.get('name')}</h2>
+                </div>
+
+                <div style={styles.listContainer}>
+                  <div style={styles.list}>
+                    <List>
+                      <div>
+                        <h3>Sessions: {props.report.get('sessions').size}</h3>
+                      </div>
+                      <ListDivider />
+                      <CenteredSpinner isVisible={props.sessionsFetching} />
+                      {this.renderSessions()}
+                    </List>
+                  </div>
+                  <div style={styles.list}>
+                    <List>
+                      <div>
+                        <h3>Exercises: {props.report.get('exercises').size}</h3>
+                      </div>
+                      <ListDivider />
+                      <CenteredSpinner isVisible={props.exercisesFetching} />
+                      {this.renderExercises()}
+                    </List>
+                  </div>
+                </div>
+              </div>
+              : null}
+          </div>
+        </Paper>
+      </div>
     )
   }
 }
@@ -131,7 +159,10 @@ Report.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   sessionsFetching: PropTypes.bool.isRequired,
   exercisesFetching: PropTypes.bool.isRequired,
-  pushState: PropTypes.func.isRequired
+  reportMin: PropTypes.instanceOf(Date),
+  reportMax: PropTypes.instanceOf(Date),
+  pushState: PropTypes.func.isRequired,
+  updateReportDate: PropTypes.func.isRequired
 }
 
 export default connect(
@@ -143,10 +174,12 @@ export default connect(
       sessions: state.sessions.get('entities'),
       exercises: state.exercises.get('entities'),
       sessionsFetching: state.sessions.get('isFetching'),
-      exercisesFetching: state.exercises.get('isFetching')
+      exercisesFetching: state.exercises.get('isFetching'),
+      reportMin: state.clients.get('reportMin'),
+      reportMax: state.clients.get('reportMax')
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchReportAsync, fetchSessionsAsync, fetchExercisesAsync, pushState }, dispatch)
+    return bindActionCreators({ fetchReportAsync, fetchSessionsAsync, fetchExercisesAsync, pushState, updateReportDate }, dispatch)
   }
 )(Report)
