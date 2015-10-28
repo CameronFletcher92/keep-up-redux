@@ -23,7 +23,9 @@ module.exports = (app, passport) => {
   app.get('/api/reports/:id', (req, res) => {
     if (req.isAuthenticated() && req.user) {
       const id = req.params.id
-      console.log('GET /api/reports/' + id)
+      const min = req.query.min ? new Date(req.query.min) : null
+      const max = req.query.max ? new Date(req.query.max) : null
+      console.log('GET /api/reports/' + id, ' min = ' + min + ' max = ' + max)
 
       // construct a result object
       const resSessions = []
@@ -36,7 +38,7 @@ module.exports = (app, passport) => {
         name = client.firstName + ' ' + client.lastName
 
         // fetch the sessions with the client and populate the result
-        query = Session.find({ trainer: req.user._id, clients: id })
+        query = Session.find({ trainer: req.user._id, time: { '$gte': min, '$lte': max }, clients: id })
         query.find((err, sessions) => {
           sessions.forEach(session => {
             resSessions.push(session._id)
