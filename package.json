@@ -40,7 +40,6 @@
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.1",
     "script-loader": "^0.6.1",
-    "webpack-cordova-plugin": "^0.1.5",
     "webpack-dev-middleware": "^1.2.0",
     "webpack-hot-middleware": "^2.4.1"
   },
