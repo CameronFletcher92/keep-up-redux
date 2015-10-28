@@ -22,6 +22,7 @@ module.exports = {
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       __DEV__: true,
+      __CORDOVA__: false
     })
   ],
   module: {

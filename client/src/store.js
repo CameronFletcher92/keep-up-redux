@@ -1,7 +1,7 @@
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux'
 import { routerStateReducer, reduxReactRouter } from 'redux-router'
 import { devTools } from 'redux-devtools'
-import { createHistory } from 'history'
+import { createHistory, createHashHistory } from 'history'
 import thunk from 'redux-thunk'
 
 // Combine router reducer with all the ducks' reducers
@@ -24,16 +24,22 @@ const rootReducer = getRootReducer()
 // initialize the store, with or without devtools
 let store
 /* global __DEV__ */
+/* global __CORDOVA__ */
 if (__DEV__) {
   store = compose(
     applyMiddleware(thunk),
-    reduxReactRouter({ createHistory }),
+    reduxReactRouter({ createHistory: createHistory }),
     devTools()
+  )(createStore)(rootReducer)
+} else if (__CORDOVA__) {
+  store = compose(
+    applyMiddleware(thunk),
+    reduxReactRouter({ createHistory: createHashHistory }),
   )(createStore)(rootReducer)
 } else {
   store = compose(
     applyMiddleware(thunk),
-    reduxReactRouter({ createHistory }),
+    reduxReactRouter({ createHistory: createHistory }),
   )(createStore)(rootReducer)
 }
 

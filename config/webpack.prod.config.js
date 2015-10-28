@@ -20,6 +20,7 @@ module.exports = {
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       __DEV__: false,
+      __CORDOVA__: false
     }),
 
     // optimization
