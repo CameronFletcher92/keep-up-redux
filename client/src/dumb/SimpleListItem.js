@@ -9,13 +9,13 @@ function renderProgress() {
   )
 }
 
-const SimpleListItem = ({ name, editClicked, busy, letter }) => {
+const SimpleListItem = (props) => {
   return (
     <div>
-      <ListItem primaryText={name}
-                leftAvatar={letter ? <Avatar>{letter}</Avatar> : null}
-                onClick={editClicked} disabled={busy} insetChildren={true}/>
-      {busy ? renderProgress() : null}
+      <ListItem primaryText={props.name}
+                leftAvatar={props.letter ? <Avatar>{props.letter}</Avatar> : null}
+                onClick={props.editClicked} disabled={props.busy} insetChildren={true}/>
+      {props.busy ? renderProgress() : null}
     </div>
   )
 }

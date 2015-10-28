@@ -7,12 +7,12 @@ const styles = {
   relative: { marginLeft: '-0.5em', marginTop: '2em', marginBottom: '2em' }
 }
 
-const CenteredSpinner = ({ isVisible, fixed }) => {
-  if (isVisible && fixed) {
+const CenteredSpinner = (props) => {
+  if (props.isVisible && props.fixed) {
     return (
       <CircularProgress mode='indeterminate' style={styles.fixed}/>
     )
-  } else if (isVisible && !fixed) {
+  } else if (props.isVisible && !props.fixed) {
     return (
       <Flex justifyContent='center'>
         <CircularProgress mode='indeterminate' style={styles.relative}/>

@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react'
 import { ListItem, Avatar, Checkbox } from 'material-ui'
 
-const CheckboxListItem = ({ name, checked, toggle, letter }) => {
+const CheckboxListItem = (props) => {
   return (
-    <ListItem primaryText={name}
-              leftAvatar={letter ? <Avatar>{letter}</Avatar> : null}
-              onClick={toggle} insetChildren={true}
+    <ListItem primaryText={props.name}
+              leftAvatar={props.letter ? <Avatar>{props.letter}</Avatar> : null}
+              onClick={props.toggle} insetChildren={true}
               rightToggle={
-                <Checkbox defaultChecked={checked} onCheck={toggle}/>
+                <Checkbox defaultChecked={props.checked} onCheck={props.toggle}/>
               }/>
   )
 }

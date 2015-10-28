@@ -1,10 +1,11 @@
 import React, { PropTypes } from 'react'
 
-const Flex = ({ direction, justifyContent, alignItems, grow, shrink, basis, alignSelf, children, minWidth, maxWidth, margin }) => {
+const Flex = (props) => {
   return (
-    <div style={{ display: 'flex', flex: '1 1 auto', width: '100%', flexDirection: direction, flexGrow: grow, flexShrink: shrink,
-                justifyContent, alignItems, basis, alignSelf, minWidth, maxWidth, margin }}>
-      {children}
+    <div style={{ display: 'flex', flex: '1 1 auto', width: '100%', flexDirection: props.direction, flexGrow: props.grow, flexShrink: props.shrink,
+                  justifyContent: props.justifyContent, alignItems: props.alignItems, basis: props.basis,
+                  alignSelf: props.alignSelf, minWidth: props.minWidth, maxWidth: props.maxWidth, margin: props.margin }}>
+      {props.children}
     </div>
   )
 }

@@ -5,21 +5,21 @@ import SimpleListItem from './SimpleListItem'
 import CenteredSpinner from './CenteredSpinner'
 import IconInputContainer from './IconInputContainer'
 
-function renderItems(items, busyItems, onItemClick, getItemLetter, getItemName, search) {
+function renderItems(props) {
   let lastLetter = ''
-  return items.toOrderedSet().map(item => {
+  return props.items.toOrderedSet().map(item => {
     const id = item.get('_id')
-    const name = getItemName(item)
+    const name = props.getItemName(item)
 
-    if (name.toLowerCase().indexOf(search.toLowerCase()) === -1) {
+    if (name.toLowerCase().indexOf(props.search.toLowerCase()) === -1) {
       return null
     }
 
     // if busyItems is true at the id, that item is busy
-    const busy = busyItems.get(id) ? true : false
+    const busy = props.busyItems.get(id) ? true : false
 
     // determine whether this item should have a left letter icon using the callback
-    let letter = getItemLetter(item)
+    let letter = props.getItemLetter(item)
     if (letter && letter !== lastLetter) {
       lastLetter = letter
     } else {
@@ -28,25 +28,25 @@ function renderItems(items, busyItems, onItemClick, getItemLetter, getItemName, 
 
     return (
       <SimpleListItem key={id} name={name} busy={busy}
-                      editClicked={() => onItemClick(id)}
+                      editClicked={() => props.onItemClick(id)}
                       letter={letter}/>
     )
   })
 }
 
-const SimpleList = ({ isBusy, title, search, updateSearch, items, busyItems, onItemClick, getItemLetter, getItemName }) => {
+const SimpleList = (props) => {
   return (
     <Paper zDepth={2}>
       <List>
         <div style={{ marginTop: '-2em', paddingLeft: '1.5em', paddingRight: '2.5em', paddingTop: '0.5em' }}>
           <IconInputContainer icon='search'>
-            <TextField style={{ width: '100%' }} floatingLabelText={title} value={search} onChange={(ev) => updateSearch(ev.target.value)} />
+            <TextField style={{ width: '100%' }} floatingLabelText={props.title} value={props.search} onChange={(ev) => props.updateSearch(ev.target.value)} />
           </IconInputContainer>
         </div>
         <ListDivider />
 
-        <CenteredSpinner isVisible={isBusy} />
-        {renderItems(items, busyItems, onItemClick, getItemLetter, getItemName, search)}
+        <CenteredSpinner isVisible={props.isBusy} />
+        {renderItems(props)}
       </List>
     </Paper>
   )

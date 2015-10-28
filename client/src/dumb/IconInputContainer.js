@@ -3,14 +3,14 @@ import { FontIcon } from 'material-ui'
 import Flex from './Flex'
 import { palette } from '../themes/muiTheme'
 
-const IconInputContainer = ({ children, icon }) => {
+const IconInputContainer = (props) => {
   return (
     <Flex direction='row'>
       <div style={{ marginTop: '2em', marginRight: '1em' }}>
-        <FontIcon className='material-icons' style={{ fontSize: '200%', color: palette.accent3Color }}>{icon}</FontIcon>
+        <FontIcon className='material-icons' style={{ fontSize: '200%', color: palette.accent3Color }}>{props.icon}</FontIcon>
       </div>
       <Flex direction='row' justifyContent='stretch'>
-        {children}
+        {props.children}
       </Flex>
     </Flex>
   )

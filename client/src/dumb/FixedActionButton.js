@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react'
 import { FloatingActionButton, FontIcon } from 'material-ui'
 
-const FixedActionButton = ({ icon, onClick }) => {
+const FixedActionButton = (props) => {
   return (
-    <FloatingActionButton onClick={onClick} style={{ position: 'fixed', right: '2em', top: '2.2em', zIndex: '10001' }}>
-      <FontIcon className='material-icons'>{icon}</FontIcon>
+    <FloatingActionButton onClick={props.onClick} style={{ position: 'fixed', right: '2em', top: '2.2em', zIndex: '10001' }}>
+      <FontIcon className='material-icons'>{props.icon}</FontIcon>
     </FloatingActionButton>
   )
 }
