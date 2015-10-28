@@ -20,16 +20,23 @@ class SplashPage extends Component {
 
   renderContent() {
     const props = this.props
+    /* global __CORDOVA__ */
     if (props.isLoggedIn) {
       return (
         <Flex direction='column' alignItems='center'>
           <p>Logged in as {props.user.get('firstName')} {props.user.get('lastName')} </p>
-          <RaisedButton label='Logout' primary={true} linkButton={true} href='/api/logout'/>
+          {__CORDOVA__ ?
+            <RaisedButton label='Logout' primary={true} linkButton={true} onClick={() => window.location = 'http://keep-up-app.herokuapp.com/api/logout'}/>
+          :
+            <RaisedButton label='Logout' primary={true} linkButton={true} href='/api/logout'/>}
         </Flex>
       )
     } else if (!props.isFetching) {
       return (
-        <RaisedButton label='Login' primary={true} linkButton={true} href='/api/login'/>
+        __CORDOVA__ ?
+          <RaisedButton label='Login' primary={true} linkButton={true} onClick={() => window.location = 'http://keep-up-app.herokuapp.com/api/login'}/>
+        :
+          <RaisedButton label='Login' primary={true} linkButton={true} href='/api/login'/>
       )
     }
   }
