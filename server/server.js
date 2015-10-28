@@ -41,7 +41,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Connect Database
-const uri = app.settings.env === 'production' ? process.env.MONGOLAB_URI
+const uri = app.settings.env === 'production' && process.env.MONGOLAB_URI ? process.env.MONGOLAB_URI
                                               : 'mongodb://localhost/keep-up'
 console.log('mongo uri: ' + uri)
 

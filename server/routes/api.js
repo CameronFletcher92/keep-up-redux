@@ -21,7 +21,7 @@ module.exports = (app, passport) => {
 
   // fetch a client's report
   app.get('/api/reports/:id', (req, res) => {
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() && req.user) {
       const id = req.params.id
       console.log('GET /api/reports/' + id)
 
@@ -73,7 +73,7 @@ module.exports = (app, passport) => {
   // get the current user
   app.get('/api/user', (req, res) => {
     console.log('GET /api/user')
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() && req.user) {
       res.json(req.user)
     } else {
       res.json(null)
@@ -83,7 +83,7 @@ module.exports = (app, passport) => {
   // log out the current user
   app.get('/api/logout', (req, res) => {
     console.log('GET /api/logout')
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() && req.user) {
       req.logout()
       res.redirect('/')
     }
@@ -96,7 +96,7 @@ module.exports = (app, passport) => {
   // create a new client
   app.post('/api/clients', (req, res) => {
     console.log('POST /api/clients')
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() && req.user) {
       const client = req.body
       delete client._id
 
@@ -118,7 +118,7 @@ module.exports = (app, passport) => {
   // update a client
   app.put('/api/clients', (req, res) => {
     console.log('PUT /api/clients')
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() && req.user) {
       const client = req.body
       const query = Client.find({ _id: client._id })
 
@@ -156,7 +156,7 @@ module.exports = (app, passport) => {
   // create a new exercise
   app.post('/api/exercises', (req, res) => {
     console.log('POST /api/exercises')
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() && req.user) {
       const exercise = req.body
       delete exercise._id
 
@@ -176,7 +176,7 @@ module.exports = (app, passport) => {
   // update a exercise
   app.put('/api/exercises', (req, res) => {
     console.log('PUT /api/exercises')
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() && req.user) {
       const exercise = req.body
 
       console.log('setting trainer as', req.user)
@@ -213,7 +213,7 @@ module.exports = (app, passport) => {
   // create a new session
   app.post('/api/sessions', (req, res) => {
     console.log('POST /api/sessions')
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() && req.user) {
       const session = req.body
       delete session._id
 
@@ -233,7 +233,7 @@ module.exports = (app, passport) => {
   // update a session
   app.put('/api/sessions', (req, res) => {
     console.log('PUT /api/sessions')
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() && req.user) {
       const session = req.body
 
       console.log('setting trainer as', req.user)
