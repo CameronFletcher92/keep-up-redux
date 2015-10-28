@@ -17,10 +17,6 @@ class App extends Component {
     }
   }
 
-  componentDidUpdate() {
-    console.log('Rendering App')
-  }
-
   renderDevTools() {
     return (
       <DebugPanel top right bottom>
