@@ -125,6 +125,9 @@ module.exports = (app) => {
     // for every session, add to the result if client attended, and add all exercises
     for (let index = 0; index < sessions.length; index++) {
       const session = sessions[index]
+      if ((min && session.time < min) || (max && session.time > max)) {
+        continue
+      }
       if (session.clients.indexOf(id) !== -1) {
         resSessions.push(session._id)
         for (let index2 = 0; index2 < session.exercises.length; index2++) {
