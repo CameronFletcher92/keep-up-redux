@@ -25,6 +25,7 @@ module.exports = (app, passport) => {
       const id = req.params.id
       console.log('GET /api/reports/' + id)
 
+      // construct a result object
       const resSessions = []
       const resExercises = {}
       let name = ''

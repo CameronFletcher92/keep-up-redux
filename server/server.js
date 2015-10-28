@@ -7,6 +7,9 @@ const passport = require('passport')
 const session = require('express-session')
 const mongoose = require('mongoose')
 
+// express setup
+const app = express()
+
 // Passport session setup.
 passport.serializeUser((user, done) => {
   done(null, user)
@@ -15,8 +18,6 @@ passport.deserializeUser((obj, done) => {
   done(null, obj)
 })
 
-// express setup
-const app = express()
 app.use(bodyParser.json())
 app.use(session({
   secret: 'keyboard cat',
