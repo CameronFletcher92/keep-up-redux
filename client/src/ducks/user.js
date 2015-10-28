@@ -51,9 +51,11 @@ export function reducer(state = initialState, action) {
 
       // dirty hack: set the browser close confirmation
       /* global __DEV__ */
+      /*
       if (!__DEV__) {
         window.onbeforeunload = () => 'Keep-Up will have to re-fetch data if you leave this page.'
       }
+      */
     }
     return state
 

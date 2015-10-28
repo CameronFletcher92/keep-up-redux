@@ -22,9 +22,10 @@ function readCookie(name) {
 
 function requireAuth(nextState, replaceState) {
   const cookie = readCookie('userid')
-  console.log('cookie', cookie)
 
-  if (!cookie) {
+  /* global __DEV__ */
+  if (!cookie && !__DEV__) {
+    console.log('rediricting')
     // redirect back to login.
     replaceState({ nextPathname: nextState.location.pathname }, '/')
   }

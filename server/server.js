@@ -9,6 +9,7 @@ const mongoose = require('mongoose')
 
 // express setup
 const app = express()
+app.use(bodyParser.json())
 
 // Production setup
 if (app.settings.env === 'production') {
@@ -23,7 +24,6 @@ if (app.settings.env === 'production') {
   })
 
   // express midlewares
-  app.use(bodyParser.json())
   app.use(session({
     secret: 'keyboard cat',
     resave: false,
