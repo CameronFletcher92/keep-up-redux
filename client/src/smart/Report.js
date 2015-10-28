@@ -90,7 +90,8 @@ class Report extends Component {
             </IconInputContainer>
           </div>
           <div style={styles.button}>
-            <RaisedButton label='Refresh' primary onClick={() => props.fetchReportAsync(props.id, props.reportMin, props.reportMax)}/>
+            <RaisedButton label='Refresh' primary disabled={props.isFetching}
+                          onClick={() => props.fetchReportAsync(props.id, props.reportMin, props.reportMax)}/>
           </div>
         </div>
         <Paper zDepth={2}>
