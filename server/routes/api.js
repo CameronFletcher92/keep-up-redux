@@ -35,7 +35,7 @@ module.exports = (app, passport) => {
       query.findOne((err, client) => {
         name = client.firstName + ' ' + client.lastName
 
-        // fetch the sessions with the client and populate result
+        // fetch the sessions with the client and populate the result
         query = Session.find({ trainer: req.user._id, clients: id })
         query.find((err, sessions) => {
           sessions.forEach(session => {
