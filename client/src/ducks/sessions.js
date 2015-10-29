@@ -247,7 +247,24 @@ export function reducer(state = initialState, action) {
     return state
 
   case UPDATE_FORM:
-    state = state.setIn(['form', action.field], action.value)
+    if (action.field !== 'date' && action.field !== 'time') {
+      state = state.setIn(['form', action.field], action.value)
+      return state
+    }
+
+    // special logic for setting the time (using both date and time pickers)
+    const current = new Date(state.getIn(['form', 'time']))
+    console.log('current', current)
+    if (action.field === 'date') {
+      // set just the date part of the object
+      current.setFullYear(action.value.getFullYear(), action.value.getMonth(), action.value.getDate())
+    } else {
+      // set just the time part of the object
+      current.setHours(action.value.getHours(), action.value.getMinutes(), 0)
+    }
+
+    console.log('after', current)
+    state = state.setIn(['form', 'time'], current)
     return state
 
   case RESET_FORM:

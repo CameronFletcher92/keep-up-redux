@@ -15,5 +15,6 @@ module.exports = {
   RaisedButton: require('material-ui/lib/raised-button'),
   SelectField: require('material-ui/lib/select-field'),
   TextField: require('material-ui/lib/text-field'),
+  TimePicker: require('material-ui/lib/time-picker'),
   ThemeManager: require('material-ui/lib/styles/theme-manager')
 }
