@@ -57,7 +57,7 @@ class SessionForm extends Component {
           </div>
         </div>
 
-        <FixedActionButton icon='done' onClick={() => props.saveAsync(props.form.toJS())}/>
+        <FixedActionButton icon='done' onClick={() => props.saveAsync(this.props.form.toJS())}/>
       </div>
     )
   }

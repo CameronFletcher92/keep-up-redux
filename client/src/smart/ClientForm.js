@@ -65,7 +65,7 @@ class ClientForm extends Component {
                     onCheck={(ev, ch) => props.updateForm('privateHealth', ch)}/>
         </IconInputContainer>
 
-        <FixedActionButton icon='done' onClick={() => props.saveAsync(props.form.toJS())}/>
+        <FixedActionButton icon='done' onClick={() => props.saveAsync(this.props.form.toJS())}/>
       </div>
     )
   }

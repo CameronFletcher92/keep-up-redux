@@ -51,7 +51,7 @@ class ExerciseForm extends Component {
                        value={props.form.get('intensity')} onChange={(ev) => props.updateForm('intensity', ev.target.value)} />
         </IconInputContainer>
 
-        <FixedActionButton icon='done' onClick={() => props.saveAsync(props.form.toJS())}/>
+        <FixedActionButton icon='done' onClick={() => props.saveAsync(this.props.form.toJS())}/>
       </div>
     )
   }
