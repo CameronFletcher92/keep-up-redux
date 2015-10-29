@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react'
+import shouldUpdatePure from '../util/shouldUpdatePure'
 import { FontIcon } from '../themes/muiComponents'
 import { palette } from '../themes/muiTheme'
 
@@ -9,17 +10,22 @@ const styles = {
   inputContainer: { display: 'flex', flex: '1 1 auto', flexDirection: 'row', justifyContent: 'stretch' }
 }
 
-const IconInputContainer = (props) => {
-  return (
-    <div style={styles.container}>
-      <div style={styles.iconContainer}>
-        <FontIcon className='material-icons' style={styles.icon}>{props.icon}</FontIcon>
+class IconInputContainer extends Component {
+  shouldComponentUpdate = shouldUpdatePure
+
+  render() {
+    const props = this.props
+    return (
+      <div style={styles.container}>
+        <div style={styles.iconContainer}>
+          <FontIcon className='material-icons' style={styles.icon}>{props.icon}</FontIcon>
+        </div>
+        <div style={styles.inputContainer}>
+          {props.children}
+        </div>
       </div>
-      <div style={styles.inputContainer}>
-        {props.children}
-      </div>
-    </div>
-  )
+    )
+  }
 }
 
 IconInputContainer.propTypes = {

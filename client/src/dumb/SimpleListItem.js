@@ -1,27 +1,34 @@
-import React, { PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react'
+import shouldUpdatePure from '../util/shouldUpdatePure'
 import { ListItem, Avatar, LinearProgress } from '../themes/muiComponents'
 
 const styles = {
   container: { padding: '1em' }
 }
 
-function renderProgress() {
-  return (
-    <div style={styles.container}>
-      <LinearProgress mode='indeterminate'/>
-    </div>
-  )
-}
 
-const SimpleListItem = (props) => {
-  return (
-    <div>
-      <ListItem primaryText={props.name}
-                leftAvatar={props.letter ? <Avatar>{props.letter}</Avatar> : null}
-                onClick={props.editClicked} disabled={props.busy} insetChildren={true}/>
-      {props.busy ? renderProgress() : null}
-    </div>
-  )
+class SimpleListItem extends Component {
+  shouldComponentUpdate = shouldUpdatePure
+
+  renderProgress() {
+    return (
+      <div style={styles.container}>
+        <LinearProgress mode='indeterminate'/>
+      </div>
+    )
+  }
+
+  render() {
+    const props = this.props
+    return (
+      <div>
+        <ListItem primaryText={props.name}
+                  leftAvatar={props.letter ? <Avatar>{props.letter}</Avatar> : null}
+                  onClick={props.editClicked} disabled={props.busy} insetChildren={true}/>
+        {props.busy ? this.renderProgress() : null}
+      </div>
+    )
+  }
 }
 
 SimpleListItem.propTypes = {

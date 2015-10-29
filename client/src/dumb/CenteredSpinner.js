@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react'
+import shouldUpdatePure from '../util/shouldUpdatePure'
 import { CircularProgress } from '../themes/muiComponents'
 
 const styles = {
@@ -7,23 +8,28 @@ const styles = {
   relativeSpinner: { marginLeft: '-0.5em', marginTop: '2em', marginBottom: '2em' }
 }
 
-const CenteredSpinner = (props) => {
-  if (props.isVisible && props.fixed) {
-    return (
-      <CircularProgress mode='indeterminate' style={styles.fixed}/>
-    )
-  } else if (props.isVisible && !props.fixed) {
-    return (
-      <div>
-        <div style={styles.relativeContainer}>
-          <CircularProgress mode='indeterminate' style={styles.relativeSpinner}/>
+class CenteredSpinner extends Component {
+  shouldComponentUpdate = shouldUpdatePure
+
+  render() {
+    const props = this.props
+    if (props.isVisible && props.fixed) {
+      return (
+        <CircularProgress mode='indeterminate' style={styles.fixed}/>
+      )
+    } else if (props.isVisible && !props.fixed) {
+      return (
+        <div>
+          <div style={styles.relativeContainer}>
+            <CircularProgress mode='indeterminate' style={styles.relativeSpinner}/>
+          </div>
         </div>
-      </div>
-    )
-  } else {
-    return (
-      <div/>
-    )
+      )
+    } else {
+      return (
+        <div/>
+      )
+    }
   }
 }
 
