@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
+import shouldUpdatePure from './util/shouldUpdatePure'
 import { Provider } from 'react-redux'
 import { ReduxRouter } from 'redux-router'
-import shouldUpdatePure from 'react-pure-render/function'
 import store from './util/store'
 import routes from './util/routes'
 import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react'

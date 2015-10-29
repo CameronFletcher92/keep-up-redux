@@ -36,10 +36,8 @@ function shallowEqual(objA, objB) {
 
 export default function shouldUpdatePure(nextProps) {
   const res = !shallowEqual(this.props, nextProps)
-  /*
   if (res) {
     console.log('render ' + this.constructor.displayName)
   }
-  */
   return res
 }

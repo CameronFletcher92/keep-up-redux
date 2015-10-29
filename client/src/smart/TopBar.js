@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import shouldUpdatePure from 'react-pure-render/function'
+import shouldUpdatePure from '../util/shouldUpdatePure'
 import { AppBar, LeftNav } from '../themes/muiComponents'
 import { pushState } from 'redux-router'
 

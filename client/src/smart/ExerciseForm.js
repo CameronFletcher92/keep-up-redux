@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import shouldUpdatePure from 'react-pure-render/function'
+import shouldUpdatePure from '../util/shouldUpdatePure'
 import ImmPropTypes from 'react-immutable-proptypes'
 import { TextField, SelectField } from '../themes/muiComponents'
 import { saveAsync, updateForm, resetForm } from '../ducks/exercises'
