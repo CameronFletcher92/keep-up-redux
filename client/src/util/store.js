@@ -10,10 +10,10 @@ import thunk from 'redux-thunk'
 function getRootReducer() {
   const reducers = {
     router: routerStateReducer,
-    user: require('./ducks/user').reducer,
-    clients: require('./ducks/clients').reducer,
-    exercises: require('./ducks/exercises').reducer,
-    sessions: require('./ducks/sessions').reducer
+    user: require('../ducks/user').reducer,
+    clients: require('../ducks/clients').reducer,
+    exercises: require('../ducks/exercises').reducer,
+    sessions: require('../ducks/sessions').reducer
   }
 
   return combineReducers(reducers)
@@ -39,7 +39,7 @@ if (__DEV__) {
 
 // hot load support
 if (__DEV__ && module.hot) {
-  module.hot.accept(['./ducks/clients', './ducks/exercises', './ducks/sessions', './ducks/user'], () => {
+  module.hot.accept(['../ducks/clients', '../ducks/exercises', '../ducks/sessions', '../ducks/user'], () => {
     store.replaceReducer(getRootReducer())
   })
 }
