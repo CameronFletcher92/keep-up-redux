@@ -18,7 +18,7 @@ const styles = {
   timeContainer: { flex: '1 1 auto' },
   datepicker: { width: '100%' },
   timepicker: { width: '100%' },
-  checkContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' },
+  checkContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '0.5em' },
   checklist: { flex: '1 1 auto', margin: '0.5em' }
 }
 
