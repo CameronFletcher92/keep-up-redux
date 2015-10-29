@@ -60,7 +60,7 @@ class SessionForm extends Component {
   formatTime(date) {
     let str = date.toLocaleTimeString()
     const index = indexOfNth(str, ':', 2)
-    str = str.slice(0, index) + str.slice(index + 3)
+    str = str.slice(0, index) + str.slice(index + 3, index + 6)
     console.log(index)
     return str
   }
