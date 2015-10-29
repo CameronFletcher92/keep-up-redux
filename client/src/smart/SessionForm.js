@@ -15,7 +15,7 @@ const styles = {
   text: { width: '100%', marginBottom: '0.5em' },
   datesContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' },
   dateContainer: { flex: '1 1 auto' },
-  timeContainer: { flex: '0 1 auto' },
+  timeContainer: { flex: '1 1 auto' },
   datepicker: { width: '100%' },
   timepicker: { width: '100%' },
   checkContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' },
@@ -73,12 +73,15 @@ class SessionForm extends Component {
           <div style={styles.dateContainer}>
             <IconInputContainer icon='event'>
                 <DatePicker formatDate={this.formatDate} style={styles.datepicker} textFieldStyle={styles.text}
-                            floatingLabelText='Session Date' value={props.form.get('time')} onChange={(ev, dt) => props.updateForm('date', dt)} />
+                            floatingLabelText='Session Date' value={props.form.get('time')}
+                            onChange={(ev, dt) => props.updateForm('date', dt)} />
             </IconInputContainer>
           </div>
           <div style={styles.timeContainer}>
             <IconInputContainer icon='access_time'>
-              <TimePicker textFieldStyle={styles.text} style={styles.timepicker} floatingLabelText='Session Time' value={this.formatTime(props.form.get('time'))} onChange={(ev, dt) => props.updateForm('time', dt)} />
+              <TimePicker textFieldStyle={styles.text} style={styles.timepicker}
+                          floatingLabelText='Session Time' value={this.formatTime(props.form.get('time'))}
+                          onChange={(ev, dt) => props.updateForm('time', dt)} />
             </IconInputContainer>
           </div>
         </div>
