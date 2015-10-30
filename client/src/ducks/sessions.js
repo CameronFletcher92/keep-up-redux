@@ -226,7 +226,9 @@ export function reducer(state = initialState, action) {
   case CREATED:
     action.session.time = new Date(action.session.time)
     const newSession = Immutable.fromJS(normalize(action.session))
+    // add and sort the entities
     state = state.setIn(['entities', newSession.get('_id')], newSession)
+    state = state.set('entities', state.get('entities').sortBy(en => en.get('time').getTime()).reverse())
     state = state.set('isFetching', false)
     return state
 
@@ -254,7 +256,6 @@ export function reducer(state = initialState, action) {
 
     // special logic for setting the time (using both date and time pickers)
     const current = new Date(state.getIn(['form', 'time']))
-    console.log('current', current)
     if (action.field === 'date') {
       // set just the date part of the object
       current.setFullYear(action.value.getFullYear(), action.value.getMonth(), action.value.getDate())
@@ -263,7 +264,6 @@ export function reducer(state = initialState, action) {
       current.setHours(action.value.getHours(), action.value.getMinutes(), 0)
     }
 
-    console.log('after', current)
     state = state.setIn(['form', 'time'], current)
     return state
 

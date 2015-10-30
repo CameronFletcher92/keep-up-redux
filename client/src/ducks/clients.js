@@ -243,7 +243,9 @@ export function reducer(state = initialState, action) {
   case CREATED:
     action.client.birthDate = new Date(action.client.birthDate)
     const newClient = Immutable.fromJS(action.client)
+    // add and sort the entities
     state = state.setIn(['entities', newClient.get('_id')], newClient)
+    state = state.set('entities', state.get('entities').sortBy(en => en.get('lastName')))
     state = state.set('isFetching', false)
     return state
 

@@ -244,6 +244,7 @@ module.exports = (app) => {
   // fetch the fake sessions
   app.get('/api/sessions', (req, res) => {
     console.log('GET FAKED /api/sessions')
-    setTimeout(() => res.json(sessions), timeout)
+    const sortedSessions = lo.sortBy(sessions, (session) => session.time).reverse()
+    setTimeout(() => res.json(sortedSessions), timeout)
   })
 }

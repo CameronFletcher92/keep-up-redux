@@ -249,7 +249,7 @@ module.exports = (app, passport) => {
     console.log('GET /api/sessions')
     if (req.isAuthenticated() && req.user) {
       // get sessions for user based off the authenticated user's id
-      const query = Session.find({ trainer: req.user._id }).sort({ name: 1 })
+      const query = Session.find({ trainer: req.user._id }).sort({ time: -1 })
       query.exec((err, sessions) => {
         if (err || !sessions) {
           console.error('could not fetch sessions')
