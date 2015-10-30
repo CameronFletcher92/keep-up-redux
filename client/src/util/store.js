@@ -1,6 +1,6 @@
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux'
 import { routerStateReducer, reduxReactRouter } from 'redux-router'
-import { devTools } from 'redux-devtools'
+import DevTools from '../smart/DevTools'
 import { createHistory } from 'history'
 import thunk from 'redux-thunk'
 
@@ -28,7 +28,7 @@ if (__DEV__) {
   store = compose(
     applyMiddleware(thunk),
     reduxReactRouter({ createHistory: createHistory }),
-    devTools()
+    DevTools.instrument(),
   )(createStore)(rootReducer)
 } else {
   store = compose(

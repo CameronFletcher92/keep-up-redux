@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { ReduxRouter } from 'redux-router'
 import store from './util/store'
 import routes from './util/routes'
-import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react'
+import DevTools from './smart/DevTools'
 import { ThemeManager } from './themes/muiComponents'
 import muiTheme from './themes/muiTheme'
 
@@ -19,9 +19,7 @@ class App extends Component {
 
   renderDevTools() {
     return (
-      <DebugPanel top right bottom>
-        <DevTools store={store} monitor={LogMonitor} />
-      </DebugPanel>
+      <DevTools />
     )
   }
 
@@ -30,9 +28,11 @@ class App extends Component {
     return (
       <div>
         <Provider store={store}>
-          <ReduxRouter routes={routes} />
+          <div>
+            {__DEV__ ? this.renderDevTools() : null}
+            <ReduxRouter routes={routes} />
+          </div>
         </Provider>
-        {__DEV__ ? this.renderDevTools() : null}
       </div>
     )
   }
