@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shouldUpdatePure from '../util/shouldUpdatePure'
-import { AppBar, LeftNav } from '../themes/muiComponents'
+import { hideMessage } from '../ducks/global'
+import { AppBar, LeftNav, Snackbar } from '../themes/muiComponents'
 import { pushState } from 'redux-router'
 
 const styles = {
@@ -18,8 +19,16 @@ class TopBar extends Component {
     this.refs.leftNav.toggle()
   }
 
-  render() {
+  componentWillReceiveProps(nextProps) {
     const props = this.props
+    if (props.message === '' && nextProps.message !== '') {
+      this.refs.snack.show()
+    } else if (props.message === '') {
+      this.refs.snack.dismiss()
+    }
+  }
+
+  render() {
     const menuItems = [
       { route: '/clients', text: 'Clients' },
       { route: '/exercises', text: 'Exercises' },
@@ -27,6 +36,7 @@ class TopBar extends Component {
       { route: '/reports', text: 'Reports' }
     ]
 
+    const props = this.props
     return (
       <div>
         <AppBar style={styles.appbar} title={props.title} zDepth={1} onLeftIconButtonTouchTap={() => this.refs.leftNav.toggle()}/>
@@ -37,6 +47,7 @@ class TopBar extends Component {
             {props.children}
           </div>
         </div>
+        <Snackbar message={props.message} ref='snack' onDismiss={() => props.hideMessage()} autoHideDuration={2000}/>
       </div>
     )
   }
@@ -44,17 +55,20 @@ class TopBar extends Component {
 
 TopBar.PropTypes = {
   pushState: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired
+  hideMessage: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired
 }
 
 export default connect(
   state => {
     const routerState = state.router.location.state
     return {
-      title: routerState ? routerState.title : 'Keep Up'
+      title: routerState ? routerState.title : 'Keep Up',
+      message: state.global.get('message')
     }
   },
   dispatch => {
-    return bindActionCreators({ pushState }, dispatch)
+    return bindActionCreators({ pushState, hideMessage }, dispatch)
   }
 )(TopBar)

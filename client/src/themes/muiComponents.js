@@ -14,6 +14,7 @@ module.exports = {
   Paper: require('material-ui/lib/paper'),
   RaisedButton: require('material-ui/lib/raised-button'),
   SelectField: require('material-ui/lib/select-field'),
+  Snackbar: require('material-ui/lib/snackbar'),
   TextField: require('material-ui/lib/text-field'),
   TimePicker: require('material-ui/lib/time-picker'),
   ThemeManager: require('material-ui/lib/styles/theme-manager')

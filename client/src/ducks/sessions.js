@@ -1,5 +1,6 @@
 import request from 'superagent'
 import { pushState } from 'redux-router'
+import { showMessage } from './global'
 import Immutable from 'immutable'
 
 // CONSTANTS
@@ -167,6 +168,9 @@ export function saveAsync(session) {
       request.put('/api/sessions').send(session).end((err, res) => {
         if (!err && res.ok) {
           dispatch(updated(res.body))
+
+          const message = '\'' + (res.body.time ? res.body.time.toLocaleString() : null) + '\' updated'
+          dispatch(showMessage(message))
         }
       })
     } else {
@@ -176,6 +180,9 @@ export function saveAsync(session) {
       request.post('/api/sessions').send(session).end((err, res) => {
         if (!err && res.ok) {
           dispatch(created(res.body))
+
+          const message = '\'' + (res.body.time ? res.body.time.toLocaleString() : null) + '\' created'
+          dispatch(showMessage(message))
         }
       })
     }
@@ -195,6 +202,7 @@ export function deleteAsync(id) {
     request.del('/api/sessions/' + id).end((err, res) => {
       if (!err && res.ok) {
         dispatch(deleted(id))
+        dispatch(showMessage('Session deleted'))
       }
     })
   }

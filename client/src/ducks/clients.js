@@ -1,5 +1,6 @@
 import request from 'superagent'
 import { pushState } from 'redux-router'
+import { showMessage } from './global'
 import Immutable from 'immutable'
 
 // CONSTANTS
@@ -60,6 +61,7 @@ export function fetchedReport(report) {
     report
   }
 }
+
 
 export function updateReportDate(field, value) {
   return {
@@ -139,6 +141,12 @@ export function updateSearch(value) {
   }
 }
 
+/**
+ * Fetches a report for a single customer, given their id
+ * @param  {string} id      the customer id
+ * @param  {date} minDate   the minimum date for the report
+ * @param  {date} maxDate   the maximum date for the report
+ */
 export function fetchReportAsync(id, minDate, maxDate) {
   return (dispatch) => {
     dispatch(fetchingReport())
@@ -151,6 +159,9 @@ export function fetchReportAsync(id, minDate, maxDate) {
   }
 }
 
+/**
+ * Fetches the clients
+ */
 export function fetchAsync() {
   return (dispatch) => {
     dispatch(fetching())
@@ -161,6 +172,10 @@ export function fetchAsync() {
   }
 }
 
+/**
+ * Saves a client
+ * @param  {object} client  the client to save
+ */
 export function saveAsync(client) {
   return (dispatch) => {
     if (client._id) {
@@ -170,6 +185,9 @@ export function saveAsync(client) {
       request.put('/api/clients').send(client).end((err, res) => {
         if (!err && res.ok) {
           dispatch(updated(res.body))
+
+          const message = '\'' + res.body.firstName + ' ' + res. body.lastName + '\' updated'
+          dispatch(showMessage(message))
         }
       })
     } else {
@@ -179,6 +197,9 @@ export function saveAsync(client) {
       request.post('/api/clients').send(client).end((err, res) => {
         if (!err && res.ok) {
           dispatch(created(res.body))
+
+          const message = '\'' + res.body.firstName + ' ' + res. body.lastName + '\' created'
+          dispatch(showMessage(message))
         }
       })
     }
@@ -191,6 +212,10 @@ export function saveAsync(client) {
   }
 }
 
+/**
+ * Delete a client by their ID
+ * @param  {string} id  the client's id
+ */
 export function deleteAsync(id) {
   return (dispatch) => {
     dispatch(saving(id))
@@ -198,6 +223,7 @@ export function deleteAsync(id) {
     request.del('/api/clients/' + id).end((err, res) => {
       if (!err && res.ok) {
         dispatch(deleted(id))
+        dispatch(showMessage('Client deleted'))
       }
     })
   }

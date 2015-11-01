@@ -4,3 +4,5 @@ npm-debug.log
 build
 platforms
 plugins
+*.sublime-project
+*.sublime-workspace

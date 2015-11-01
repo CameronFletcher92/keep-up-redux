@@ -1,10 +1,10 @@
 {
-  "name": "keep-up-redux",
+  "name": "keep-up",
   "version": "0.1.0",
   "description": "Personal training client tracking application",
   "scripts": {
     "dev": "NODE_ENV=development nodemon --watch server --harmony server/server.js",
-    "clean": "rm -rf client/build platforms plugins",
+    "clean": "rm -rf client/build platforms plugins *.log",
     "build": "NODE_ENV=production webpack -p --progress --colors --config config/webpack.prod.config.js",
     "start": "NODE_ENV=production node --harmony server/server.js",
     "postinstall": "npm run build",
@@ -13,22 +13,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cameronfletcher92/keep-up-redux.git"
+    "url": "https://github.com/CameronFletcher92/keep-up-redux.git"
   },
-  "keywords": [
-    "react",
-    "reactjs",
-    "redux",
-    "boilerplate",
-    "hot",
-    "reload",
-    "hmr",
-    "live",
-    "edit",
-    "webpack",
-    "babel",
-    "react-transform"
-  ],
   "author": "Cameron Fletcher (http://github.com/cameronfletcher92)",
   "license": "MIT",
   "devDependencies": {

@@ -1,5 +1,6 @@
 import request from 'superagent'
 import { pushState } from 'redux-router'
+import { showMessage } from './global'
 import Immutable from 'immutable'
 
 // CONSTANTS
@@ -123,6 +124,9 @@ export function saveAsync(exercise) {
       request.put('/api/exercises').send(exercise).end((err, res) => {
         if (!err && res.ok) {
           dispatch(updated(res.body))
+
+          const message = '\'' + res.body.name + '\' updated'
+          dispatch(showMessage(message))
         }
       })
     } else {
@@ -132,6 +136,9 @@ export function saveAsync(exercise) {
       request.post('/api/exercises').send(exercise).end((err, res) => {
         if (!err && res.ok) {
           dispatch(created(res.body))
+
+          const message = '\'' + res.body.name + '\' created'
+          dispatch(showMessage(message))
         }
       })
     }
@@ -151,6 +158,7 @@ export function deleteAsync(id) {
     request.del('/api/exercises/' + id).end((err, res) => {
       if (!err && res.ok) {
         dispatch(deleted(id))
+        dispatch(showMessage('Exercise deleted'))
       }
     })
   }
