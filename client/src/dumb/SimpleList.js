@@ -37,7 +37,7 @@ class SimpleList extends Component {
 
       return (
         <SimpleListItem key={id} name={name} busy={busy}
-                        editClicked={() => props.onItemClick(id)}
+                        onItemClick={() => props.onItemClick(id)}
                         letter={letter}/>
       )
     })

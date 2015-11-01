@@ -3,7 +3,7 @@ import shouldUpdatePure from '../util/shouldUpdatePure'
 import { FloatingActionButton, FontIcon } from '../themes/muiComponents'
 
 const styles = {
-  button: { position: 'fixed', right: '2em', top: '2.2em', zIndex: '10001' }
+  button: { position: 'fixed', right: '2em', top: '2.2em', zIndex: 5 }
 }
 
 class FixedActionButton extends Component {

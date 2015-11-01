@@ -24,7 +24,7 @@ class SimpleListItem extends Component {
       <div>
         <ListItem primaryText={props.name}
                   leftAvatar={props.letter ? <Avatar>{props.letter}</Avatar> : null}
-                  onClick={props.editClicked} disabled={props.busy} insetChildren={true}/>
+                  onClick={props.onItemClick} disabled={props.busy} insetChildren={true}/>
         {props.busy ? this.renderProgress() : null}
       </div>
     )
@@ -34,7 +34,7 @@ class SimpleListItem extends Component {
 SimpleListItem.propTypes = {
   name: PropTypes.string.isRequired,
   busy: PropTypes.bool.isRequired,
-  editClicked: PropTypes.func.isRequired,
+  onItemClick: PropTypes.func.isRequired,
   letter: PropTypes.string
 }
 
