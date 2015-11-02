@@ -166,7 +166,7 @@ class Report extends Component {
                 </div>
 
                 <div style={styles.chartContainer}>
-                  {this.renderChart()}
+                  {(!props.exercisesFetching && !props.sessionsFetching) ? this.renderChart() : null}
                 </div>
               </div>
               : null}
