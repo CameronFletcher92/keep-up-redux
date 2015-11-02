@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import shouldUpdatePure from '../util/shouldUpdatePure'
 import ImmPropTypes from 'react-immutable-proptypes'
 import { Avatar, List, ListItem, ListDivider, Paper, DatePicker, RaisedButton } from '../themes/muiComponents'
+import DoughnutChart from '../dumb/DoughnutChart'
 import { fetchReportAsync, updateReportDate } from '../ducks/clients'
 import { fetchAsync as fetchExercisesAsync } from '../ducks/exercises'
 import { fetchAsync as fetchSessionsAsync } from '../ducks/sessions'
@@ -87,6 +88,30 @@ class Report extends Component {
     })
   }
 
+  renderChart() {
+    const data = [
+      {
+        label: 'Something',
+        value: 10,
+        color: '#F7464A'
+      },
+      {
+        label: 'cool',
+        value: 20,
+        color: '#46BFBD'
+      },
+      {
+        label: 'buddy',
+        value: 30,
+        color: '#949FB1'
+      }
+    ]
+
+    return (
+      <DoughnutChart data={data}/>
+    )
+  }
+
   formatDate(date) {
     return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
   }
@@ -144,6 +169,10 @@ class Report extends Component {
                       {this.renderExercises()}
                     </List>
                   </div>
+                </div>
+
+                <div style={styles.chartContainer}>
+                  {this.renderChart()}
                 </div>
               </div>
               : null}
