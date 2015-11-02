@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import shouldUpdatePure from '../util/shouldUpdatePure'
 import ImmPropTypes from 'react-immutable-proptypes'
-import { pushState } from 'redux-router'
 import { Avatar, List, ListItem, ListDivider, Paper, DatePicker, RaisedButton } from '../themes/muiComponents'
 import { fetchReportAsync, updateReportDate } from '../ducks/clients'
 import { fetchAsync as fetchExercisesAsync } from '../ducks/exercises'
@@ -19,7 +18,7 @@ const styles = {
   button: { flex: '0 1 auto', margin: '0em', alignSelf: 'center' },
   nameContainer: { marginTop: '-1em', marginBottom: '-1em' },
   listContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' },
-  list: { flex: '1 1 auto', margin: '0.5em' }
+  list: { flex: '1 1 auto', margin: '1em' }
 }
 
 class Report extends Component {
@@ -38,6 +37,24 @@ class Report extends Component {
     }
   }
 
+  renderListHeader() {
+    const props = this.props
+    return 'Attended Sessions: ' + props.report.get('sessions').size
+  }
+
+  renderNestedExercises(exercises) {
+    const props = this.props
+    return exercises.keySeq().toJS().map(exerciseId => {
+      const exercise = props.exercises.get(exerciseId)
+      if (!exercise) return null
+
+      return (
+        <ListItem key={exerciseId} primaryText={exercise.get('name')}
+                  leftAvatar={<Avatar>{exercise.get('name').charAt(0).toUpperCase()}</Avatar>}/>
+      )
+    })
+  }
+
   renderSessions() {
     const props = this.props
     if (props.sessions.size === 0) {
@@ -46,10 +63,13 @@ class Report extends Component {
     const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
 
     return props.report.get('sessions').map(sessionId => {
+      const session = props.sessions.get(sessionId)
+      if (!session) return null
+
       return (
-        <ListItem key={sessionId} primaryText={props.sessions.getIn([sessionId, 'time']).toLocaleString('en-AU')}
-                  leftAvatar={<Avatar> {days[props.sessions.getIn([sessionId, 'time']).getDay()]} </Avatar>}
-                  onClick={() => props.pushState({ title: 'Edit Exercise' }, '/sessions/' + sessionId)}/>
+        <ListItem key={sessionId} primaryText={session.get('time').toLocaleString('en-AU')}
+                  leftAvatar={<Avatar> {days[session.get('time').getDay()]} </Avatar>}
+                  nestedItems={this.renderNestedExercises(session.get('exercises'))} />
       )
     })
   }
@@ -62,8 +82,7 @@ class Report extends Component {
     return props.report.get('exercises').keySeq().map(exerciseId => {
       return (
         <ListItem key={exerciseId} primaryText={props.exercises.getIn([exerciseId, 'name'])}
-                  leftAvatar={<Avatar>{props.report.get('exercises').get(exerciseId)}</Avatar>}
-                  onClick={() => props.pushState({ title: 'Edit Exercise' }, '/exercises/' + exerciseId)}/>
+                  leftAvatar={<Avatar>{props.report.get('exercises').get(exerciseId)}</Avatar>}/>
       )
     })
   }
@@ -163,7 +182,6 @@ Report.propTypes = {
   exercisesFetching: PropTypes.bool.isRequired,
   reportMin: PropTypes.instanceOf(Date),
   reportMax: PropTypes.instanceOf(Date),
-  pushState: PropTypes.func.isRequired,
   updateReportDate: PropTypes.func.isRequired
 }
 
@@ -182,6 +200,6 @@ export default connect(
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchReportAsync, fetchSessionsAsync, fetchExercisesAsync, pushState, updateReportDate }, dispatch)
+    return bindActionCreators({ fetchReportAsync, fetchSessionsAsync, fetchExercisesAsync, updateReportDate }, dispatch)
   }
 )(Report)
