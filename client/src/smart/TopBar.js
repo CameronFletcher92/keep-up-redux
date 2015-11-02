@@ -56,7 +56,8 @@ class TopBar extends Component {
     const props = this.props
     return (
       <div>
-        <AppBar style={styles.appbar} title={props.title} zDepth={1} onLeftIconButtonTouchTap={() => this.refs.leftNav.toggle()}/>
+        <AppBar style={styles.appbar} title={props.title} zDepth={1}
+                onLeftIconButtonTouchTap={() => this.refs.leftNav.toggle()}/>
         <LeftNav ref='leftNav' menuItems={menuItems} docked={false} header={this.renderHeader()}
                  onChange={(ev, key, payload) => props.pushState({ title: payload.text }, payload.route)}/>
         <div style={styles.container}>
