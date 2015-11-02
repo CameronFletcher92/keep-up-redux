@@ -6,7 +6,7 @@ var buildPath = path.join(__dirname, '../client/build')
 var htmlPath = path.join(__dirname, '../client/src/index.html')
 
 module.exports = {
-  devtool: 'eval',
+  devtool: 'cheap-module-eval-source-map',
   entry: [
     'webpack-hot-middleware/client',
     path.join(mainPath, 'index.js')
