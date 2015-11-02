@@ -1,11 +1,12 @@
 import React, { Component, PropTypes } from 'react'
 import shouldUpdatePure from '../util/shouldUpdatePure'
 import { Doughnut } from 'react-chartjs'
+import { palette } from '../themes/muiTheme'
 
 const styles = {
   titleContainer: { marginLeft: '1em' },
   chartContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', marginLeft: '1em',
-                    justifyContent: 'flex-start', flexWrap: 'wrap' }
+                    justifyContent: 'flex-start', alignItems: 'center', flexWrap: 'wrap' }
 }
 
 class DoughnutChart extends Component {
@@ -15,9 +16,11 @@ class DoughnutChart extends Component {
 
     return (
       <ul>
-        {props.data.map(item => {
+        {props.data.map((item, index) => {
           return (
-            <li style={{ color: item.color }} key={item.label}><span style={{ color: item.color }}>{item.label}</span></li>
+            <li style={{ color: item.color, fontSize: '1.3em' }} key={index}>
+              <span style={{ color: palette.textColor, fontSize: '0.75em' }}>{item.label}</span>
+            </li>
           )
         })}
       </ul>
@@ -29,7 +32,7 @@ class DoughnutChart extends Component {
     return (
       <div>
         <div style={styles.titleContainer}>
-          <h3>Title</h3>
+          <h3>{props.title}</h3>
         </div>
         <div style={styles.chartContainer}>
           <Doughnut ref='chart' height={300} data={props.data} />
@@ -41,7 +44,8 @@ class DoughnutChart extends Component {
 }
 
 DoughnutChart.propTypes = {
-  data: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired,
+  title: PropTypes.string.isRequired
 }
 
 export default DoughnutChart

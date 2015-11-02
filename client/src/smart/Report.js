@@ -10,6 +10,7 @@ import { fetchAsync as fetchExercisesAsync } from '../ducks/exercises'
 import { fetchAsync as fetchSessionsAsync } from '../ducks/sessions'
 import CenteredSpinner from '../dumb/CenteredSpinner'
 import IconInputContainer from '../dumb/IconInputContainer'
+import chartColors from '../themes/chartColors'
 
 const styles = {
   reportContainer: { padding: '1em', marginTop: '1em', display: 'flex', flexDirection: 'column', alignItems: 'stretch' },
@@ -89,26 +90,19 @@ class Report extends Component {
   }
 
   renderChart() {
-    const data = [
-      {
-        label: 'Something',
-        value: 10,
-        color: '#F7464A'
-      },
-      {
-        label: 'cool',
-        value: 20,
-        color: '#46BFBD'
-      },
-      {
-        label: 'buddy',
-        value: 30,
-        color: '#949FB1'
+    const props = this.props
+    let count = -1
+    const data = props.report.get('exercises').keySeq().toJS().map(exerciseId => {
+      count++
+      return {
+        label: props.exercises.getIn([exerciseId, 'name']),
+        value: props.report.getIn(['exercises', exerciseId]),
+        color: chartColors[count % chartColors.length]
       }
-    ]
+    })
 
     return (
-      <DoughnutChart data={data}/>
+      <DoughnutChart data={data} title='Exercise Chart'/>
     )
   }
 
