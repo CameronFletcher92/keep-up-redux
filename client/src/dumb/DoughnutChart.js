@@ -1,11 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import shouldUpdatePure from '../util/shouldUpdatePure'
 import { Doughnut } from 'react-chartjs'
+import { ListDivider } from '../themes/muiComponents'
 import { palette } from '../themes/muiTheme'
 
 const styles = {
   titleContainer: { marginLeft: '1em' },
-  chartContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', marginLeft: '1em',
+  dividerContainer: { marginLeft: '1em', marginRight: '1em' },
+  chartContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', marginLeft: '1.5em', marginTop: '1em',
                     justifyContent: 'flex-start', alignItems: 'center', flexWrap: 'wrap' }
 }
 
@@ -33,6 +35,9 @@ class DoughnutChart extends Component {
       <div>
         <div style={styles.titleContainer}>
           <h3>{props.title}</h3>
+        </div>
+        <div style={styles.dividerContainer}>
+          <ListDivider/>
         </div>
         <div style={styles.chartContainer}>
           <Doughnut ref='chart' height={300} data={props.data} />
