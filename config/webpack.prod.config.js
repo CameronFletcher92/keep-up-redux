@@ -6,7 +6,7 @@ var buildPath = path.join(__dirname, '../client/build')
 var htmlPath = path.join(__dirname, '../client/src/index.html')
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'none',
   entry: [
     path.join(mainPath, 'index.js')
   ],
