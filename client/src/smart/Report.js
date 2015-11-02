@@ -40,11 +40,6 @@ class Report extends Component {
     }
   }
 
-  renderListHeader() {
-    const props = this.props
-    return 'Attended Sessions: ' + props.report.get('sessions').size
-  }
-
   renderNestedExercises(exercises) {
     const props = this.props
     return exercises.keySeq().toJS().map(exerciseId => {
