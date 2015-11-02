@@ -9,6 +9,8 @@ import ClientsCheckList from './ClientsCheckList'
 import ExercisesCheckList from './ExercisesCheckList'
 import IconInputContainer from '../dumb/IconInputContainer'
 import FixedActionButton from '../dumb/FixedActionButton'
+import { toDateString, toTimeString } from '../util/dateHelper'
+
 
 const styles = {
   container: { display: 'flex', flexDirection: 'column', alignItems: 'stretch' },
@@ -20,25 +22,6 @@ const styles = {
   timepicker: { width: '100%' },
   checkContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '0.5em' },
   checklist: { flex: '1 1 auto', margin: '0.5em' }
-}
-
-// helper function for formatting time
-function indexOfNth(string, char, nth) {
-  const firstIndex = string.indexOf(char)
-  const lengthUpToFirst = firstIndex + 1
-
-  if (nth === 1) {
-    return firstIndex
-  } else {
-    const stringAfter = string.slice(lengthUpToFirst)
-    const nextOccurence = indexOfNth(stringAfter, char, nth - 1)
-
-    if (nextOccurence === -1) {
-      return -1
-    } else {
-      return lengthUpToFirst + nextOccurence
-    }
-  }
 }
 
 class SessionForm extends Component {
@@ -53,17 +36,6 @@ class SessionForm extends Component {
     }
   }
 
-  formatDate(date) {
-    return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
-  }
-
-  formatTime(date) {
-    let str = date.toLocaleTimeString()
-    const index = indexOfNth(str, ':', 2)
-    str = str.slice(0, index) + str.slice(index + 3, index + 6)
-    return str
-  }
-
   render() {
     const props = this.props
     return (
@@ -71,7 +43,7 @@ class SessionForm extends Component {
         <div style={styles.datesContainer}>
           <div style={styles.dateContainer}>
             <IconInputContainer icon='event'>
-                <DatePicker formatDate={this.formatDate} style={styles.datepicker} textFieldStyle={styles.text}
+                <DatePicker formatDate={toDateString} style={styles.datepicker} textFieldStyle={styles.text}
                             floatingLabelText='Session Date' value={props.form.get('time')}
                             onChange={(ev, dt) => props.updateForm('date', dt)} />
             </IconInputContainer>
@@ -79,7 +51,7 @@ class SessionForm extends Component {
           <div style={styles.timeContainer}>
             <IconInputContainer icon='access_time'>
               <TimePicker textFieldStyle={styles.text} style={styles.timepicker}
-                          floatingLabelText='Session Time' value={this.formatTime(props.form.get('time'))}
+                          floatingLabelText='Session Time' value={toTimeString(props.form.get('time'))}
                           onChange={(ev, dt) => props.updateForm('time', dt)} />
             </IconInputContainer>
           </div>

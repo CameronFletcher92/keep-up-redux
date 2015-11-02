@@ -4,6 +4,7 @@
     "quotes": [2, "single"],
     "semi": [2, "never"],
     "no-trailing-spaces": [2, { "skipBlankLines": true }],
+    "no-mixed-spaces-and-tabs": [2],
     "no-param-reassign": [0],
     "no-shadow": [0],
     "no-underscore-dangle": [0],

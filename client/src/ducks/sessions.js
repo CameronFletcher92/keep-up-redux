@@ -2,6 +2,7 @@ import request from 'superagent'
 import { pushState } from 'redux-router'
 import { showMessage } from './global'
 import Immutable from 'immutable'
+import { getNow, toDateTimeString } from '../util/dateHelper'
 
 // CONSTANTS
 const FETCHING = 'sessions/FETCHING'
@@ -30,7 +31,7 @@ const initialState = Immutable.fromJS({
   search: '',
   form: {
     _id: '',
-    time: new Date(),
+    time: getNow(),
     notes: '',
     clients: {},
     exercises: {}
@@ -169,7 +170,7 @@ export function saveAsync(session) {
         if (!err && res.ok) {
           dispatch(updated(res.body))
 
-          const message = '\'' + (res.body.time ? res.body.time.toLocaleString() : null) + '\' updated'
+          const message = '\'' + (res.body.time ? toDateTimeString(res.body.time) : null) + '\' updated'
           dispatch(showMessage(message))
         }
       })
@@ -181,7 +182,7 @@ export function saveAsync(session) {
         if (!err && res.ok) {
           dispatch(created(res.body))
 
-          const message = '\'' + (res.body.time ? res.body.time.toLocaleString() : null) + '\' created'
+          const message = '\'' + (res.body.time ? toDateTimeString(res.body.time) : null) + '\' created'
           dispatch(showMessage(message))
         }
       })

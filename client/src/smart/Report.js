@@ -11,6 +11,7 @@ import { fetchAsync as fetchSessionsAsync } from '../ducks/sessions'
 import CenteredSpinner from '../dumb/CenteredSpinner'
 import IconInputContainer from '../dumb/IconInputContainer'
 import chartColors from '../themes/chartColors'
+import { toDateTimeString, toDateString } from '../util/dateHelper'
 
 const styles = {
   reportContainer: { padding: '1em', marginTop: '1em', display: 'flex', flexDirection: 'column', alignItems: 'stretch' },
@@ -69,7 +70,7 @@ class Report extends Component {
       if (!session) return null
 
       return (
-        <ListItem key={sessionId} primaryText={session.get('time').toLocaleString('en-AU')}
+        <ListItem key={sessionId} primaryText={toDateTimeString(session.get('time'))}
                   leftAvatar={<Avatar> {days[session.get('time').getDay()]} </Avatar>}
                   nestedItems={this.renderNestedExercises(session.get('exercises'))} />
       )
@@ -106,10 +107,6 @@ class Report extends Component {
     )
   }
 
-  formatDate(date) {
-    return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
-  }
-
   render() {
     const props = this.props
 
@@ -118,13 +115,13 @@ class Report extends Component {
         <div style={styles.dateContainer}>
           <div style={styles.datepicker}>
             <IconInputContainer icon='event'>
-              <DatePicker formatDate={this.formatDate} style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Min Date'
+              <DatePicker formatDate={toDateString} style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Min Date'
                           value={props.reportMin} onChange={(ev, dt) => props.updateReportDate('min', dt)} />
             </IconInputContainer>
           </div>
           <div style={styles.datepicker}>
             <IconInputContainer icon='event'>
-              <DatePicker formatDate={this.formatDate} style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Max Date'
+              <DatePicker formatDate={toDateString} style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Max Date'
                           value={props.reportMax} onChange={(ev, dt) => props.updateReportDate('max', dt)} />
             </IconInputContainer>
           </div>

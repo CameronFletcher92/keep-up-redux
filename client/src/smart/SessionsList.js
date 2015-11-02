@@ -7,6 +7,7 @@ import { pushState } from 'redux-router'
 import { fetchAsync, updateSearch } from '../ducks/sessions'
 import SimpleList from '../dumb/SimpleList'
 import FixedActionButton from '../dumb/FixedActionButton'
+import { toDateTimeString } from '../util/dateHelper'
 
 class SessionsList extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -28,7 +29,7 @@ class SessionsList extends Component {
                     onItemClick={(id) => props.pushState({ title: 'Edit Session' }, '/sessions/' + id)}
                     isBusy={props.isFetching} search={props.search} updateSearch={props.updateSearch}
                     getItemLetter={(session) => days[session.get('time').getDay()]}
-                    getItemName={(session) => session.get('time').toLocaleString('en-AU')} />
+                    getItemName={(session) => toDateTimeString(session.get('time'))} />
         <FixedActionButton icon='add' onClick={() => props.pushState({ title: 'New Session' }, '/sessions/new')}/>
       </div>
     )

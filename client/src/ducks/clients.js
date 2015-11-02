@@ -2,6 +2,7 @@ import request from 'superagent'
 import { pushState } from 'redux-router'
 import { showMessage } from './global'
 import Immutable from 'immutable'
+import { getNow } from '../util/dateHelper'
 
 // CONSTANTS
 const FETCHING = 'clients/FETCHING'
@@ -34,7 +35,7 @@ const initialState = Immutable.fromJS({
     _id: '',
     firstName: '',
     lastName: '',
-    birthDate: new Date(),
+    birthDate: getNow(),
     address: '',
     notes: '',
     privateHealth: false

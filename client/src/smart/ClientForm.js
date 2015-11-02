@@ -7,6 +7,7 @@ import { TextField, Checkbox, DatePicker } from '../themes/muiComponents'
 import { saveAsync, updateForm, resetForm } from '../ducks/clients'
 import IconInputContainer from '../dumb/IconInputContainer'
 import FixedActionButton from '../dumb/FixedActionButton'
+import { toDateString } from '../util/dateHelper'
 
 const styles = {
   container: { display: 'flex', flexDirection: 'column', alignItems: 'stretch' },
@@ -27,10 +28,6 @@ class ClientForm extends Component {
     }
   }
 
-  formatDate(date) {
-    return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
-  }
-
   render() {
     const props = this.props
     return (
@@ -46,7 +43,7 @@ class ClientForm extends Component {
         </IconInputContainer>
 
         <IconInputContainer icon='event'>
-          <DatePicker formatDate={this.formatDate} style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Birth Date'
+          <DatePicker formatDate={toDateString} style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Birth Date'
                       value={props.form.get('birthDate')} onChange={(ev, dt) => props.updateForm('birthDate', dt)} />
         </IconInputContainer>
 
