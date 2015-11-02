@@ -92,6 +92,11 @@ class Report extends Component {
 
   renderChart() {
     const props = this.props
+    if (props.sessionsFetching || props.exercisesFetching
+        || props.report.get('exercises').size === 0 || props.report.get('sessions').size === 0) {
+      return null
+    }
+
     let count = -1
     const data = props.report.get('exercises').keySeq().toJS().map(exerciseId => {
       count++
@@ -163,7 +168,7 @@ class Report extends Component {
                 </div>
 
                 <div style={styles.chartContainer}>
-                  {(!props.exercisesFetching && !props.sessionsFetching) ? this.renderChart() : null}
+                  {this.renderChart()}
                 </div>
               </div>
               : null}
