@@ -1,3 +1,6 @@
+import moment from 'moment'
+moment.locale('en-AU')
+
 export function getNow() {
   const date = new Date()
   date.setSeconds(0)
@@ -8,7 +11,7 @@ export function toDateString(date) {
   if (!date) {
     return ''
   }
-  return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+  return moment(date).format('l')
 }
 
 export function toDateTimeString(date) {
@@ -16,7 +19,7 @@ export function toDateTimeString(date) {
     return ''
   }
 
-  return date.toLocaleString('en-AU', { day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+  return moment(date).format('l LT')
 }
 
 export function toTimeString(date) {
@@ -24,5 +27,5 @@ export function toTimeString(date) {
     return ''
   }
 
-  return date.toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' })
+  return moment(date).format('LT')
 }

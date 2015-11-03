@@ -16,7 +16,7 @@ class SimpleList extends Component {
 
   renderItems(props) {
     let lastLetter = ''
-    return props.items.toOrderedSet().map(item => {
+    return props.items.valueSeq().map(item => {
       const id = item.get('_id')
       const name = props.getItemName(item)
 
