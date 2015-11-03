@@ -9,6 +9,7 @@
     "start": "NODE_ENV=production node --harmony server/server.js",
     "postinstall": "npm run build",
     "deploy": "npm run clean && git push heroku master",
+    "analyze": "webpack -p --config config/webpack.prod.config.js --json | analyze-bundle-size",
     "cordova": "npm run clean && cordova platforms add ios && cordova plugin add cordova-plugin-crosswalk-webview && cordova run ios"
   },
   "repository": {
