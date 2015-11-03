@@ -1,5 +1,4 @@
-import moment from 'moment'
-moment.locale('en-AU')
+import { format } from 'fecha'
 
 export function getNow() {
   const date = new Date()
@@ -11,7 +10,8 @@ export function toDateString(date) {
   if (!date) {
     return ''
   }
-  return moment(date).format('l')
+
+  return format(date, 'D/M/YYYY')
 }
 
 export function toDateTimeString(date) {
@@ -19,7 +19,7 @@ export function toDateTimeString(date) {
     return ''
   }
 
-  return moment(date).format('l LT')
+  return format(date, 'D/M/YYYY h:mm a')
 }
 
 export function toTimeString(date) {
@@ -27,5 +27,5 @@ export function toTimeString(date) {
     return ''
   }
 
-  return moment(date).format('LT')
+  return format(date, 'h:mm a')
 }
