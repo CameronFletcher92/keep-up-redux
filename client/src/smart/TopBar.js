@@ -39,7 +39,7 @@ class TopBar extends Component {
 
   renderHeader() {
     return (
-      <div style={styles.header} onClick={() => this.navHome()}>
+      <div style={styles.header}>
         Keep Up
       </div>
     )
