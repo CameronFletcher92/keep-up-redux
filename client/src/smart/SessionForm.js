@@ -25,7 +25,8 @@ const styles = {
   timepicker: { width: '100%' },
   checkContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '0.5em' },
   checklist: { flex: '1 1 auto', margin: '0.5em' },
-  dialogBody: { padding: 0 }
+  dialogBody: { padding: '0em' },
+  dialogContainer: { height: '25em' }
 }
 
 class SessionForm extends Component {
@@ -72,8 +73,10 @@ class SessionForm extends Component {
               <RaisedButton label='Load Clients Template' onClick={() => this.refs.clientsDialog.show()} />
             </div>
             <Dialog ref='clientsDialog' actions={[{ text: 'Cancel' }]} bodyStyle={styles.dialogBody}
-                    autoDetectWindowHeight autoScrollBodyContent>
-              <ClientsTemplatesList inDialog={true} closeDialog={() => this.refs.clientsDialog.dismiss()} />
+                    autoScrollBodyContent={true}>
+              <div style={styles.dialogContainer}>
+                <ClientsTemplatesList inDialog={true} closeDialog={() => this.refs.clientsDialog.dismiss()} />
+              </div>
             </Dialog>
             <ClientsCheckList toggleClient={props.toggleClient} selectedClients={props.form.get('clients')}/>
           </div>
@@ -82,8 +85,10 @@ class SessionForm extends Component {
               <RaisedButton label='Load Exercises Template' onClick={() => this.refs.exercisesDialog.show()} />
             </div>
             <Dialog ref='exercisesDialog' actions={[{ text: 'Cancel' }]} bodyStyle={styles.dialogBody}
-                    autoDetectWindowHeight autoScrollBodyContent>
-              <ExercisesTemplatesList inDialog={true} closeDialog={() => this.refs.exercisesDialog.dismiss()}/>
+                    autoScrollBodyContent={true}>
+              <div style={styles.dialogContainer}>
+                <ExercisesTemplatesList inDialog={true} closeDialog={() => this.refs.exercisesDialog.dismiss()}/>
+              </div>
             </Dialog>
             <ExercisesCheckList toggleExercise={props.toggleExercise} selectedExercises={props.form.get('exercises')} />
           </div>

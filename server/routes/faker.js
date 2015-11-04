@@ -4,6 +4,7 @@ const lo = require('lodash')
 
 // time for queries to execute on server
 const timeout = 1000
+const numEntities = 30
 
 // server-side data, refreshes on restart
 const clients = []
@@ -22,7 +23,29 @@ function seedDB() {
     lastName: 'User'
   }
 
-  for (let index = 1; index <= 20; index++) {
+  for (let index = 1; index <= numEntities; index++) {
+    sessions.push({
+      _id: 'SES' + index,
+      clients: [],
+      exercises: [],
+      time: faker.date.past(),
+      notes: faker.company.catchPhrase()
+    })
+
+    clientsTemplates.push({
+      _id: 'CT' + index,
+      name: 'Client Template ' + index,
+      clients: []
+    })
+
+    exercisesTemplates.push({
+      _id: 'ET' + index,
+      name: 'Exercise Template ' + index,
+      exercises: []
+    })
+  }
+
+  for (let index = 1; index <= numEntities; index++) {
     clients.push({
       _id: 'CL' + index,
       firstName: faker.name.firstName(),
@@ -38,47 +61,23 @@ function seedDB() {
       description: faker.lorem.sentence(),
       intensity: Math.ceil(Math.random() * 5)
     })
+
+    // populate sessions and templates
+    for (let index2 = 0; index2 < numEntities; index2++) {
+      if (Math.random() > 0.7) {
+        sessions[index2].clients.push(clients[index - 1]._id)
+        if (Math.random() > 0.5) {
+          clientsTemplates[index2].clients.push(clients[index - 1]._id)
+        }
+      }
+      if (Math.random() > 0.7) {
+        sessions[index2].exercises.push(exercises[index - 1]._id)
+        if (Math.random() > 0.5) {
+          exercisesTemplates[index2].exercises.push(exercises[index - 1]._id)
+        }
+      }
+    }
   }
-
-  sessions.push({
-    _id: 'SES1',
-    clients: ['CL1', 'CL2', 'CL3', 'CL4', 'CL5', 'CL6', 'CL7', 'CL8', 'CL9', 'CL10'],
-    exercises: ['EX1', 'EX3', 'EX5'],
-    time: faker.date.past(),
-    notes: faker.company.catchPhrase()
-  })
-
-  sessions.push({
-    _id: 'SES2',
-    clients: ['CL2', 'CL4', 'CL6'],
-    exercises: ['EX2', 'EX4', 'EX6'],
-    time: faker.date.past(),
-    notes: faker.company.catchPhrase()
-  })
-
-  clientsTemplates.push({
-    _id: 'CT1',
-    name: 'First Clients Template',
-    clients: ['CL3', 'CL4', 'CL5', 'CL6']
-  })
-
-  clientsTemplates.push({
-    _id: 'CT2',
-    name: 'Second Clients Template',
-    clients: ['CL1', 'CL2', 'CL3', 'CL4']
-  })
-
-  exercisesTemplates.push({
-    _id: 'ET1',
-    name: 'First Exercises Template',
-    exercises: ['EX1', 'EX2', 'EX3', 'EX4']
-  })
-  
-  exercisesTemplates.push({
-    _id: 'ET2',
-    name: 'Second Exercises Template',
-    exercises: ['EX5', 'EX6', 'EX7', 'EX8']
-  })
 }
 
 // generic entity methods
@@ -112,7 +111,9 @@ function removeEntity(arr, id) {
 
 module.exports = (app) => {
   // seed the db
+  console.log('seeding db...')
   seedDB()
+  console.log('seeding complete!')
 
   /*
    * USER
@@ -303,8 +304,6 @@ module.exports = (app) => {
   app.get('/api/templates/clients', (req, res) => {
     console.log('GET FAKED /api/templates/clients')
     const sortedTemplates = lo.sortBy(clientsTemplates, (template) => template.name)
-    console.log('unsorted', clientsTemplates)
-    console.log('sorted', sortedTemplates)
     setTimeout(() => res.json(sortedTemplates), timeout)
   })
 
