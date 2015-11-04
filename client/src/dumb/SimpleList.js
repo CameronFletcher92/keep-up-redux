@@ -15,8 +15,7 @@ class SimpleList extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   renderItems(props) {
-    let lastLetter = ''
-    return props.items.toOrderedSet().map(item => {
+    return props.items.valueSeq().map((item) => {
       const id = item.get('_id')
       const name = props.getItemName(item)
 
@@ -28,12 +27,7 @@ class SimpleList extends Component {
       const busy = props.busyItems.get(id) ? true : false
 
       // determine whether this item should have a left letter icon using the callback
-      let letter = props.getItemLetter(item)
-      if (letter === lastLetter) {
-        letter = null
-      } else {
-        lastLetter = letter
-      }
+      const letter = props.getItemLetter(item)
       
       return (
         <SimpleListItem key={id} name={name} busy={busy}

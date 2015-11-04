@@ -42,7 +42,9 @@ class Report extends Component {
 
   renderNestedExercises(exercises) {
     const props = this.props
-    return exercises.keySeq().toJS().map(exerciseId => {
+    const sorted = exercises.keySeq().sortBy(exerciseId => props.exercises.getIn([exerciseId, 'name']))
+
+    return sorted.toJS().map(exerciseId => {
       const exercise = props.exercises.get(exerciseId)
       if (!exercise) return null
 
@@ -59,8 +61,8 @@ class Report extends Component {
       return null
     }
     const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
-
-    return props.report.get('sessions').map(sessionId => {
+    const sorted = props.report.get('sessions').sortBy(sessionId => props.sessions.getIn([sessionId, 'time']).getTime())
+    return sorted.map(sessionId => {
       const session = props.sessions.get(sessionId)
       if (!session) return null
 
@@ -77,10 +79,11 @@ class Report extends Component {
     if (props.exercises.size === 0) {
       return null
     }
-    return props.report.get('exercises').keySeq().map(exerciseId => {
+    const sorted = props.report.get('exercises').keySeq().sortBy(exerciseId => props.report.getIn(['exercises', exerciseId])).reverse()
+    return sorted.map(exerciseId => {
       return (
         <ListItem key={exerciseId} primaryText={props.exercises.getIn([exerciseId, 'name'])}
-                  leftAvatar={<Avatar>{props.report.get('exercises').get(exerciseId)}</Avatar>}/>
+                  leftAvatar={<Avatar>{props.report.getIn(['exercises', exerciseId])}</Avatar>}/>
       )
     })
   }
@@ -147,7 +150,7 @@ class Report extends Component {
                       </div>
                       <ListDivider />
                       <CenteredSpinner isVisible={props.sessionsFetching} />
-                      {this.renderSessions()}
+                      {!props.sessionsFetching ? this.renderSessions() : null}
                     </List>
                   </div>
                   <div style={styles.list}>
@@ -157,13 +160,13 @@ class Report extends Component {
                       </div>
                       <ListDivider />
                       <CenteredSpinner isVisible={props.exercisesFetching} />
-                      {this.renderExercises()}
+                      {!props.exercisesFetching ? this.renderExercises() : null}
                     </List>
                   </div>
                 </div>
 
                 <div style={styles.chartContainer}>
-                  {this.renderChart()}
+                  {(!props.exercisesFetching && !props.sessionsFetching) ? this.renderChart() : null}
                 </div>
               </div>
               : null}
