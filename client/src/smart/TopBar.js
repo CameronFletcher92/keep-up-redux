@@ -52,8 +52,8 @@ class TopBar extends Component {
       { route: '/sessions', text: 'Sessions' },
       { route: '/reports', text: 'Reports' },
       { type: MenuItem.Types.SUBHEADER, text: 'Templates' },
-      { route: '/templates/clients', text: 'Clients' },
-      { route: '/templates/exercises', text: 'Exercises' }
+      { route: '/templates/clients', text: 'Clients Templates' },
+      { route: '/templates/exercises', text: 'Exercises Templates' }
     ]
 
     const props = this.props
