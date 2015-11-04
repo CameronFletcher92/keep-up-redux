@@ -7,21 +7,18 @@ import { getNow, toDateTimeString } from '../util/dateHelper'
 // CONSTANTS
 const FETCHING = 'sessions/FETCHING'
 const FETCHED = 'sessions/FETCHED'
-
 const CREATING = 'sessions/CREATING'
 const CREATED = 'sessions/CREATED'
-
 const SAVING = 'sessions/SAVING'
 const UPDATED = 'sessions/UPDATED'
 const DELETED = 'sessions/DELETED'
-
 const UPDATE_FORM = 'sessions/UPDATE_FORM'
 const RESET_FORM = 'sessions/RESET_FORM'
-
 const TOGGLE_CLIENT = 'sessions/TOGGLE_CLIENT'
 const TOGGLE_EXERCISE = 'sessions/TOGGLE_EXERCISE'
-
 const UPDATE_SEARCH = 'sessions/UPDATE_SEARCH'
+const LOAD_CLIENTS_TEMPLATE = 'sessions/LOAD_CLIENTS_TEMPLATE'
+const LOAD_EXERCISES_TEMPLATE = 'sessions/LOAD_EXERCISES_TEMPLATE'
 
 // INITIAL STATE
 const initialState = Immutable.fromJS({
@@ -120,6 +117,20 @@ export function toggleExercise(id) {
   return {
     type: TOGGLE_EXERCISE,
     id
+  }
+}
+
+export function loadClientsTemplate(clients) {
+  return {
+    type: LOAD_CLIENTS_TEMPLATE,
+    clients
+  }
+}
+
+export function loadExercisesTemplate(exercises) {
+  return {
+    type: LOAD_EXERCISES_TEMPLATE,
+    exercises
   }
 }
 
@@ -304,6 +315,16 @@ export function reducer(state = initialState, action) {
       // if it doesn't exist, add it
       state = state.setIn(['form', 'exercises', action.id], true)
     }
+    return state
+
+  case LOAD_CLIENTS_TEMPLATE:
+    state = state.setIn(['form', 'clients'], state.getIn(['form', 'clients']).clear())
+    state = state.mergeIn(['form', 'clients'], action.clients)
+    return state
+
+  case LOAD_EXERCISES_TEMPLATE:
+    state = state.setIn(['form', 'exercises'], state.getIn(['form', 'exercises']).clear())
+    state = state.mergeIn(['form', 'exercises'], action.exercises)
     return state
 
   case UPDATE_SEARCH:

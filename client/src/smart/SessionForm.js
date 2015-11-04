@@ -3,10 +3,12 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shouldUpdatePure from '../util/shouldUpdatePure'
 import ImmPropTypes from 'react-immutable-proptypes'
-import { TextField, DatePicker, TimePicker } from '../themes/muiComponents'
+import { TextField, DatePicker, TimePicker, RaisedButton, Dialog } from '../themes/muiComponents'
 import { saveAsync, updateForm, resetForm, toggleClient, toggleExercise } from '../ducks/sessions'
 import ClientsCheckList from './ClientsCheckList'
+import ClientsTemplatesList from './ClientsTemplatesList'
 import ExercisesCheckList from './ExercisesCheckList'
+import ExercisesTemplatesList from './ExercisesTemplatesList'
 import IconInputContainer from '../dumb/IconInputContainer'
 import FixedActionButton from '../dumb/FixedActionButton'
 import { toDateString, toTimeString } from '../util/dateHelper'
@@ -18,10 +20,12 @@ const styles = {
   datesContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' },
   dateContainer: { flex: '1 1 auto' },
   timeContainer: { flex: '1 1 auto' },
+  buttonContainer: { flex: '1 1 auto', display: 'flex', justifyContent: 'center', marginBottom: '1em' },
   datepicker: { width: '100%' },
   timepicker: { width: '100%' },
   checkContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: '0.5em' },
-  checklist: { flex: '1 1 auto', margin: '0.5em' }
+  checklist: { flex: '1 1 auto', margin: '0.5em' },
+  dialogBody: { padding: 0 }
 }
 
 class SessionForm extends Component {
@@ -64,9 +68,23 @@ class SessionForm extends Component {
         </IconInputContainer>
         <div style={styles.checkContainer}>
           <div style={styles.checklist}>
+            <div style={styles.buttonContainer}>
+              <RaisedButton label='Load Clients Template' onClick={() => this.refs.clientsDialog.show()} />
+            </div>
+            <Dialog ref='clientsDialog' actions={[{ text: 'Cancel' }]} bodyStyle={styles.dialogBody}
+                    autoDetectWindowHeight autoScrollBodyContent>
+              <ClientsTemplatesList inDialog={true} closeDialog={() => this.refs.clientsDialog.dismiss()} />
+            </Dialog>
             <ClientsCheckList toggleClient={props.toggleClient} selectedClients={props.form.get('clients')}/>
           </div>
           <div style={styles.checklist}>
+            <div style={styles.buttonContainer}>
+              <RaisedButton label='Load Exercises Template' onClick={() => this.refs.exercisesDialog.show()} />
+            </div>
+            <Dialog ref='exercisesDialog' actions={[{ text: 'Cancel' }]} bodyStyle={styles.dialogBody}
+                    autoDetectWindowHeight autoScrollBodyContent>
+              <ExercisesTemplatesList inDialog={true} closeDialog={() => this.refs.exercisesDialog.dismiss()}/>
+            </Dialog>
             <ExercisesCheckList toggleExercise={props.toggleExercise} selectedExercises={props.form.get('exercises')} />
           </div>
         </div>

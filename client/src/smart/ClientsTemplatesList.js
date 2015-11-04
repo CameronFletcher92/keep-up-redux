@@ -5,6 +5,7 @@ import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from '../util/shouldUpdatePure'
 import { pushState } from 'redux-router'
 import { fetchAsync, updateSearch } from '../ducks/clientsTemplates'
+import { loadClientsTemplate } from '../ducks/sessions'
 import SimpleList from '../dumb/SimpleList'
 import FixedActionButton from '../dumb/FixedActionButton'
 
@@ -19,16 +20,24 @@ class ClientsTemplatesList extends Component {
     }
   }
 
+  loadTemplate(id) {
+    const props = this.props
+    props.loadClientsTemplate(props.entities.getIn([id, 'clients']))
+    props.closeDialog()
+  }
+
   render() {
     const props = this.props
     return (
       <div>
         <SimpleList title='Clients Templates' items={props.entities} busyItems={props.syncing}
-                    onItemClick={(id) => props.pushState({ title: 'Edit Clients Template' }, '/templates/clients/' + id)}
+                    onItemClick={(id) => props.inDialog ? this.loadTemplate(id)
+                                                        : props.pushState({ title: 'Edit Clients Template' }, '/templates/clients/' + id)}
                     isBusy={props.isFetching} updateSearch={props.updateSearch} search={props.search}
                     getItemLetter={(template) => template.get('name').charAt(0).toUpperCase()}
                     getItemName={(template) => template.get('name')} />
-        <FixedActionButton icon='add' onClick={() => props.pushState({ title: 'New Clients Template' }, '/templates/clients/new')}/>
+        {!props.inDialog ? <FixedActionButton icon='add' onClick={() => props.pushState({ title: 'New Clients Template' }, '/templates/clients/new')}/>
+                   : null}
       </div>
     )
   }
@@ -47,7 +56,10 @@ ClientsTemplatesList.propTypes = {
   pushState: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   updateSearch: PropTypes.func.isRequired,
-  search: PropTypes.string.isRequired
+  loadClientsTemplate: PropTypes.func.isRequired,
+  search: PropTypes.string.isRequired,
+  inDialog: PropTypes.bool,
+  closeDialog: PropTypes.func
 }
 
 export default connect(
@@ -60,6 +72,6 @@ export default connect(
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchAsync, pushState, updateSearch }, dispatch)
+    return bindActionCreators({ fetchAsync, pushState, updateSearch, loadClientsTemplate }, dispatch)
   }
 )(ClientsTemplatesList)

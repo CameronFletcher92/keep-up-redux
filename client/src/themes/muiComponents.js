@@ -4,6 +4,7 @@ module.exports = {
   Checkbox: require('material-ui/lib/checkbox'),
   CircularProgress: require('material-ui/lib/circular-progress'),
   DatePicker: require('material-ui/lib/date-picker/date-picker'),
+  Dialog: require('material-ui/lib/dialog'),
   FloatingActionButton: require('material-ui/lib/floating-action-button'),
   FontIcon: require('material-ui/lib/font-icon'),
   LeftNav: require('material-ui/lib/left-nav'),
