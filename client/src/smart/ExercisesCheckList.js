@@ -3,7 +3,6 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from '../util/shouldUpdatePure'
-import { toggleExercise } from '../ducks/sessions'
 import { fetchAsync, updateSearch } from '../ducks/exercises'
 import CheckboxList from '../dumb/CheckboxList'
 
@@ -47,13 +46,12 @@ ExercisesCheckList.propTypes = {
 export default connect(
   state => {
     return {
-      selectedExercises: state.sessions.getIn(['form', 'exercises']),
       exercises: state.exercises.get('entities'),
       isFetching: state.exercises.get('isFetching'),
       search: state.exercises.get('search')
     }
   },
   dispatch => {
-    return bindActionCreators({ toggleExercise, fetchAsync, updateSearch }, dispatch)
+    return bindActionCreators({ fetchAsync, updateSearch }, dispatch)
   }
 )(ExercisesCheckList)

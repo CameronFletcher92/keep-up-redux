@@ -7,7 +7,9 @@ const timeout = 1000
 
 // server-side data, refreshes on restart
 const clients = []
+const clientsTemplates = []
 const exercises = []
+const exercisesTemplates = []
 const sessions = []
 let user = {}
 
@@ -52,6 +54,30 @@ function seedDB() {
     exercises: ['EX2', 'EX4', 'EX6'],
     time: faker.date.past(),
     notes: faker.company.catchPhrase()
+  })
+
+  clientsTemplates.push({
+    _id: 'CT1',
+    name: 'First Clients Template',
+    clients: ['CL3', 'CL4', 'CL5', 'CL6']
+  })
+
+  clientsTemplates.push({
+    _id: 'CT2',
+    name: 'Second Clients Template',
+    clients: ['CL1', 'CL2', 'CL3', 'CL4']
+  })
+
+  exercisesTemplates.push({
+    _id: 'ET1',
+    name: 'First Exercises Template',
+    exercises: ['EX1', 'EX2', 'EX3', 'EX4']
+  })
+  
+  exercisesTemplates.push({
+    _id: 'ET2',
+    name: 'Second Exercises Template',
+    exercises: ['EX5', 'EX6', 'EX7', 'EX8']
   })
 }
 
@@ -246,5 +272,70 @@ module.exports = (app) => {
     console.log('GET FAKED /api/sessions')
     const sortedSessions = lo.sortBy(sessions, (session) => session.time).reverse()
     setTimeout(() => res.json(sortedSessions), timeout)
+  })
+
+
+  /*
+   * CLIENTS TEMPLATES
+   */
+  app.post('/api/templates/clients', (req, res) => {
+    console.log('POST FAKED /templates/clients')
+    const newTemplate = addEntity(clientsTemplates, req.body)
+    setTimeout(() => res.json(newTemplate), timeout)
+  })
+
+  // update a fake template
+  app.put('/api/templates/clients', (req, res) => {
+    console.log('PUT FAKED /api/templates/clients')
+    const updatedTemplate = updateEntity(clientsTemplates, req.body)
+    setTimeout(() => res.json(updatedTemplate), timeout)
+  })
+
+  // delete a fake template
+  app.delete('/api/templates/clients/:id', (req, res) => {
+    const id = req.params.id
+    console.log('DELETE FAKED /api/templates/clients/' + id)
+    removeEntity(clientsTemplates, id)
+    setTimeout(() => res.json(id), timeout)
+  })
+
+  // fetch the fake template
+  app.get('/api/templates/clients', (req, res) => {
+    console.log('GET FAKED /api/templates/clients')
+    const sortedTemplates = lo.sortBy(clientsTemplates, (template) => template.name)
+    console.log('unsorted', clientsTemplates)
+    console.log('sorted', sortedTemplates)
+    setTimeout(() => res.json(sortedTemplates), timeout)
+  })
+
+  /*
+   * EXERCISES TEMPLATES
+   */
+  app.post('/api/templates/exercises', (req, res) => {
+    console.log('POST FAKED /templates/exercises')
+    const newTemplate = addEntity(exercisesTemplates, req.body)
+    setTimeout(() => res.json(newTemplate), timeout)
+  })
+
+  // update a fake template
+  app.put('/api/templates/exercises', (req, res) => {
+    console.log('PUT FAKED /api/templates/exercises')
+    const updatedTemplate = updateEntity(exercisesTemplates, req.body)
+    setTimeout(() => res.json(updatedTemplate), timeout)
+  })
+
+  // delete a fake template
+  app.delete('/api/templates/exercises/:id', (req, res) => {
+    const id = req.params.id
+    console.log('DELETE FAKED /api/templates/exercises/' + id)
+    removeEntity(exercisesTemplates, id)
+    setTimeout(() => res.json(id), timeout)
+  })
+
+  // fetch the fake template
+  app.get('/api/templates/exercises', (req, res) => {
+    console.log('GET FAKED /api/templates/exercises')
+    const sortedTemplates = lo.sortBy(exercisesTemplates, (template) => template.name)
+    setTimeout(() => res.json(sortedTemplates), timeout)
   })
 }

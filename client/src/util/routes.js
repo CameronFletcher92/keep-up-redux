@@ -10,6 +10,8 @@ import SessionForm from '../smart/SessionForm'
 import SplashPage from '../smart/SplashPage'
 import ReportsList from '../smart/ReportsList'
 import Report from '../smart/Report'
+import ClientsTemplatesList from '../smart/ClientsTemplatesList'
+import ClientsTemplateForm from '../smart/ClientsTemplateForm'
 import store from './store'
 
 function readCookie(name) {
@@ -52,6 +54,10 @@ const routes = (
 
     <Route path='reports' component={ReportsList} onEnter={requireAuth} />
     <Route path='reports/:id' component={Report} onEnter={requireAuth} />
+
+    <Route path='templates/clients' component={ClientsTemplatesList} onEnter={requireAuth}/>
+    <Route path='templates/clients/new' component={ClientsTemplateForm} onEnter={requireAuth}/>
+    <Route path='templates/clients/:id' component={ClientsTemplateForm} onEnter={requireAuth} />
   </Route>
 )
 

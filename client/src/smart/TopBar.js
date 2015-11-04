@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shouldUpdatePure from '../util/shouldUpdatePure'
 import { hideMessage } from '../ducks/global'
-import { AppBar, LeftNav, Snackbar } from '../themes/muiComponents'
+import { AppBar, LeftNav, Snackbar, MenuItem } from '../themes/muiComponents'
 import { pushState } from 'redux-router'
 import { palette } from '../themes/muiTheme'
 
@@ -50,7 +50,10 @@ class TopBar extends Component {
       { route: '/clients', text: 'Clients' },
       { route: '/exercises', text: 'Exercises' },
       { route: '/sessions', text: 'Sessions' },
-      { route: '/reports', text: 'Reports' }
+      { route: '/reports', text: 'Reports' },
+      { type: MenuItem.Types.SUBHEADER, text: 'Templates' },
+      { route: '/templates/clients', text: 'Clients' },
+      { route: '/templates/exercises', text: 'Exercises' }
     ]
 
     const props = this.props

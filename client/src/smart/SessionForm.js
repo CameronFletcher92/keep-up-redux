@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import shouldUpdatePure from '../util/shouldUpdatePure'
 import ImmPropTypes from 'react-immutable-proptypes'
 import { TextField, DatePicker, TimePicker } from '../themes/muiComponents'
-import { saveAsync, updateForm, resetForm } from '../ducks/sessions'
+import { saveAsync, updateForm, resetForm, toggleClient, toggleExercise } from '../ducks/sessions'
 import ClientsCheckList from './ClientsCheckList'
 import ExercisesCheckList from './ExercisesCheckList'
 import IconInputContainer from '../dumb/IconInputContainer'
@@ -64,10 +64,10 @@ class SessionForm extends Component {
         </IconInputContainer>
         <div style={styles.checkContainer}>
           <div style={styles.checklist}>
-            <ClientsCheckList />
+            <ClientsCheckList toggleClient={props.toggleClient} selectedClients={props.form.get('clients')}/>
           </div>
           <div style={styles.checklist}>
-            <ExercisesCheckList />
+            <ExercisesCheckList toggleExercise={props.toggleExercise} selectedExercises={props.form.get('exercises')} />
           </div>
         </div>
 
@@ -81,12 +81,16 @@ SessionForm.propTypes = {
   form: ImmPropTypes.contains({
     _id: PropTypes.string.isRequired,
     time: PropTypes.instanceOf(Date).isRequired,
-    notes: PropTypes.string.isRequired
+    notes: PropTypes.string.isRequired,
+    clients: ImmPropTypes.map.isRequired,
+    exercises: ImmPropTypes.map.isRequired
   }),
   id: PropTypes.string,
   saveAsync: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
-  resetForm: PropTypes.func.isRequired
+  resetForm: PropTypes.func.isRequired,
+  toggleClient: PropTypes.func.isRequired,
+  toggleExercise: PropTypes.func.isRequired
 }
 
 export default connect(
@@ -97,6 +101,6 @@ export default connect(
     }
   },
   dispatch => {
-    return bindActionCreators({ saveAsync, updateForm, resetForm }, dispatch)
+    return bindActionCreators({ saveAsync, updateForm, resetForm, toggleClient, toggleExercise }, dispatch)
   }
 )(SessionForm)

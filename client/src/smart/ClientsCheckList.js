@@ -3,7 +3,6 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from '../util/shouldUpdatePure'
-import { toggleClient } from '../ducks/sessions'
 import { fetchAsync, updateSearch } from '../ducks/clients'
 import CheckboxList from '../dumb/CheckboxList'
 
@@ -48,13 +47,12 @@ ClientsCheckList.propTypes = {
 export default connect(
   state => {
     return {
-      selectedClients: state.sessions.getIn(['form', 'clients']),
       clients: state.clients.get('entities'),
       isFetching: state.clients.get('isFetching'),
       search: state.clients.get('search')
     }
   },
   dispatch => {
-    return bindActionCreators({ toggleClient, fetchAsync, updateSearch }, dispatch)
+    return bindActionCreators({ fetchAsync, updateSearch }, dispatch)
   }
 )(ClientsCheckList)

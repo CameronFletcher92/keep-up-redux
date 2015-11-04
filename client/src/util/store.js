@@ -14,7 +14,8 @@ function getRootReducer() {
     clients: require('../ducks/clients').reducer,
     exercises: require('../ducks/exercises').reducer,
     sessions: require('../ducks/sessions').reducer,
-    global: require('../ducks/global').reducer
+    global: require('../ducks/global').reducer,
+    clientsTemplates: require('../ducks/clientsTemplates.js').reducer
   }
 
   return combineReducers(reducers)
@@ -40,7 +41,15 @@ if (__DEV__) {
 
 // hot load support
 if (__DEV__ && module.hot) {
-  module.hot.accept(['../ducks/clients', '../ducks/exercises', '../ducks/sessions', '../ducks/user', '../ducks/global'], () => {
+  module.hot.accept(
+    [
+      '../ducks/clients',
+      '../ducks/exercises',
+      '../ducks/sessions',
+      '../ducks/user',
+      '../ducks/global',
+      '../ducks/clientsTemplates'
+    ], () => {
     store.replaceReducer(getRootReducer())
   })
 }

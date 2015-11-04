@@ -11,6 +11,7 @@ module.exports = {
   List: require('material-ui/lib/lists/list'),
   ListDivider: require('material-ui/lib/lists/list-divider'),
   ListItem: require('material-ui/lib/lists/list-item'),
+  MenuItem: require('material-ui/lib/menu/menu-item'),
   Paper: require('material-ui/lib/paper'),
   RaisedButton: require('material-ui/lib/raised-button'),
   SelectField: require('material-ui/lib/select-field'),
