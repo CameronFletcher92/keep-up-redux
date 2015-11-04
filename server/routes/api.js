@@ -2,6 +2,8 @@
 const Client = require('../models/client')
 const Exercise = require('../models/exercise')
 const Session = require('../models/session')
+const ClientsTemplate = require('../models/clientsTemplate')
+const ExercisesTemplate = require('../models/exercisesTemplate')
 
 module.exports = (app, passport) => {
   /*
@@ -255,6 +257,116 @@ module.exports = (app, passport) => {
           console.error('could not fetch sessions')
         } else {
           res.json(sessions)
+        }
+      })
+    }
+  })
+
+  /*
+   *  CLIENTS TEMPLATES
+   */
+  // create a new clientsTemplate
+  app.post('/api/templates/clients', (req, res) => {
+    console.log('POST /api/templates/clients')
+    if (req.isAuthenticated() && req.user) {
+      const clientsTemplate = req.body
+      delete clientsTemplate._id
+      clientsTemplate.trainer = req.user._id
+
+      ClientsTemplate.create(clientsTemplate, (err, newClientsTemplate) => {
+        if (err || !newClientsTemplate) {
+          console.error('could not create clientsTemplate')
+        } else {
+          res.json(newClientsTemplate)
+        }
+      })
+    }
+  })
+
+  // update a clientsTemplate
+  app.put('/api/templates/clients', (req, res) => {
+    console.log('PUT /api/templates/clients')
+    if (req.isAuthenticated() && req.user) {
+      const clientsTemplate = req.body
+      clientsTemplate.trainer = req.user._id
+
+      const query = ClientsTemplate.find({ _id: clientsTemplate._id })
+      ClientsTemplate.findOneAndUpdate(query, clientsTemplate, (err, updatedClientsTemplate) => {
+        if (err || !updatedClientsTemplate) {
+          console.error('could not update clientsTemplate')
+        } else {
+          res.json(clientsTemplate)
+        }
+      })
+    }
+  })
+
+  // fetch the clientsTemplates
+  app.get('/api/templates/clients', (req, res) => {
+    console.log('GET /api/templates/clients')
+    if (req.isAuthenticated() && req.user) {
+      // get clientsTemplates for user based off the authenticated user's id
+      const query = ClientsTemplate.find({ trainer: req.user._id }).sort({ name: 1 })
+      query.exec((err, clientsTemplates) => {
+        if (err || !clientsTemplates) {
+          console.error('could not fetch clientsTemplates')
+        } else {
+          res.json(clientsTemplates)
+        }
+      })
+    }
+  })
+
+  /*
+   *  EXERCISES TEMPLATES
+   */
+  // create a new exercisesTemplate
+  app.post('/api/templates/exercises', (req, res) => {
+    console.log('POST /api/templates/exercises')
+    if (req.isAuthenticated() && req.user) {
+      const exercisesTemplate = req.body
+      delete exercisesTemplate._id
+      exercisesTemplate.trainer = req.user._id
+
+      ExercisesTemplate.create(exercisesTemplate, (err, newExercisesTemplate) => {
+        if (err || !newExercisesTemplate) {
+          console.error('could not create exercisesTemplate')
+        } else {
+          res.json(newExercisesTemplate)
+        }
+      })
+    }
+  })
+
+  // update a exercisesTemplate
+  app.put('/api/templates/exercises', (req, res) => {
+    console.log('PUT /api/templates/exercises')
+    if (req.isAuthenticated() && req.user) {
+      const exercisesTemplate = req.body
+      exercisesTemplate.trainer = req.user._id
+
+      const query = ExercisesTemplate.find({ _id: exercisesTemplate._id })
+      ExercisesTemplate.findOneAndUpdate(query, exercisesTemplate, (err, updatedExercisesTemplate) => {
+        if (err || !updatedExercisesTemplate) {
+          console.error('could not update exercisesTemplate')
+        } else {
+          res.json(exercisesTemplate)
+        }
+      })
+    }
+  })
+
+  // fetch the exercisesTemplates
+  app.get('/api/templates/exercises', (req, res) => {
+    console.log('GET /api/templates/exercises')
+    if (req.isAuthenticated() && req.user) {
+      // get exercisesTemplates for user based off the authenticated user's id
+      const query = ExercisesTemplate.find({ trainer: req.user._id }).sort({ name: 1 })
+      query.exec((err, exercisesTemplates) => {
+        if (err || !exercisesTemplates) {
+          console.error('could not fetch exercisesTemplates')
+        } else {
+          res.json(exercisesTemplates)
         }
       })
     }
