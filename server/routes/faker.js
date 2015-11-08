@@ -206,7 +206,7 @@ module.exports = (app) => {
   // fetch the fake clients
   app.get('/api/clients', (req, res) => {
     console.log('GET FAKED /api/clients')
-    const sortedClients = lo.sortBy(clients, (client) => client.lastName)
+    const sortedClients = lo.sortBy(clients, (client) => client.lastName.toLowerCase())
     setTimeout(() => res.json(sortedClients), timeout)
   })
 
@@ -239,7 +239,7 @@ module.exports = (app) => {
   // fetch the fake exercises
   app.get('/api/exercises', (req, res) => {
     console.log('GET FAKED /api/exercises')
-    const sortedExercises = lo.sortBy(exercises, (exercise) => exercise.name)
+    const sortedExercises = lo.sortBy(exercises, (exercise) => exercise.name.toLowerCase())
     setTimeout(() => res.json(sortedExercises), timeout)
   })
 
@@ -303,7 +303,7 @@ module.exports = (app) => {
   // fetch the fake template
   app.get('/api/templates/clients', (req, res) => {
     console.log('GET FAKED /api/templates/clients')
-    const sortedTemplates = lo.sortBy(clientsTemplates, (template) => template.name)
+    const sortedTemplates = lo.sortBy(clientsTemplates, (template) => template.name.toLowerCase())
     setTimeout(() => res.json(sortedTemplates), timeout)
   })
 
@@ -334,7 +334,7 @@ module.exports = (app) => {
   // fetch the fake template
   app.get('/api/templates/exercises', (req, res) => {
     console.log('GET FAKED /api/templates/exercises')
-    const sortedTemplates = lo.sortBy(exercisesTemplates, (template) => template.name)
+    const sortedTemplates = lo.sortBy(exercisesTemplates, (template) => template.name.toLowerCase())
     setTimeout(() => res.json(sortedTemplates), timeout)
   })
 }

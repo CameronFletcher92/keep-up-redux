@@ -187,7 +187,7 @@ export function reducer(state = initialState, action) {
     const newExercise = Immutable.fromJS(action.exercise)
     // add and sort the entities
     state = state.setIn(['entities', newExercise.get('_id')], newExercise)
-    state = state.set('entities', state.get('entities').sortBy(en => en.get('name')))
+    state = state.set('entities', state.get('entities').sortBy(en => en.get('name').toLowerCase()))
     state = state.set('isFetching', false)
     return state
 
