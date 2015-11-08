@@ -154,7 +154,7 @@ export function fetchReportAsync(id, minDate, maxDate) {
 
     const min = minDate ? minDate.toISOString() : null
     const max = maxDate ? maxDate.toISOString() : null
-    request.get('/api/reports/' + id).query({ min, max }).end((err, res) => {
+    request.get('/api/reports/clients/' + id).query({ min, max }).end((err, res) => {
       dispatch(fetchedReport(res.body))
     })
   }

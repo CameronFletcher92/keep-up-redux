@@ -41,12 +41,12 @@ module.exports = (app, passport) => {
    */
 
   // fetch a client's report
-  app.get('/api/reports/:id', (req, res) => {
+  app.get('/api/reports/clients/:id', (req, res) => {
     if (req.isAuthenticated() && req.user) {
       const id = req.params.id
       const min = req.query.min ? new Date(req.query.min) : new Date(-8640000000000000)
       const max = req.query.max ? new Date(req.query.max) : new Date(8640000000000000)
-      console.log('GET /api/reports/' + id, ' min = ' + min + ' max = ' + max)
+      console.log('GET /api/reports/clients/' + id, ' min = ' + min + ' max = ' + max)
 
       // construct a result object
       const resSessions = []
