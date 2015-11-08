@@ -67,7 +67,8 @@ class ClientReport extends Component {
       if (!session) return null
 
       return (
-        <ListItem key={sessionId} primaryText={toDateTimeString(session.get('time'))}
+        <ListItem key={sessionId}
+                  primaryText={toDateTimeString(session.get('time')) + ' (' + session.get('clients').size + ')'}
                   leftAvatar={<Avatar> {days[session.get('time').getDay()]} </Avatar>}
                   nestedItems={this.renderNestedExercises(session.get('exercises'))} />
       )

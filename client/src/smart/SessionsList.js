@@ -29,7 +29,7 @@ class SessionsList extends Component {
                     onItemClick={(id) => props.pushState({ title: 'Edit Session' }, '/sessions/' + id)}
                     isBusy={props.isFetching} search={props.search} updateSearch={props.updateSearch}
                     getItemLetter={(session) => days[session.get('time').getDay()]}
-                    getItemName={(session) => toDateTimeString(session.get('time'))} />
+                    getItemName={(session) => toDateTimeString(session.get('time')) + ' (' + session.get('clients').size + ')'} />
         <FixedActionButton icon='add' onClick={() => props.pushState({ title: 'New Session' }, '/sessions/new')}/>
       </div>
     )
