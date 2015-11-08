@@ -7,7 +7,7 @@ import { pushState } from 'redux-router'
 import { fetchAsync, updateSearch } from '../ducks/clients'
 import SimpleList from '../dumb/SimpleList'
 
-class ReportsList extends Component {
+class ClientReportsList extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   componentWillMount() {
@@ -22,8 +22,8 @@ class ReportsList extends Component {
     const props = this.props
     return (
       <div>
-        <SimpleList title='Reports' items={props.entities} busyItems={props.syncing}
-                    onItemClick={(id) => props.pushState({ title: 'Report' }, '/reports/' + id)}
+        <SimpleList title='Client Reports' items={props.entities} busyItems={props.syncing}
+                    onItemClick={(id) => props.pushState({ title: 'Client Report' }, '/reports/clients/' + id)}
                     isBusy={props.isFetching} updateSearch={props.updateSearch} search={props.search}
                     getItemLetter={(client) => client.get('lastName').charAt(0).toUpperCase()}
                     getItemName={(client) => client.get('firstName') + ' ' + client.get('lastName')} />
@@ -32,7 +32,7 @@ class ReportsList extends Component {
   }
 }
 
-ReportsList.propTypes = {
+ClientReportsList.propTypes = {
   // entities is an immutable list of immutable clients
   entities: ImmPropTypes.mapOf(
     ImmPropTypes.contains({
@@ -61,4 +61,4 @@ export default connect(
   dispatch => {
     return bindActionCreators({ fetchAsync, pushState, updateSearch }, dispatch)
   }
-)(ReportsList)
+)(ClientReportsList)

@@ -24,7 +24,7 @@ const styles = {
   list: { flex: '1 1 auto', margin: '1em' }
 }
 
-class Report extends Component {
+class ClientReport extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
   componentWillMount() {
@@ -177,7 +177,7 @@ class Report extends Component {
   }
 }
 
-Report.propTypes = {
+ClientReport.propTypes = {
   fetchSessionsAsync: PropTypes.func.isRequired,
   fetchExercisesAsync: PropTypes.func.isRequired,
   report: ImmPropTypes.contains({
@@ -225,4 +225,4 @@ export default connect(
   dispatch => {
     return bindActionCreators({ fetchReportAsync, fetchSessionsAsync, fetchExercisesAsync, updateReportDate }, dispatch)
   }
-)(Report)
+)(ClientReport)

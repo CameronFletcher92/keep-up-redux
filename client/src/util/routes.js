@@ -8,8 +8,8 @@ import ExercisesList from '../smart/ExercisesList'
 import SessionsList from '../smart/SessionsList'
 import SessionForm from '../smart/SessionForm'
 import SplashPage from '../smart/SplashPage'
-import ReportsList from '../smart/ReportsList'
-import Report from '../smart/Report'
+import ClientReportsList from '../smart/ClientReportsList'
+import ClientReport from '../smart/ClientReport'
 import ClientsTemplatesList from '../smart/ClientsTemplatesList'
 import ClientsTemplateForm from '../smart/ClientsTemplateForm'
 import ExercisesTemplatesList from '../smart/ExercisesTemplatesList'
@@ -54,8 +54,8 @@ const routes = (
     <Route path='sessions/new' component={SessionForm} onEnter={requireAuth} />
     <Route path='sessions/:id' component={SessionForm} onEnter={requireAuth} />
 
-    <Route path='reports' component={ReportsList} onEnter={requireAuth} />
-    <Route path='reports/:id' component={Report} onEnter={requireAuth} />
+    <Route path='reports/clients' component={ClientReportsList} onEnter={requireAuth} />
+    <Route path='reports/clients/:id' component={ClientReport} onEnter={requireAuth} />
 
     <Route path='templates/clients' component={ClientsTemplatesList} onEnter={requireAuth}/>
     <Route path='templates/clients/new' component={ClientsTemplateForm} onEnter={requireAuth}/>
