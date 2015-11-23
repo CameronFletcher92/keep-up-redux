@@ -1,15 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import shouldUpdatePure from '../util/shouldUpdatePure'
 import ImmPropTypes from 'react-immutable-proptypes'
-import { List, Paper, ListDivider, TextField } from '../themes/muiComponents'
+import { List, Paper } from '../themes/muiComponents'
 import CheckboxListItem from './CheckboxListItem'
 import CenteredSpinner from './CenteredSpinner'
-import IconInputContainer from './IconInputContainer'
-
-const styles = {
-  searchContainer: { marginTop: '-2em', paddingLeft: '1.5em', paddingRight: '2.5em', paddingTop: '0.5em' },
-  text: { width: '100%' }
-}
+import SearchBar from './SearchBar.js'
 
 class CheckboxList extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -41,12 +36,7 @@ class CheckboxList extends Component {
     return (
       <Paper zDepth={2}>
         <List>
-          <div style={styles.searchContainer}>
-            <IconInputContainer icon='search'>
-              <TextField style={styles.text} floatingLabelText={props.title} value={props.search} onChange={(ev) => props.updateSearch(ev.target.value)} />
-            </IconInputContainer>
-          </div>
-          <ListDivider />
+          <SearchBar label={props.title} value={props.search} onChange={(val) => props.updateSearch(val)} />
           <CenteredSpinner isVisible={props.isBusy} />
           {this.renderItems(props)}
         </List>
