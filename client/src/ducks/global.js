@@ -6,10 +6,12 @@ const SHOW_MESSAGE = 'global/SHOW_MESSAGE'
 const HIDE_MESSAGE = 'global/HIDE_MESSAGE'
 const UPDATE_DATE = 'global/UPDATE_DATE'
 
+const NOW = new Date()
+
 // INITIAL STATE
 const initialState = Immutable.fromJS({
   message: '',
-  startDate: null,
+  startDate: new Date(NOW.getFullYear(), NOW.getMonth(), 1),
   endDate: null
 })
 
