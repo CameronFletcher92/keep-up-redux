@@ -5,9 +5,10 @@ import shouldUpdatePure from '../util/shouldUpdatePure'
 import ImmPropTypes from 'react-immutable-proptypes'
 import { Avatar, List, ListItem, ListDivider, Paper, DatePicker, RaisedButton } from '../themes/muiComponents'
 import DoughnutChart from '../dumb/DoughnutChart'
-import { fetchReportAsync, updateReportDate } from '../ducks/clients'
+import { fetchReportAsync } from '../ducks/clients'
 import { fetchAsync as fetchExercisesAsync } from '../ducks/exercises'
 import { fetchAsync as fetchSessionsAsync } from '../ducks/sessions'
+import { updateDate } from '../ducks/global'
 import CenteredSpinner from '../dumb/CenteredSpinner'
 import IconInputContainer from '../dumb/IconInputContainer'
 import chartColors from '../themes/chartColors'
@@ -20,16 +21,17 @@ const styles = {
   text: { width: '100%', marginBottom: '0.5em' },
   button: { flex: '0 1 auto', margin: '0em', alignSelf: 'center' },
   nameContainer: { marginTop: '-1em', marginBottom: '-1em' },
+  rangeContainer: { marginTop: '1.5em' },
   listContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' },
   list: { flex: '1 1 auto', margin: '1em' }
 }
 
 class ClientReport extends Component {
-  shouldComponentUpdate = shouldUpdatePure
+  static shouldComponentUpdate = shouldUpdatePure
 
   componentWillMount() {
     const props = this.props
-    props.fetchReportAsync(props.id, props.reportMin, props.reportMax)
+    props.fetchReportAsync(props.id, props.startDate, props.endDate)
 
     if (props.sessions.size === 0) {
       props.fetchSessionsAsync()
@@ -120,18 +122,18 @@ class ClientReport extends Component {
           <div style={styles.datepicker}>
             <IconInputContainer icon='event'>
               <DatePicker formatDate={toDateString} style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Min Date'
-                          value={props.reportMin} onChange={(ev, dt) => props.updateReportDate('min', dt)} />
+                          value={props.startDate} onChange={(ev, dt) => props.updateDate('start', dt)} />
             </IconInputContainer>
           </div>
           <div style={styles.datepicker}>
             <IconInputContainer icon='event'>
               <DatePicker formatDate={toDateString} style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Max Date'
-                          value={props.reportMax} onChange={(ev, dt) => props.updateReportDate('max', dt)} />
+                          value={props.endDate} onChange={(ev, dt) => props.updateDate('end', dt)} />
             </IconInputContainer>
           </div>
           <div style={styles.button}>
             <RaisedButton label='Refresh' primary disabled={props.isFetching}
-                          onClick={() => props.fetchReportAsync(props.id, props.reportMin, props.reportMax)}/>
+                          onClick={() => props.fetchReportAsync(props.id, props.startDate, props.endDate)}/>
           </div>
         </div>
         <Paper zDepth={2}>
@@ -141,6 +143,9 @@ class ClientReport extends Component {
               <div>
                 <div style={styles.nameContainer}>
                   <h2>{props.report.get('name')}</h2>
+                </div>
+                <div style={styles.rangeContainer}>
+                  From <b>{toDateString(props.startDate)}</b> to <b>{toDateString(props.endDate)}</b>
                 </div>
 
                 <div style={styles.listContainer}>
@@ -204,9 +209,9 @@ ClientReport.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   sessionsFetching: PropTypes.bool.isRequired,
   exercisesFetching: PropTypes.bool.isRequired,
-  reportMin: PropTypes.instanceOf(Date),
-  reportMax: PropTypes.instanceOf(Date),
-  updateReportDate: PropTypes.func.isRequired
+  startDate: PropTypes.instanceOf(Date),
+  endDate: PropTypes.instanceOf(Date),
+  updateDate: PropTypes.func.isRequired
 }
 
 export default connect(
@@ -219,11 +224,11 @@ export default connect(
       exercises: state.exercises.get('entities'),
       sessionsFetching: state.sessions.get('isFetching'),
       exercisesFetching: state.exercises.get('isFetching'),
-      reportMin: state.clients.get('reportMin'),
-      reportMax: state.clients.get('reportMax')
+      startDate: state.global.get('startDate'),
+      endDate: state.global.get('endDate')
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchReportAsync, fetchSessionsAsync, fetchExercisesAsync, updateReportDate }, dispatch)
+    return bindActionCreators({ fetchReportAsync, fetchSessionsAsync, fetchExercisesAsync, updateDate }, dispatch)
   }
 )(ClientReport)

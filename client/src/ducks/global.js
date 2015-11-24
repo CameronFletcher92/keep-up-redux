@@ -3,10 +3,13 @@ import Immutable from 'immutable'
 // CONSTANTS
 const SHOW_MESSAGE = 'global/SHOW_MESSAGE'
 const HIDE_MESSAGE = 'global/HIDE_MESSAGE'
+const UPDATE_DATE = 'global/UPDATE_DATE'
 
 // INITIAL STATE
 const initialState = Immutable.fromJS({
-  message: ''
+  message: '',
+  startDate: null,
+  endDate: null
 })
 
 // ACTIONS
@@ -23,6 +26,14 @@ export function hideMessage() {
   }
 }
 
+export function updateDate(field, value) {
+  return {
+    type: UPDATE_DATE,
+    field,
+    value
+  }
+}
+
 // REDUCER
 export function reducer(state = initialState, action) {
   switch (action.type) {
@@ -32,6 +43,14 @@ export function reducer(state = initialState, action) {
 
   case HIDE_MESSAGE:
     state = state.set('message', '')
+    return state
+
+  case UPDATE_DATE:
+    if (action.field === 'start' || action.field === 'startDate') {
+      state = state.set('startDate', action.value)
+    } else if (action.field === 'end' || action.field === 'endDate') {
+      state = state.set('endDate', action.value)
+    }
     return state
 
   default:

@@ -23,8 +23,6 @@ const UPDATE_SEARCH = 'clients/UPDATE_SEARCH'
 const FETCHING_REPORT = 'clients/FETCHING_REPORT'
 const FETCHED_REPORT = 'clients/FETCHED_REPORT'
 
-const UPDATE_REPORT_DATE = 'clients/UPDATE_REPORT_DATE'
-
 // INITIAL STATE
 const initialState = Immutable.fromJS({
   entities: {},
@@ -44,9 +42,7 @@ const initialState = Immutable.fromJS({
     name: '',
     sessions: [],
     exercises: {}
-  },
-  reportMin: null,
-  reportMax: null
+  }
 })
 
 // ACTIONS
@@ -60,15 +56,6 @@ export function fetchedReport(report) {
   return {
     type: FETCHED_REPORT,
     report
-  }
-}
-
-
-export function updateReportDate(field, value) {
-  return {
-    type: UPDATE_REPORT_DATE,
-    field,
-    value
   }
 }
 
@@ -239,14 +226,6 @@ export function reducer(state = initialState, action) {
   case FETCHED_REPORT:
     state = state.set('report', Immutable.fromJS(action.report))
     state = state.set('isFetching', false)
-    return state
-
-  case UPDATE_REPORT_DATE:
-    if (action.field === 'min' || action.field === 'reportMin') {
-      state = state.set('reportMin', action.value)
-    } else if (action.field === 'max' || action.field === 'reportMax') {
-      state = state.set('reportMax', action.value)
-    }
     return state
 
   case FETCHING:
