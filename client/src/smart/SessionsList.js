@@ -5,9 +5,11 @@ import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from '../util/shouldUpdatePure'
 import { pushState } from 'redux-router'
 import { fetchAsync, updateSearch } from '../ducks/sessions'
+import { updateDate } from '../ducks/global'
+import { toDateTimeString } from '../util/dateHelper'
 import SimpleList from '../dumb/SimpleList'
 import FixedActionButton from '../dumb/FixedActionButton'
-import { toDateTimeString } from '../util/dateHelper'
+import DateRangePicker from '../dumb/DateRangePicker'
 
 class SessionsList extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -25,6 +27,9 @@ class SessionsList extends Component {
     const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
     return (
       <div>
+        <DateRangePicker startDate={props.startDate} endDate={props.endDate}
+                         startDateChanged={(dt) => props.updateDate('start', dt)}
+                         endDateChanged={(dt) => props.updateDate('end', dt)}/>
         <SimpleList title='Sessions' items={props.entities} busyItems={props.syncing}
                     onItemClick={(id) => props.pushState({ title: 'Edit Session' }, '/sessions/' + id)}
                     isBusy={props.isFetching} search={props.search} updateSearch={props.updateSearch}
@@ -47,7 +52,10 @@ SessionsList.propTypes = {
   syncing: ImmPropTypes.map.isRequired,
   fetchAsync: PropTypes.func.isRequired,
   pushState: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired
+  updateDate: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  startDate: PropTypes.instanceOf(Date),
+  endDate: PropTypes.instanceOf(Date)
 }
 
 export default connect(
@@ -56,10 +64,12 @@ export default connect(
       entities: state.sessions.get('entities'),
       isFetching: state.sessions.get('isFetching'),
       syncing: state.sessions.get('syncing'),
-      search: state.sessions.get('search')
+      search: state.sessions.get('search'),
+      startDate: state.global.get('startDate'),
+      endDate: state.global.get('endDate')
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchAsync, pushState, updateSearch }, dispatch)
+    return bindActionCreators({ fetchAsync, pushState, updateSearch, updateDate }, dispatch)
   }
 )(SessionsList)

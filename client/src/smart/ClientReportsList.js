@@ -5,7 +5,9 @@ import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from '../util/shouldUpdatePure'
 import { pushState } from 'redux-router'
 import { fetchAsync, updateSearch } from '../ducks/clients'
+import { updateDate } from '../ducks/global'
 import SimpleList from '../dumb/SimpleList'
+import DateRangePicker from '../dumb/DateRangePicker'
 
 class ClientReportsList extends Component {
   shouldComponentUpdate = shouldUpdatePure
@@ -22,6 +24,9 @@ class ClientReportsList extends Component {
     const props = this.props
     return (
       <div>
+        <DateRangePicker startDate={props.startDate} endDate={props.endDate}
+                         startDateChanged={(dt) => props.updateDate('start', dt)}
+                         endDateChanged={(dt) => props.updateDate('end', dt)}/>
         <SimpleList title='Client Reports' items={props.entities} busyItems={props.syncing}
                     onItemClick={(id) => props.pushState({ title: 'Client Report' }, '/reports/clients/' + id)}
                     isBusy={props.isFetching} updateSearch={props.updateSearch} search={props.search}
@@ -46,7 +51,10 @@ ClientReportsList.propTypes = {
   pushState: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   updateSearch: PropTypes.func.isRequired,
-  search: PropTypes.string.isRequired
+  search: PropTypes.string.isRequired,
+  startDate: PropTypes.instanceOf(Date),
+  endDate: PropTypes.instanceOf(Date),
+  updateDate: PropTypes.func.isRequired
 }
 
 export default connect(
@@ -55,10 +63,12 @@ export default connect(
       entities: state.clients.get('entities'),
       isFetching: state.clients.get('isFetching'),
       syncing: state.clients.get('syncing'),
-      search: state.clients.get('search')
+      search: state.clients.get('search'),
+      startDate: state.global.get('startDate'),
+      endDate: state.global.get('endDate')
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchAsync, pushState, updateSearch }, dispatch)
+    return bindActionCreators({ fetchAsync, pushState, updateSearch, updateDate }, dispatch)
   }
 )(ClientReportsList)

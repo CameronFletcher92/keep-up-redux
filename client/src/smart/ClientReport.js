@@ -3,23 +3,17 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import shouldUpdatePure from '../util/shouldUpdatePure'
 import ImmPropTypes from 'react-immutable-proptypes'
-import { Avatar, List, ListItem, ListDivider, Paper, DatePicker, RaisedButton } from '../themes/muiComponents'
+import { Avatar, List, ListItem, ListDivider, Paper } from '../themes/muiComponents'
 import DoughnutChart from '../dumb/DoughnutChart'
 import { fetchReportAsync } from '../ducks/clients'
 import { fetchAsync as fetchExercisesAsync } from '../ducks/exercises'
 import { fetchAsync as fetchSessionsAsync } from '../ducks/sessions'
-import { updateDate } from '../ducks/global'
 import CenteredSpinner from '../dumb/CenteredSpinner'
-import IconInputContainer from '../dumb/IconInputContainer'
 import chartColors from '../themes/chartColors'
 import { toDateTimeString, toDateString } from '../util/dateHelper'
 
 const styles = {
   reportContainer: { padding: '1em', marginTop: '1em', display: 'flex', flexDirection: 'column', alignItems: 'stretch' },
-  dateContainer: { padding: '0em', margin: '0em', flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' },
-  datepicker: { flex: '1 1 auto', margin: '0em', marginRight: '1em' },
-  text: { width: '100%', marginBottom: '0.5em' },
-  button: { flex: '0 1 auto', margin: '0em', alignSelf: 'center' },
   nameContainer: { marginTop: '-1em', marginBottom: '-1em' },
   rangeContainer: { marginTop: '1.5em' },
   listContainer: { flex: '1 1 auto', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' },
@@ -117,68 +111,48 @@ class ClientReport extends Component {
     const props = this.props
 
     return (
-      <div>
-        <div style={styles.dateContainer}>
-          <div style={styles.datepicker}>
-            <IconInputContainer icon='event'>
-              <DatePicker formatDate={toDateString} style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Min Date'
-                          value={props.startDate} onChange={(ev, dt) => props.updateDate('start', dt)} />
-            </IconInputContainer>
-          </div>
-          <div style={styles.datepicker}>
-            <IconInputContainer icon='event'>
-              <DatePicker formatDate={toDateString} style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Max Date'
-                          value={props.endDate} onChange={(ev, dt) => props.updateDate('end', dt)} />
-            </IconInputContainer>
-          </div>
-          <div style={styles.button}>
-            <RaisedButton label='Refresh' primary disabled={props.isFetching}
-                          onClick={() => props.fetchReportAsync(props.id, props.startDate, props.endDate)}/>
-          </div>
-        </div>
-        <Paper zDepth={2}>
-          <div style={styles.reportContainer}>
-            <CenteredSpinner isVisible={props.isFetching}/>
-            {!props.isFetching ?
-              <div>
-                <div style={styles.nameContainer}>
-                  <h2>{props.report.get('name')}</h2>
-                </div>
-                <div style={styles.rangeContainer}>
-                  From <b>{toDateString(props.startDate)}</b> to <b>{toDateString(props.endDate)}</b>
-                </div>
+      <Paper zDepth={2}>
+        <div style={styles.reportContainer}>
+          <CenteredSpinner isVisible={props.isFetching}/>
+          {!props.isFetching ?
+            <div>
+              <div style={styles.nameContainer}>
+                <h2>{props.report.get('name')}</h2>
+              </div>
+              <div style={styles.rangeContainer}>
+                From <b>{toDateString(props.startDate)}</b> to <b>{toDateString(props.endDate)}</b>
+              </div>
 
-                <div style={styles.listContainer}>
-                  <div style={styles.list}>
-                    <List>
-                      <div>
-                        <h3>Sessions: {props.report.get('sessions').size}</h3>
-                      </div>
-                      <ListDivider />
-                      <CenteredSpinner isVisible={props.sessionsFetching} />
-                      {!props.sessionsFetching ? this.renderSessions() : null}
-                    </List>
-                  </div>
-                  <div style={styles.list}>
-                    <List>
-                      <div>
-                        <h3>Exercises: {props.report.get('exercises').size}</h3>
-                      </div>
-                      <ListDivider />
-                      <CenteredSpinner isVisible={props.exercisesFetching} />
-                      {!props.exercisesFetching ? this.renderExercises() : null}
-                    </List>
-                  </div>
+              <div style={styles.listContainer}>
+                <div style={styles.list}>
+                  <List>
+                    <div>
+                      <h3>Sessions: {props.report.get('sessions').size}</h3>
+                    </div>
+                    <ListDivider />
+                    <CenteredSpinner isVisible={props.sessionsFetching} />
+                    {!props.sessionsFetching ? this.renderSessions() : null}
+                  </List>
                 </div>
-
-                <div style={styles.chartContainer}>
-                  {(!props.exercisesFetching && !props.sessionsFetching) ? this.renderChart() : null}
+                <div style={styles.list}>
+                  <List>
+                    <div>
+                      <h3>Exercises: {props.report.get('exercises').size}</h3>
+                    </div>
+                    <ListDivider />
+                    <CenteredSpinner isVisible={props.exercisesFetching} />
+                    {!props.exercisesFetching ? this.renderExercises() : null}
+                  </List>
                 </div>
               </div>
-              : null}
-          </div>
-        </Paper>
-      </div>
+
+              <div style={styles.chartContainer}>
+                {(!props.exercisesFetching && !props.sessionsFetching) ? this.renderChart() : null}
+              </div>
+            </div>
+            : null}
+        </div>
+      </Paper>
     )
   }
 }
@@ -210,8 +184,7 @@ ClientReport.propTypes = {
   sessionsFetching: PropTypes.bool.isRequired,
   exercisesFetching: PropTypes.bool.isRequired,
   startDate: PropTypes.instanceOf(Date),
-  endDate: PropTypes.instanceOf(Date),
-  updateDate: PropTypes.func.isRequired
+  endDate: PropTypes.instanceOf(Date)
 }
 
 export default connect(
@@ -229,6 +202,6 @@ export default connect(
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchReportAsync, fetchSessionsAsync, fetchExercisesAsync, updateDate }, dispatch)
+    return bindActionCreators({ fetchReportAsync, fetchSessionsAsync, fetchExercisesAsync }, dispatch)
   }
 )(ClientReport)
