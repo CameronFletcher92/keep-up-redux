@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import shouldUpdatePure from '../util/shouldUpdatePure'
-import { hideMessage } from '../ducks/global'
+import { hideMessage, updateWidth } from '../ducks/global'
 import { AppBar, LeftNav, Snackbar, MenuItem } from '../themes/muiComponents'
 import { pushState } from 'redux-router'
 import { palette } from '../themes/muiTheme'
@@ -21,6 +21,13 @@ const styles = {
 class TopBar extends Component {
   shouldComponentUpdate = shouldUpdatePure
 
+  componentWillMount() {
+    const props = this.props
+
+    // HACK - wire up the window resize handler
+    window.addEventListener('resize', () => props.updateWidth(window.innerWidth))
+  }
+
   toggleMenu() {
     this.refs.leftNav.toggle()
   }
@@ -29,8 +36,6 @@ class TopBar extends Component {
     const props = this.props
     if (props.message === '' && nextProps.message !== '') {
       this.refs.snack.show()
-    } else if (props.message === '') {
-      this.refs.snack.dismiss()
     }
   }
 
@@ -61,7 +66,7 @@ class TopBar extends Component {
     ]
 
     const props = this.props
-    const docked = window.innerWidth > DOCK_WIDTH
+    const docked = props.width > DOCK_WIDTH
     return (
       <div style={{ marginLeft: docked ? MENU_WIDTH : 0 }}>
         <AppBar style={styles.appbar} title={props.title} zDepth={1} showMenuIconButton={!docked}
@@ -83,7 +88,9 @@ TopBar.PropTypes = {
   pushState: PropTypes.func.isRequired,
   hideMessage: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
-  message: PropTypes.string.isRequired
+  message: PropTypes.string.isRequired,
+  width: PropTypes.number.isRequired,
+  updateWidth: PropTypes.func.isRequired
 }
 
 export default connect(
@@ -91,10 +98,11 @@ export default connect(
     const routerState = state.router.location.state
     return {
       title: routerState ? routerState.title : 'Keep Up',
-      message: state.global.get('message')
+      message: state.global.get('message'),
+      width: state.global.get('width')
     }
   },
   dispatch => {
-    return bindActionCreators({ pushState, hideMessage }, dispatch)
+    return bindActionCreators({ pushState, hideMessage, updateWidth }, dispatch)
   }
 )(TopBar)
