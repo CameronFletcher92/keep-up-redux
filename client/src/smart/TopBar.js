@@ -7,6 +7,9 @@ import { AppBar, LeftNav, Snackbar, MenuItem } from '../themes/muiComponents'
 import { pushState } from 'redux-router'
 import { palette } from '../themes/muiTheme'
 
+const DOCK_WIDTH = 950
+const MENU_WIDTH = 255
+
 const styles = {
   appbar: { position: 'fixed' },
   container: { display: 'flex', flexDirection: 'row', justifyContent: 'center', paddingTop: '4em' },
@@ -58,11 +61,12 @@ class TopBar extends Component {
     ]
 
     const props = this.props
+    const docked = window.innerWidth > DOCK_WIDTH
     return (
-      <div>
-        <AppBar style={styles.appbar} title={props.title} zDepth={1}
+      <div style={{ marginLeft: docked ? MENU_WIDTH : 0 }}>
+        <AppBar style={styles.appbar} title={props.title} zDepth={1} showMenuIconButton={!docked}
                 onLeftIconButtonTouchTap={() => this.refs.leftNav.toggle()}/>
-        <LeftNav ref='leftNav' menuItems={menuItems} docked={false} header={this.renderHeader()}
+        <LeftNav ref='leftNav' menuItems={menuItems} docked={docked} header={this.renderHeader()}
                  onChange={(ev, key, payload) => props.pushState({ title: payload.text }, payload.route)}/>
         <div style={styles.container}>
           <div style={styles.content}>
