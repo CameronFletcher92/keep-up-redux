@@ -248,10 +248,12 @@ module.exports = (app, passport) => {
 
   // fetch the sessions
   app.get('/api/sessions', (req, res) => {
-    console.log('GET /api/sessions')
+    const start = req.query.start ? new Date(req.query.start) : new Date(-8640000000000000)
+    const end = req.query.end ? new Date(req.query.end) : new Date(8640000000000000)
+    console.log('GET /api/sessions, start = ' + start + ' end = ' + end)
     if (req.isAuthenticated() && req.user) {
       // get sessions for user based off the authenticated user's id
-      const query = Session.find({ trainer: req.user._id }).sort({ time: -1 })
+      const query = Session.find({ trainer: req.user._id, time: { '$gte': start, '$lte': end } }).sort({ time: -1 })
       query.exec((err, sessions) => {
         if (err || !sessions) {
           console.error('could not fetch sessions')
