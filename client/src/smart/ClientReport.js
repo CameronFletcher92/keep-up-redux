@@ -120,7 +120,8 @@ class ClientReport extends Component {
                 <h2>{props.report.get('name')}</h2>
               </div>
               <div style={styles.rangeContainer}>
-                From <b>{toDateString(props.startDate)}</b> to <b>{toDateString(props.endDate)}</b>
+                {props.startDate ? <span>From <b>{toDateString(props.startDate)}</b></span> : null}
+                {props.endDate ? <span> to <b>{toDateString(props.endDate)}</b></span> : null}
               </div>
 
               <div style={styles.listContainer}>

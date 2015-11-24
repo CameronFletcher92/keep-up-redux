@@ -5,7 +5,7 @@ import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from '../util/shouldUpdatePure'
 import { pushState } from 'redux-router'
 import { fetchAsync, updateSearch } from '../ducks/clients'
-import { updateDate } from '../ducks/global'
+import { updateDateAsync } from '../ducks/global'
 import SimpleList from '../dumb/SimpleList'
 import DateRangePicker from '../dumb/DateRangePicker'
 
@@ -25,8 +25,8 @@ class ClientReportsList extends Component {
     return (
       <div>
         <DateRangePicker startDate={props.startDate} endDate={props.endDate}
-                         startDateChanged={(dt) => props.updateDate('start', dt)}
-                         endDateChanged={(dt) => props.updateDate('end', dt)}/>
+                         startDateChanged={(dt) => props.updateDateAsync('start', dt)}
+                         endDateChanged={(dt) => props.updateDateAsync('end', dt)}/>
         <SimpleList title='Client Reports' items={props.entities} busyItems={props.syncing}
                     onItemClick={(id) => props.pushState({ title: 'Client Report' }, '/reports/clients/' + id)}
                     isBusy={props.isFetching} updateSearch={props.updateSearch} search={props.search}
@@ -54,7 +54,7 @@ ClientReportsList.propTypes = {
   search: PropTypes.string.isRequired,
   startDate: PropTypes.instanceOf(Date),
   endDate: PropTypes.instanceOf(Date),
-  updateDate: PropTypes.func.isRequired
+  updateDateAsync: PropTypes.func.isRequired
 }
 
 export default connect(
@@ -69,6 +69,6 @@ export default connect(
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchAsync, pushState, updateSearch, updateDate }, dispatch)
+    return bindActionCreators({ fetchAsync, pushState, updateSearch, updateDateAsync }, dispatch)
   }
 )(ClientReportsList)

@@ -1,4 +1,5 @@
 import Immutable from 'immutable'
+import { fetchAsync as fetchSessionsAsync } from './sessions'
 
 // CONSTANTS
 const SHOW_MESSAGE = 'global/SHOW_MESSAGE'
@@ -31,6 +32,17 @@ export function updateDate(field, value) {
     type: UPDATE_DATE,
     field,
     value
+  }
+}
+
+export function updateDateAsync(field, value) {
+  return (dispatch, getState) => {
+    dispatch(updateDate(field, value))
+    const start = getState().global.get('startDate')
+    const end = getState().global.get('endDate')
+    console.log('fetching start: ', start)
+    console.log('end: ', end)
+    dispatch(fetchSessionsAsync(start, end))
   }
 }
 

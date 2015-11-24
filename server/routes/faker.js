@@ -133,9 +133,9 @@ module.exports = (app) => {
   // fetch a client's report
   app.get('/api/reports/clients/:id', (req, res) => {
     const id = req.params.id
-    const min = req.query.min ? new Date(req.query.min) : new Date(-8640000000000000)
-    const max = req.query.max ? new Date(req.query.max) : new Date(8640000000000000)
-    console.log('GET /api/reports/clients/' + id, ' min = ' + min + ' max = ' + max)
+    const start = req.query.start ? new Date(req.query.start) : new Date(-8640000000000000)
+    const end = req.query.end ? new Date(req.query.end) : new Date(8640000000000000)
+    console.log('GET FAKED /api/reports/clients/' + id, ' start = ' + start + ' end = ' + end)
 
     const resSessions = []
     const resExercises = {}
@@ -152,7 +152,7 @@ module.exports = (app) => {
     // for every session, add to the result if client attended, and add all exercises
     for (let index = 0; index < sessions.length; index++) {
       const session = sessions[index]
-      if ((min && session.time < min) || (max && session.time > max)) {
+      if ((start && session.time < start) || (end && session.time > end)) {
         continue
       }
       if (session.clients.indexOf(id) !== -1) {
@@ -270,8 +270,19 @@ module.exports = (app) => {
 
   // fetch the fake sessions
   app.get('/api/sessions', (req, res) => {
-    console.log('GET FAKED /api/sessions')
-    const sortedSessions = lo.sortBy(sessions, (session) => session.time).reverse()
+    const start = req.query.start ? new Date(req.query.start) : new Date(-8640000000000000)
+    const end = req.query.end ? new Date(req.query.end) : new Date(8640000000000000)
+    console.log('GET FAKED /api/sessions, start = ' + start + ' end = ' + end)
+
+    const resSessions = []
+    for (let index = 0; index < sessions.length; index++) {
+      const session = sessions[index]
+      if ((start && session.time > start) && (end && session.time < end)) {
+        resSessions.push(session)
+      }
+    }
+
+    const sortedSessions = lo.sortBy(resSessions, (session) => session.time).reverse()
     setTimeout(() => res.json(sortedSessions), timeout)
   })
 

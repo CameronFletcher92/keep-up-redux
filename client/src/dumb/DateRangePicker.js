@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import shouldUpdatePure from '../util/shouldUpdatePure'
-import { CircularProgress } from '../themes/muiComponents'
 import { toDateString } from '../util/dateHelper'
 import { DatePicker } from '../themes/muiComponents'
 import IconInputContainer from './IconInputContainer'
@@ -20,13 +19,13 @@ class DateRangePicker extends Component {
       <div style={styles.container}>
         <div style={styles.datepicker}>
           <IconInputContainer icon='event'>
-            <DatePicker formatDate={toDateString} style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Min Date'
+            <DatePicker formatDate={toDateString} style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Start Date'
                         value={props.startDate} onChange={(ev, dt) => props.startDateChanged(dt)} />
           </IconInputContainer>
         </div>
         <div style={styles.datepicker}>
           <IconInputContainer icon='event'>
-            <DatePicker formatDate={toDateString} style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='Max Date'
+            <DatePicker formatDate={toDateString} style={styles.datepicker} textFieldStyle={styles.text} floatingLabelText='End Date'
                         value={props.endDate} onChange={(ev, dt) => props.endDateChanged(dt)} />
           </IconInputContainer>
         </div>

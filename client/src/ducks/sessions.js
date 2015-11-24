@@ -157,11 +157,13 @@ function denormalize(session) {
 }
 
 // ASYNC ACTIONS
-export function fetchAsync() {
+export function fetchAsync(startDate, endDate) {
   return (dispatch) => {
     dispatch(fetching())
-
-    request.get('/api/sessions').end((err, res) => {
+    
+    const start = startDate ? startDate.toISOString() : null
+    const end = endDate ? endDate.toISOString() : null
+    request.get('/api/sessions').query({ start, end }).end((err, res) => {
       dispatch(fetched(res.body))
     })
   }

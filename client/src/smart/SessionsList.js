@@ -5,7 +5,7 @@ import ImmPropTypes from 'react-immutable-proptypes'
 import shouldUpdatePure from '../util/shouldUpdatePure'
 import { pushState } from 'redux-router'
 import { fetchAsync, updateSearch } from '../ducks/sessions'
-import { updateDate } from '../ducks/global'
+import { updateDateAsync } from '../ducks/global'
 import { toDateTimeString } from '../util/dateHelper'
 import SimpleList from '../dumb/SimpleList'
 import FixedActionButton from '../dumb/FixedActionButton'
@@ -18,7 +18,7 @@ class SessionsList extends Component {
     const props = this.props
 
     if (props.entities.size === 0) {
-      props.fetchAsync()
+      props.fetchAsync(props.startDate, props.endDate)
     }
   }
 
@@ -28,8 +28,8 @@ class SessionsList extends Component {
     return (
       <div>
         <DateRangePicker startDate={props.startDate} endDate={props.endDate}
-                         startDateChanged={(dt) => props.updateDate('start', dt)}
-                         endDateChanged={(dt) => props.updateDate('end', dt)}/>
+                         startDateChanged={(dt) => props.updateDateAsync('start', dt)}
+                         endDateChanged={(dt) => props.updateDateAsync('end', dt)}/>
         <SimpleList title='Sessions' items={props.entities} busyItems={props.syncing}
                     onItemClick={(id) => props.pushState({ title: 'Edit Session' }, '/sessions/' + id)}
                     isBusy={props.isFetching} search={props.search} updateSearch={props.updateSearch}
@@ -52,7 +52,7 @@ SessionsList.propTypes = {
   syncing: ImmPropTypes.map.isRequired,
   fetchAsync: PropTypes.func.isRequired,
   pushState: PropTypes.func.isRequired,
-  updateDate: PropTypes.func.isRequired,
+  updateDateAsync: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   startDate: PropTypes.instanceOf(Date),
   endDate: PropTypes.instanceOf(Date)
@@ -70,6 +70,6 @@ export default connect(
     }
   },
   dispatch => {
-    return bindActionCreators({ fetchAsync, pushState, updateSearch, updateDate }, dispatch)
+    return bindActionCreators({ fetchAsync, pushState, updateSearch, updateDateAsync }, dispatch)
   }
 )(SessionsList)
